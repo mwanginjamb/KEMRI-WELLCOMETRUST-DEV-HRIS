@@ -32,7 +32,7 @@ public $isNewRecord;
     public function attributeLabels()
     {
         return [
-            'New_Emp_Self_Rating' => 'Self Rating',
+            'KRA' => 'Key Result Area',
             'New_Emp_Comments' => 'Appraisee Comment',
             'New_Emp_Supervisor_Rating' => 'Supervisor Rating',
             'New_Emp_Supervisor_Comment' => 'Supervisor Comment',

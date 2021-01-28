@@ -95,6 +95,7 @@ class ProbationKpiController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
                 'model' => $model,
+                'ratings' => $this->getRatings(),
             ]);
         }
 

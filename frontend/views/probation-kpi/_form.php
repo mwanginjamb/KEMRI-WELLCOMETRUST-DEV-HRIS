@@ -20,9 +20,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
 
-                    <?php
+                <?php
 
 
+                $disabled = (Yii::$app->session->get('Probation_Recomended_Action') == 'Extend_Probation' && !Yii::$app->session->get('Is_Short_Term')  )? true: false;
 
 
                     $form = ActiveForm::begin(); ?>
@@ -43,13 +44,29 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                                     <?= $form->field($model, 'KRA_Line_No')->hiddenInput(['readonly' => true])->label(false) ?>
 
-                                    <?= $form->field($model, 'Objective')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Your KPI']) ?>
+                                    <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?
+                                    $form->field($model, 'Objective')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Your KPI']):
+                                     $form->field($model, 'Objective')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Your KPI','readonly' => true,'disabled'=> true])
+                                     ?>
 
                                      <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?$form->field($model, 'Weight')->textInput(['type' => 'number']):'' ?>
 
-                                     <?= (Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?$form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...']):'' ?>
 
-                                     <?= (Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')? $form->field($model, 'Employee_Comments')->textInput(['type' => 'text']): '' ?>
+                                     <?=
+                                     (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?
+                                     $form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...',$disabled])
+                                     :
+                                     $form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...','disabled' => true,'readonly' => true]) ?>
+
+                                    
+
+
+                                     <?= (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')? 
+
+                                     $form->field($model, 'Employee_Comments')->textInput(['type' => 'text'])
+                                     :
+                                     $form->field($model, 'Employee_Comments')->textInput(['type' => 'text','disabled' => true,'readonly' => true]) 
+                                      ?>
 
 
 
@@ -71,19 +88,18 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 <!-- If Probation_Recomended_Action is Extend_Probation_Period -->
 
-<?php if( Yii::$app->session->has('Probation_Recomended_Action') && Yii::$app->session->get('Probation_Recomended_Action') == 'Extend_Probation_Period'): ?>
-                                       <?= $form->field($model, 'Appraisee_Self_Rating_Ex')->textInput(['type' => 'number']) ?>
+<?php if( Yii::$app->session->has('Probation_Recomended_Action') && Yii::$app->session->get('Probation_Recomended_Action') == 'Extend_Probation'): ?>
+                                       <?= (Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')? $form->field($model, 'Appraisee_Self_Rating_Ex')->dropDownList($ratings,['prompt' => 'Select ...']):'' ?>
 
-                                       <?= $form->field($model, 'Appraiser_Rating_Ex')->textInput(['type' => 'number']) ?>
+                                       <?= (Yii::$app->session->get('Appraisal_Status') == 'Supervisor_Level')? $form->field($model, 'Appraiser_Rating_Ex')->dropDownList($ratings,['prompt' => 'Select ...']):'' ?>
 
-                                       <?= $form->field($model, 'Agree_Ex')->dropDownList([
-                                        true => 'I agree', false => 'I disagree'
-                                     ]) ?>
-                                       <?= $form->field($model, 'Disagreement_Comments_Ex')->textArea(['max-length' => 250, 'row' => 2]) ?>
+                                       
 
-                                       <?= $form->field($model, 'Employee_Comments_Ex')->textArea(['type' => 'number']) ?>
+                                     
 
-                                        <?= $form->field($model, 'End_Year_Supervisor_Comments_E')->textArea(['max-length' => 250, 'row' => 2]) ?>
+                                       <?= (Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?$form->field($model, 'Employee_Comments_Ex')->textArea(['type' => 'number']):'' ?>
+
+                                        <?= (Yii::$app->session->get('Appraisal_Status') == 'Supervisor_Level')?$form->field($model, 'End_Year_Supervisor_Comments_E')->textArea(['max-length' => 250, 'row' => 2]):'' ?>
 
 
 <?php endif; ?>

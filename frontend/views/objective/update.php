@@ -12,7 +12,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'Update Career Development Plan Line';
+$this->title = 'Update Key Result Area Line';
 $model->isNewRecord = true;
 ?>
 <div class="agenda-document-update">

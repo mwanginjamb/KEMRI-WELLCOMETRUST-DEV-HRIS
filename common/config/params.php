@@ -4,7 +4,7 @@ return [
     'welcomeText' => 'KEMRI WELLCOME TRUST ESS',
     'ClientCompany' => 'KEMRI WELLCOME TRUST', //branding
     'demoCompany' => 'IANSOFT LTD',
-    'VendorCompany' => 'IANSOFT LTD',
+    'VendorCompany' => 'IANSOFT TECHNOLOGIES LTD',
     'adminEmail' => 'customer@softeboard.com',
     'supportEmail' => 'customer@softeboard.com',
     'senderEmail' => 'customer@softeboard.com',
@@ -228,6 +228,7 @@ return [
         'StProbationKPIs' => 'StProbationKPIs', //60002
         'StEmployeeAppraisalCompetence' => 'StEmployeeAppraisalCompetence',//60033
         'StAreasofFurtherDev' => 'StAreasofFurtherDev', // 60040
+        'ESS_Files' => 'ESS_Files',// 50097
 
 
 

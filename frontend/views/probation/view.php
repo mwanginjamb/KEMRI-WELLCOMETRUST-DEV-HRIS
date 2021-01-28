@@ -22,6 +22,8 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
 Yii::$app->session->set('Probation_Recomended_Action',$model->Probation_Recomended_Action);
 Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 
+// print (Yii::$app->session->get('Probation_Recomended_Action')); exit;
+
 
  if(Yii::$app->session->hasFlash('success')){
             print ' <div class="alert alert-success alert-dismissable">
@@ -186,14 +188,13 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                         
                         <div class="col-md-4">
 
-                            <?= Html::a('<i class="fas fa-check"></i>To Agreement',['agreementoverview','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
+                            <?= Html::a('<i class="fas fa-backward"></i> To Line Mgr.',['overviewbacktolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
                                 [
+                                    'class' => 'btn btn-app bg-danger Overviewbacktolinemgr',
+                                    'rel' => $_GET['Appraisal_No'],
+                                    'rev' => $_GET['Employee_No'],
+                                    'title' => 'Send Probation Appraisal Back to Line Manager'
 
-                                'class' => 'mx-1 btn btn-app bg-warning submitforapproval','data' => [
-                                'confirm' => 'Are you sure you want to send appraisal to agreement stage ?',
-                                'method' => 'post',
-                            ],
-                                'title' => 'Sending Probation to Agreement Stage.'
                             ]) ?>
 
                         </div>
@@ -249,20 +250,21 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 
                     <?php endif; ?>
 
-
-                     <?=  ($model->Appraisal_Status == 'Closed')?Html::a('<i class="fas fa-book-open"></i> P.A Report',['report','appraisalNo'=> $_GET['Appraisal_No'],'employeeNo' => $_GET['Employee_No']],[
-                        'class' => 'btn btn-app bg-success  pull-right',
-                        'title' => 'Generate Performance Appraisal Report',
-                        'target'=> '_blank',
-                        'data' => [
-                            // 'confirm' => 'Are you sure you want to send appraisal to peer 2?',
-                            'params'=>[
-                                'appraisalNo'=> $_GET['Appraisal_No'],
-                                'employeeNo' => $_GET['Employee_No'],
-                            ],
-                            'method' => 'post',]
-                    ]):'';
-                    ?>
+                    <div class="col-md-4">
+                             <?=  ($model->Appraisal_Status == 'Closed')?Html::a('<i class="fas fa-book-open"></i> P.A Report',['report','appraisalNo'=> $_GET['Appraisal_No'],'employeeNo' => $_GET['Employee_No']],[
+                                'class' => 'btn btn-app bg-success  pull-right',
+                                'title' => 'Generate Performance Appraisal Report',
+                                'target'=> '_blank',
+                                'data' => [
+                                    // 'confirm' => 'Are you sure you want to send appraisal to peer 2?',
+                                    'params'=>[
+                                        'appraisalNo'=> $_GET['Appraisal_No'],
+                                        'employeeNo' => $_GET['Employee_No'],
+                                    ],
+                                    'method' => 'post',]
+                            ]):'';
+                            ?>
+                    </div>
                     
 
 
@@ -313,13 +315,14 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                        <div class="col-md-6">
 
                            <?= $form->field($model, 'Appraisal_Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                           <?= $form->field($model, 'Supervisor_No')->textInput(['readonly'=> true]) ?>
+                          
                            <?= $form->field($model, 'Supervisor_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Overall_Score')->textInput(['readonly'=> true]) ?>
 
                            <p class="parent"><span>+</span>
 
                                <?= $form->field($model, 'Supervisor_User_Id')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                               <?= $form->field($model, 'Overview_Manager')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                              
                                <?= $form->field($model, 'Overview_Manager_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                
                               
@@ -335,45 +338,64 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                        </div>
                    </div>
 
-           <?php if($model->Appraisal_Status == 'Supervisor_Level' || $model->Appraisal_Status == 'Overview_Manager'): ?>
+            </div>
+
+          
                   <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                             <?php if($model->Appraisal_Status == 'Supervisor_Level' || $model->Appraisal_Status == 'Overview_Manager' || $model->Appraisal_Status == 'Closed'): ?>
                                         <div class="card">
 
-                                        <div class="card-header">
-                                            <div class="card-title">
-                                                <h3>Recommended Action</h3>
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    Recommended Action
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                 <?= ($model->Appraisal_Status == 'Supervisor_Level') ?$form->field($model, 'Probation_Recomended_Action')->dropDownList(
+                                                    [
+                                                        '_blank_' => '_blank_',
+                                                        'Confirm' => 'Confirm',
+                                                        'Extend_Probation' => 'Extend_Probation',
+                                                        'Terminate_Employee' => 'Terminate_Employee'
+                                                    ],['prompt' => 'Select ...']
+                                                   ): '' ?>
+
+
+                                                    <?= ($model->Appraisal_Status == 'Overview_Manager' || $model->Appraisal_Status == 'Appraisee_Level' || $model->Appraisal_Status == 'Closed') ?$form->field($model, 'Probation_Recomended_Action')->textInput(['readonly' => true]): '' ?>
                                             </div>
                                         </div>
-                                        <div class="card-body">
-                                             <?= ($model->Appraisal_Status == 'Supervisor_Level') ?$form->field($model, 'Probation_Recomended_Action')->dropDownList(
-                                                [
-                                                    '_blank_' => '_blank_',
-                                                    'Confirm' => 'Confirm',
-                                                    'Extend_Probation_Period' => 'Extend_Probation_Period',
-                                                    'Terminate_Employee' => 'Terminate_Employee'
-                                                ],['prompt' => 'Select ...']
-                                               ): '' ?>
+                            <?php endif; ?>
+                        </div>
+                        <div class="col-md-6">
 
 
-                                                <?= ($model->Appraisal_Status == 'Overview_Manager' || $model->Appraisal_Status == 'Appraisee_Level') ?$form->field($model, 'Probation_Recomended_Action')->dropDownList(
-                                                [
-                                                    '_blank_' => '_blank_',
-                                                    'Confirm' => 'Confirm',
-                                                    'Extend_Probation_Period' => 'Extend_Probation_Period',
-                                                    'Terminate_Employee' => 'Terminate_Employee'
-                                                ],['prompt' => 'Select ...','readonly' => true, 'disabled' => true]
-                                               ): '' ?>
+
+                           
+                                        <div class="card">
+
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    Overview Manager Comments
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                 <?= ($model->Appraisal_Status == 'Overview_Manager') ?$form->field($model, 'Over_View_Manager_Comments')->textArea(['rows' => 2, 'maxlength'=> '140']): '' ?>
+                                                    <span class="text-success" id="confirmation">Comment Saved Successfully.</span>
+
+                                                    <?= ($model->Appraisal_Status !== 'Overview_Manager') ?$form->field($model, 'Over_View_Manager_Comments')->textArea(['rows' => 2, 'readonly' => true, 'disabled' =>  true]): '' ?>
+                                            </div>
                                         </div>
-                                    </div>
+                           
+
                         </div>
                   </div>
 
-              <?php endif; ?>
+              
                     
                    
 
-               </div>
+              
 
 
 
@@ -441,8 +463,8 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                                                     <td><b>Employee Comment</b></td>
                                                     <td><b>Appraiser Rating</b></td>
                                                     <td><b>Supervisor Comments</b></td>
-                                                    <td><b>Overview Manager Comments</b></td>
-                                                    <?php if($model->Probation_Recomended_Action == 'Extend_Probation_Period'): ?>
+                                                    
+                                                    <?php if($model->Probation_Recomended_Action == 'Extend_Probation'): ?>
                                                         <td><b>Extension Self Rating</b></td>
                                                         <td><b>Extension Appraiser Rating</b></td>
                                                         <td><b>Extension Employee Comments</b></td>
@@ -460,26 +482,26 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                                                     foreach($model->getKpi($obj->Line_No) as $kpi):
 
                              $updateLink = Html::a('<i class="fa fa-edit"></i>',['probation-kpi/update','Line_No'=> $kpi->Line_No,'Employee_No'=>$model->Employee_No,'Appraisal_No' => $model->Appraisal_No,'KRA_Line_No' => $obj->Line_No],['class' => 'mx-1 update-objective btn btn-xs btn-outline-info', 'title' => 'Update Key Result Area']);
-                             $deleteLink = Html::a('<i class="fa fa-trash"></i>',['probation-kpi/delete','Key'=> $kpi->Key ],['class'=>'mx-1 delete btn btn-danger btn-xs', 'title' => 'Delete Key Result Area']);
+                             $deleteLink = ($model->Goal_Setting_Status == 'New')?Html::a('<i class="fa fa-trash"></i>',['probation-kpi/delete','Key'=> $kpi->Key ],['class'=>'mx-1 delete btn btn-danger btn-xs', 'title' => 'Delete Key Performance Indicator/ Objective']):'';
 
 
                                                       ?>
                                             <tr>
                                                             
-                                                <td><?= $kpi->Objective ?></td>
+                                                <td><?= !empty($kpi->Objective)?$kpi->Objective:'' ?></td>
                                                 <td><?= $kpi->Weight ?></td>
                                                 <td><?= !empty($kpi->Appraisee_Self_Rating)?$kpi->Appraisee_Self_Rating:'Not Set' ?></td>
                                                 <td><?= !empty($kpi->Employee_Comments)?$kpi->Employee_Comments:'Not Set' ?></td>
                                                 <td><?= !empty($kpi->Appraiser_Rating)?$kpi->Appraiser_Rating:'Not Set' ?></td>
                                                 <td><?= !empty($kpi->Supervisor_Comments)?$kpi->Supervisor_Comments:'Not Set' ?></td>
-                                                <td><?= !empty($kpi->Overview_Manager_Comments)?$kpi->Overview_Manager_Comments:'Not Set' ?></td>
+                                                
                                                 
 
-                                <?php if($model->Probation_Recomended_Action == 'Extend_Probation_Period'): ?>
+                                <?php if($model->Probation_Recomended_Action == 'Extend_Probation'): ?>
 
                                                 <td><?= !empty($kpi->Appraisee_Self_Rating_Ex)?$kpi->Appraisee_Self_Rating_Ex:'N/A' ?></td>
                                                 <td><?= !empty($kpi->Appraiser_Rating_Ex)?$kpi->Appraiser_Rating_Ex:'N/A' ?></td>
-                                                <td><?= !empty($kpi->Employee_Comments_Ex)?$kpi->Employe_Comments_Ex:'N/A' ?></td>
+                                                <td><?= !isset($kpi->Employee_Comments_Ex)?$kpi->Employee_Comments_Ex:'N/A' ?></td>
                                                 <td><?= !empty($kpi->End_Year_Supervisor_Comments_E)?$kpi->End_Year_Supervisor_Comments_E:'N/A' ?></td>
 
                                  <?php endif; ?>
@@ -585,6 +607,23 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 <div id="rejectappraiseesubmition" style="display: none">
 
         <?= Html::beginForm(['probation/probationbacktoappraisee'],'post',['id'=>'rejectappraiseesubmition-form']) ?>
+
+        <?= Html::textarea('comment','',['placeholder'=>'Rejection Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
+
+        <?= Html::input('hidden','Appraisal_No','',['class'=> 'form-control']); ?>
+        <?= Html::input('hidden','Employee_No','',['class'=> 'form-control']); ?>
+
+
+        <?= Html::submitButton('submit',['class' => 'btn btn-warning','style'=>'margin-top: 10px']) ?>
+
+        <?= Html::endForm() ?>
+</div>
+
+
+<!-- Overview rejection of goals -->
+<div id="Overviewbacktolinemgr" style="display: none">
+
+        <?= Html::beginForm(['probation/overviewbacktolinemgr'],'post',['id' => 'Overviewbacktolinemgr-form']) ?>
 
         <?= Html::textarea('comment','',['placeholder'=>'Rejection Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
 
@@ -784,11 +823,16 @@ $script = <<<JS
          });
          /*End Add Weakness Development Plan*/
 
-         //Commit Action taken at Agreement
+         
 
 
 
 
+
+        
+
+
+    /*Commit Recommended action by supervisor*/
 
 
      $('#probation-probation_recomended_action').change(function(e){
@@ -824,6 +868,47 @@ $script = <<<JS
             
         }     
      });
+
+
+     /*Commit Overview Manager Comment*/
+      $('#confirmation').hide();
+     $('#probation-over_view_manager_comments').change(function(e){
+        const Over_View_Manager_Comments = e.target.value;
+        const Appraisal_No = $('#probation-appraisal_no').val();
+        if(Appraisal_No.length){
+            
+            const url = $('input[name=url]').val()+'probation/set-overview-comment';
+            $.post(url,{'Over_View_Manager_Comments': Over_View_Manager_Comments,'Appraisal_No': Appraisal_No}).done(function(msg){
+                   //populate empty form fields with new data
+                   
+                  
+                   $('#probation-key').val(msg.Key);
+                  
+
+                    console.log(typeof msg);
+                    console.table(msg);
+                    if((typeof msg) === 'string') { // A string is an error
+                        const parent = document.querySelector('.field-probation-over_view_manager_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = msg;
+                      
+                        
+                    }else{ // An object represents correct details
+                        const parent = document.querySelector('.field-probation-over_view_manager_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = ''; 
+                        $('#confirmation').show();
+                        
+                        
+                    }
+                    
+                },'json');
+            
+        }     
+     });
+
+
+
 
 
 
@@ -915,40 +1000,83 @@ $script = <<<JS
 
     /*Reject Appraisal Submission by Appraisee - rejectappraiseesubmition*/
 
-     $('.rejectappraiseesubmition').on('click', function(e){
-        e.preventDefault();
-        const form = $('#rejectappraiseesubmition').html(); 
-        const Appraisal_No = $(this).attr('rel');
-        const Employee_No = $(this).attr('rev');
-        
-        console.log('Appraisal No: '+Appraisal_No);
-        console.log('Employee No: '+Employee_No);
-        
-        //Display the rejection comment form
-        $('.modal').modal('show')
+         $('.rejectappraiseesubmition').on('click', function(e){
+            e.preventDefault();
+            const form = $('#rejectappraiseesubmition').html(); 
+            const Appraisal_No = $(this).attr('rel');
+            const Employee_No = $(this).attr('rev');
+            
+            console.log('Appraisal No: '+Appraisal_No);
+            console.log('Employee No: '+Employee_No);
+            
+            //Display the rejection comment form
+            $('.modal').modal('show')
+                            .find('.modal-body')
+                            .append(form);
+            
+            //populate relevant input field with code unit required params
+                    
+            $('input[name=Appraisal_No]').val(Appraisal_No);
+            $('input[name=Employee_No]').val(Employee_No);
+            
+            //Submit Rejection form and get results in json    
+            $('form#rejectappraiseesubmition').on('submit', function(e){
+                e.preventDefault()
+                const data = $(this).serialize();
+                const url = $(this).attr('action');
+                $.post(url,data).done(function(msg){
+                        $('.modal').modal('show')
                         .find('.modal-body')
-                        .append(form);
-        
-        //populate relevant input field with code unit required params
+                        .html(msg.note);
+            
+                    },'json');
+            });
+            
+            
+        });//End click event on  GOals rejection-button click
+
+
+
+
+        // Overview Probation Stage Back to Line Manager
+
+
+             $('.Overviewbacktolinemgr').on('click', function(e){
+                e.preventDefault();
+                const form = $('#Overviewbacktolinemgr').html(); 
+                const Appraisal_No = $(this).attr('rel');
+                const Employee_No = $(this).attr('rev');
                 
-        $('input[name=Appraisal_No]').val(Appraisal_No);
-        $('input[name=Employee_No]').val(Employee_No);
-        
-        //Submit Rejection form and get results in json    
-        $('form#rejectappraiseesubmition').on('submit', function(e){
-            e.preventDefault()
-            const data = $(this).serialize();
-            const url = $(this).attr('action');
-            $.post(url,data).done(function(msg){
-                    $('.modal').modal('show')
-                    .find('.modal-body')
-                    .html(msg.note);
-        
-                },'json');
-        });
-        
-        
-    });//End click event on  GOals rejection-button click
+                console.log('Appraisal No: '+Appraisal_No);
+                console.log('Employee No: '+Employee_No);
+                
+                //Display the rejection comment form
+                $('.modal').modal('show')
+                                .find('.modal-body')
+                                .append(form);
+                
+                //populate relevant input field with code unit required params
+                        
+                $('input[name=Appraisal_No]').val(Appraisal_No);
+                $('input[name=Employee_No]').val(Employee_No);
+                
+                //Submit Rejection form and get results in json    
+                $('form#Overviewbacktolinemgr-form').on('submit', function(e){
+                    e.preventDefault()
+                    const data = $(this).serialize();
+                    const url = $(this).attr('action');
+                    $.post(url,data).done(function(msg){
+                            $('.modal').modal('show')
+                            .find('.modal-body')
+                            .html(msg.note);
+                
+                        },'json');
+                });
+                
+                
+            });
+
+
         
     });//end jquery
 

@@ -21,8 +21,8 @@ $this->title = 'Appraise Employee Appraisal Competences';
 
     <?= $this->render('_form',[
         'model' => $model,
-        'proficiencylevels' => $proficiencylevels,
-        'ratings' => $ratings,
+        'ratings' => $ratings
+        
     ]) ?>
 
 </div>

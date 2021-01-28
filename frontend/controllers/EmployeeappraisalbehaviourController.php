@@ -69,28 +69,30 @@ class EmployeeappraisalbehaviourController extends Controller
 
     }
 
-    public function actionCreate($Appraisal_No,$Employee_No){
+    public function actionCreate($Appraisal_No,$Employee_No,$Category_Line_No){
 
         $model = new Employeeappraisalbehaviours() ;
         $service = Yii::$app->params['ServiceName']['EmployeeAppraisalBehaviours'];
+        $proficiencylevels = $this->getProficiencylevels();
+        $ratings = $this->getRatings();
 
 
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Employeeappraisalbehaviours'],$model)  ){
 
 
 
-            $model->Appraisal_No = $Appraisal_No;
-            $model->Employee_No = Yii::$app->user->identity->Employee_No;
+            $model->Appraisal_Code = $Appraisal_No;
+            $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
+            $model->Category_Line_No = $Category_Line_No;
             $result = Yii::$app->navhelper->postData($service,$model);
 
-            if(is_object($result)){
-                Yii::$app->session->setFlash('success','Record  Added Successfully',true);
-                return $this->redirect(['appraisal/view','Employee_No'=>$model->Employee_No,'Appraisal_No' => $model->Appraisal_No]);
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            if(!is_string($result)){
 
+                return ['note' => '<div class="alert alert-success">Record Added Successfully </div>' ];
             }else{
-                Yii::$app->session->setFlash('error','Error Adding Training Plan Line: '.$result,true);
-                return $this->redirect(['appraisal/view','Employee_No'=>$model->Employee_No,'Appraisal_No' => $model->Appraisal_No]);
 
+                return ['note' => '<div class="alert alert-danger">Error Adding Record: '.$result.'</div>'];
             }
 
         }//End Saving experience
@@ -98,11 +100,15 @@ class EmployeeappraisalbehaviourController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
                 'model' => $model,
+                 'proficiencylevels' => ArrayHelper::map($proficiencylevels,'Level','Level'),
+                 'ratings' => $this->getRatings(),
             ]);
         }
 
         return $this->render('create',[
             'model' => $model,
+             'proficiencylevels' => ArrayHelper::map($proficiencylevels,'Level','Level'),
+             'ratings' => ArrayHelper::map($ratings,'Rating','Rating_Description'),
         ]);
     }
 
@@ -160,7 +166,7 @@ class EmployeeappraisalbehaviourController extends Controller
             return $this->renderAjax('update', [
                 'model' => $model,
                 'proficiencylevels' => ArrayHelper::map($proficiencylevels,'Level','Level'),
-                'ratings' => ArrayHelper::map($ratings,'Rating','Rating_Description'),
+                'ratings' => $this->getRatings(),
             ]);
         }
 
@@ -345,13 +351,12 @@ class EmployeeappraisalbehaviourController extends Controller
         return $ratings;
     }
 
-    public function getRatings(){
-        $service = Yii::$app->params['ServiceName']['AppraisalRating'];
-        $filter = [
-        ];
-
-        $ratings = \Yii::$app->navhelper->getData($service,$filter);
-        return $ratings;
+     public function getRatings()
+    {
+          $service = Yii::$app->params['ServiceName']['AppraisalRating'];
+          $data = Yii::$app->navhelper->getData($service, []);
+          $result = Yii::$app->navhelper->refactorArray($data,'Rating','Rating_Description');
+          return $result;
     }
 
     public function getCountries(){

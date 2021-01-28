@@ -186,6 +186,11 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
                         <?= Html::a('<i class="fas fa-user"></i> Profile',['./employee'],['class'=> 'dropdown-item']); ?>
 
+                        <div class="dropdown-divider"></div>
+
+                        <?= (!Yii::$app->user->isGuest)? Html::a('<i class="fas fa-file-pdf "></i> ESS Manuals','../essfile/index',['class'=> 'dropdown-item']): ''; ?>
+
+
 
                     </div>
                 </li>

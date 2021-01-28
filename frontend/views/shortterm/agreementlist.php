@@ -41,7 +41,7 @@ if(Yii::$app->session->hasFlash('success')){
         <div class="card">
             <div class="card-header">
 
-                <h3 class="card-title">Agreement Probation Appraisal List  &nbsp;    <?= Html::a('<i class="fa fa-plus-square"></i> Add New Appraisal',['create'],['class' => 'add-objective btn btn-outline-info btn-sm']) ?></h3>
+                <h3 class="card-title">Agreement Probation Appraisal List  &nbsp;    <?php Html::a('<i class="fa fa-plus-square"></i> Add New Appraisal',['create'],['class' => 'add-objective btn btn-outline-info btn-sm']) ?></h3>
 
                 
             </div>
@@ -67,7 +67,7 @@ $script = <<<JS
           $('#appraisal').DataTable({
            
             //serverSide: true,  
-            ajax: absolute+'probation/getagreementlist',
+            ajax: absolute+'shortterm/getagreementlist',
             paging: true,
             columns: [
                 { title: 'Appraisal No' ,data: 'Appraisal_No'},

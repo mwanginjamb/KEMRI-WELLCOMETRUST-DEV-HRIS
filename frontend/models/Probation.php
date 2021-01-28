@@ -31,6 +31,9 @@ public $Overview_Manager;
 public $Overview_Manager_Name;
 public $Overview_Manager_UserID;
 public $Probation_Recomended_Action;
+public $Over_View_Manager_Comments;
+
+public $Overall_Score;
 
     public function rules()
     {

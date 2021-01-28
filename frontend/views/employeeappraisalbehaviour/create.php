@@ -11,7 +11,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'Add Training Plan Line';
+$this->title = 'Add Employee Appraisal Behavior';
 $this->params['breadcrumbs'][] = ['label' => 'KRA Evaluation', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -21,8 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'proficiencylevels' => $proficiencylevels,
-        'ratings' => $ratings,
+        'ratings' => $ratings
+        
     ]) ?>
 
 </div>

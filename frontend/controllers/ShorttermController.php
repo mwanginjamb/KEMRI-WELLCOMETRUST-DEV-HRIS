@@ -30,7 +30,7 @@ class ShorttermController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup','index','create','update','delete','view'],
+                'only' => ['logout', 'signup','index','create','update','delete','view','closedlist'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -38,7 +38,7 @@ class ShorttermController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','index','create','update','delete','view'],
+                        'actions' => ['logout','index','create','update','delete','view','closedlist'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -302,7 +302,7 @@ class ShorttermController extends Controller
     // Employee List
 
     public function actionGetprobations(){
-        $service = Yii::$app->params['ServiceName']['ObjectiveSettingList'];
+        $service = Yii::$app->params['ServiceName']['StObjectiveSettingList'];
         $filter = [
             'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
@@ -508,7 +508,7 @@ class ShorttermController extends Controller
     }
 
     public function actionGetagreementlist(){
-        $service = Yii::$app->params['ServiceName']['ProbationAgreementList'];
+        $service = Yii::$app->params['ServiceName']['StProbationAgreementList'];
         $filter = [
             'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
@@ -680,6 +680,35 @@ class ShorttermController extends Controller
 
 
 
+    /*Send to Agreement*/
+
+
+
+    public function actionSendtoagreement($appraisalNo,$employeeNo)
+    {
+        $service = Yii::$app->params['ServiceName']['AppraisalWorkflow'];
+        $data = [
+            'appraisalNo' => $appraisalNo,
+            'employeeNo' => $employeeNo,
+            'sendEmail' => 1,
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['probation/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
+        ];
+
+        $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisalToAgreementLevel');
+
+        if(!is_string($result)){
+            Yii::$app->session->setFlash('success', ' Appraisal Submitted Successfully.', true);
+            return $this->redirect(['superproblist']);
+        }else{
+
+            Yii::$app->session->setFlash('error', 'Error Submitting Appraisal : '. $result);
+            return $this->redirect(['superproblist']);
+
+        }
+
+    }
+
+
 
     /*Send to Agreement*/
 
@@ -728,6 +757,37 @@ class ShorttermController extends Controller
 
             Yii::$app->session->setFlash('error', 'Error Submitting Appraisal to Overview Manager : '. $result);
             return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+
+        }
+
+    }
+
+
+    /*Send back to supervisor*/
+
+     public function actionSendbacktosupervisor()
+    {
+        $service = Yii::$app->params['ServiceName']['AppraisalWorkflow'];
+        $data = [
+            'appraisalNo' => $_POST['Appraisal_No'],
+            'employeeNo' => $_POST['Employee_No'],
+            'sendEmail' => 1,
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['shortterm/view', 'Appraisal_No' => $_POST['Appraisal_No'], 'Employee_No' =>$_POST['Employee_No']]),
+            'rejectionComments' => Yii::$app->request->post('comment')
+
+
+
+        ];
+
+        $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisaBackToLineManager');
+
+        if(!is_string($result)){
+            Yii::$app->session->setFlash('success', 'Appraisal Sent Back to Line Manager Successfully.', true);
+            return $this->redirect(['agreementlist']);
+        }else{
+
+            Yii::$app->session->setFlash('error', 'Error Submitting Appraisal to Line Manager : '. $result);
+            return $this->redirect(['agreementlist']);
 
         }
 
@@ -1023,7 +1083,7 @@ class ShorttermController extends Controller
                 'appraisalNo' =>Yii::$app->request->post('appraisalNo'),
                 'employeeNo' => Yii::$app->request->post('employeeNo')
             ];
-            $path = Yii::$app->navhelper->IanGenerateNewEmployeeAppraisalReport($service,$data);
+          $path = Yii::$app->navhelper->CodeUnit($service,$data,'IanGenerateNewEmployeeAppraisalReport');
             //Yii::$app->recruitment->printrr($path);
             if(!is_file($path['return_value'])){
 
@@ -1035,7 +1095,7 @@ class ShorttermController extends Controller
             $binary = file_get_contents($path['return_value']); //fopen($path['return_value'],'rb');
             $content = chunk_split(base64_encode($binary));
             //delete the file after getting it's contents --> This is some house keeping
-            unlink($path['return_value']);
+            //unlink($path['return_value']);
 
             // Yii::$app->recruitment->printrr($path);
             return $this->render('report',[

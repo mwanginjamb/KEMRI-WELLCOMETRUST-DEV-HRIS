@@ -897,10 +897,38 @@ class ProbationController extends Controller
     }
 
 
-    // Submit Appraisal to Overview
+    
+// Overview Manager Sending Probation Appraisal Back to Line Mgr
+
+     public function actionOverviewbacktolinemgr()
+    {
+        $service = Yii::$app->params['ServiceName']['AppraisalWorkflow'];
+        $appraisalNo = Yii::$app->request->post('Appraisal_No');
+        $employeeNo = Yii::$app->request->post('Employee_No');
+        $data = [
+            'appraisalNo' => $appraisalNo,
+            'employeeNo' => $employeeNo,
+            'sendEmail' => 1,
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['probation/view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]),
+            'rejectionComments' => Yii::$app->request->post('comment'),
+        ];
+
+        $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisaBackToLineManager');
+
+        if(!is_string($result)){
+            Yii::$app->session->setFlash('success', 'Probation Sent Back to Line Manager with Comments Successfully.', true);
+            return $this->redirect(['ovproblist']);
+        }else{
+
+            Yii::$app->session->setFlash('error', 'Error  : '. $result);
+            return $this->redirect(['ovproblist']);
+
+        }
+
+    }
 
 
-
+// Submit Appraisal to Overview
     public function actionSubmitprobationtooverview($appraisalNo,$employeeNo)
     {
         $service = Yii::$app->params['ServiceName']['AppraisalWorkflow'];
@@ -980,7 +1008,7 @@ class ProbationController extends Controller
 
 
 
-    // Take Action
+    // Take Recommended Action.
 
      public function actionSetaction()
     {
@@ -1008,6 +1036,34 @@ class ProbationController extends Controller
 
     }
 
+    // Set Overview Comments
+
+     public function actionSetOverviewComment()
+    {
+        $model = new Probation();
+         
+        $service = Yii::$app->params['ServiceName']['ProbationCard'];
+
+        $filter = [
+            'Appraisal_No' => Yii::$app->request->post('Appraisal_No')
+        ];
+        $request = Yii::$app->navhelper->getData($service, $filter);
+
+        if(is_array($request)){
+            Yii::$app->navhelper->loadmodel($request[0],$model);
+            $model->Key = $request[0]->Key;
+            $model->Over_View_Manager_Comments = Yii::$app->request->post('Over_View_Manager_Comments');
+        }
+
+
+        $result = Yii::$app->navhelper->updateData($service,$model);
+
+        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+
+        return $result;
+
+    }
+
 
 
     public function actionReport(){
@@ -1020,7 +1076,7 @@ class ProbationController extends Controller
                 'appraisalNo' =>Yii::$app->request->post('appraisalNo'),
                 'employeeNo' => Yii::$app->request->post('employeeNo')
             ];
-            $path = Yii::$app->navhelper->IanGenerateNewEmployeeAppraisalReport($service,$data);
+            $path = Yii::$app->navhelper->CodeUnit($service,$data,'IanGenerateNewEmployeeAppraisalReport');
             //Yii::$app->recruitment->printrr($path);
             if(!is_file($path['return_value'])){
 

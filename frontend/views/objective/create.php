@@ -11,9 +11,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'Add Probation Objective Line';
-$this->params['breadcrumbs'][] = ['label' => 'Career Dev Plan', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Add Key Result Area Line';
+//$this->params['breadcrumbs'][] = ['label' => 'Career Dev Plan', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = $this->title;
 $model->Employee_No = Yii::$app->request->get('Employee_No');
 $model->Appraisal_No = Yii::$app->request->get('Appraisal_No');
 $model->isNewRecord = true;
