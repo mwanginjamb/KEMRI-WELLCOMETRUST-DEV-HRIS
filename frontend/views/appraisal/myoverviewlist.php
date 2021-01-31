@@ -10,9 +10,9 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'HRMIS -  End Year Appraisal List: Peer 1';
+$this->title = 'HRMIS - Overview Mgr  Goal Setting List';
 $this->params['breadcrumbs'][] = ['label' => 'Performance Management', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'End Year Appraisal List (Peer 1)', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Approved Appraisals List', 'url' => ['approvedappraisals']];
 ?>
 
 
@@ -34,20 +34,20 @@ if(Yii::$app->session->hasFlash('success')){
     print '</div>';
 }
 ?>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">End Year Appraisal List (Peer 1)</h3>
-                </div>
-                <div class="card-body">
-                    <table class="table table-bordered dt-responsive table-hover" id="appraisal">
-                    </table>
-                </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Mid Year Appraisals Overview Mgr  List</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered dt-responsive table-hover" id="appraisal">
+                </table>
             </div>
         </div>
     </div>
-    <input type="hidden" name="absolute" value="<?= Yii::$app->recruitment->absoluteUrl() ?>">
+</div>
+<input type="hidden" name="absolute" value="<?= Yii::$app->recruitment->absoluteUrl() ?>">
 <?php
 
 $script = <<<JS
@@ -62,7 +62,7 @@ $script = <<<JS
           $('#appraisal').DataTable({
            
             //serverSide: true,  
-            ajax: absolute+'appraisal/geteypeer1list',
+            ajax: absolute+'appraisal/getmyoverviewlist',
             paging: true,
             columns: [
                 { title: 'Appraisal No' ,data: 'Appraisal_No'},

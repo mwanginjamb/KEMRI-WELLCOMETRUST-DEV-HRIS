@@ -10,7 +10,7 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'HRMIS - AAS Approved Appraisals';
+$this->title = 'HRMIS - Overview Mgr  Goal Setting List';
 $this->params['breadcrumbs'][] = ['label' => 'Performance Management', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Approved Appraisals List', 'url' => ['approvedappraisals']];
 ?>
@@ -38,7 +38,7 @@ if(Yii::$app->session->hasFlash('success')){
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">My Approved Appraisal List</h3>
+                <h3 class="card-title">Overview Mgr Goal Setting List</h3>
             </div>
             <div class="card-body">
                 <table class="table table-bordered dt-responsive table-hover" id="appraisal">

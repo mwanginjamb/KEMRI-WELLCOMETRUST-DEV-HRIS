@@ -16,16 +16,10 @@ public $Line_No;
 public $Appraisal_No;
 public $Employee_No;
 public $KRA;
-public $Perfomance_Level;
-public $Perfomance_Comment;
-public $Appraisee_Self_Rating;
-public $Appraiser_Rating;
-public $Agreed_Rating;
-public $Rating_Comments;
-public $Employee_Comments;
-
 public $Overall_Rating;
 public $Move_To_PIP;
+public $Maximum_Weight;
+public $Total_Weigth;
 public $Key;
 public $isNewRecord;
 

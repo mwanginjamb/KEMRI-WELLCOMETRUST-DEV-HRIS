@@ -10,9 +10,9 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'HRMIS - AAS End Year Appraisal List: Peer 1';
+$this->title = 'HRMIS - Overview End Year Appraisal List';
 $this->params['breadcrumbs'][] = ['label' => 'Performance Management', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'End Year Appraisal List (Peer 1)', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'End Year Appraisal List (Overview Manager)', 'url' => ['index']];
 ?>
 
 
@@ -38,7 +38,7 @@ if(Yii::$app->session->hasFlash('success')){
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">End Year Appraisal List (Peer 1)</h3>
+                    <h3 class="card-title">End Year Appraisal List (Overview)</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered dt-responsive table-hover" id="appraisal">

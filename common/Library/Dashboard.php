@@ -192,5 +192,57 @@ class Dashboard extends Component
     }
 
 
+    /*Get no. Probation Appraisals*/
+
+
+     public function getProbations(){
+
+        $service = Yii::$app->params['ServiceName']['ProbationStatusList'];
+        $filter = [
+           
+        ];
+        $result = Yii::$app->navhelper->getData($service,$filter);
+
+        if(is_object($result) || is_string($result)){//RETURNS AN EMPTY object if the filter result to false
+            return 0;
+        }
+        return count($result);
+    }
+
+    /*Get no of short term probations*/
+
+    public function getShortterms(){
+
+        $service = Yii::$app->params['ServiceName']['ShortTermStatusList'];
+        $filter = [
+           
+        ];
+        $result = Yii::$app->navhelper->getData($service,$filter);
+
+        if(is_object($result) || is_string($result)){//RETURNS AN EMPTY object if the filter result to false
+            return 0;
+        }
+        return count($result);
+    }
+
+
+    /* Get no. of Long Term Probations*/
+
+
+     public function getLongterms(){
+
+        $service = Yii::$app->params['ServiceName']['LongTermAppraisal_Status'];
+        $filter = [
+           
+        ];
+        $result = Yii::$app->navhelper->getData($service,$filter);
+
+        if(is_object($result) || is_string($result)){//RETURNS AN EMPTY object if the filter result to false
+            return 0;
+        }
+        return count($result);
+    }
+
+
 
 }

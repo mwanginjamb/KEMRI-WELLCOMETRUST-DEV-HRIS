@@ -10,9 +10,9 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'HRMIS -  End Year Appraisal List: Peer 1';
+$this->title = 'HRMIS - AAS Mid Year Appraisal List: Supervisor';
 $this->params['breadcrumbs'][] = ['label' => 'Performance Management', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'End Year Appraisal List (Peer 1)', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Approved Mid Year Appraisal List (Appraisee)', 'url' => ['index']];
 ?>
 
 
@@ -38,7 +38,7 @@ if(Yii::$app->session->hasFlash('success')){
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">End Year Appraisal List (Peer 1)</h3>
+                    <h3 class="card-title">Approved Mid Year Appraisal List (Appraisee)</h3>
                 </div>
                 <div class="card-body">
                     <table class="table table-bordered dt-responsive table-hover" id="appraisal">
@@ -62,7 +62,7 @@ $script = <<<JS
           $('#appraisal').DataTable({
            
             //serverSide: true,  
-            ajax: absolute+'appraisal/geteypeer1list',
+            ajax: absolute+'appraisal/getmyapprovedappraiseelist',
             paging: true,
             columns: [
                 { title: 'Appraisal No' ,data: 'Appraisal_No'},

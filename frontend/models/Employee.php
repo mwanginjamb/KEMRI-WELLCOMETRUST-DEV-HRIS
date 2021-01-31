@@ -94,6 +94,9 @@ class Employee extends Model
     public $Bank_Account_No;
 
     public $Payroll_Grade;
+    public $Probation_Period;
+    public $Global_Dimension_6_Code;
+    public $Grant_Approver;
 
     public function rules()
     {

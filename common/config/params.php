@@ -5,6 +5,9 @@ return [
     'ClientCompany' => 'KEMRI WELLCOME TRUST', //branding
     'demoCompany' => 'IANSOFT LTD',
     'VendorCompany' => 'IANSOFT TECHNOLOGIES LTD',
+    'ltAppraisalHeader' => 'Long Term Performance Appraisal',
+    'stAppraisalHeader' => 'Short Term Performance Appraisal',
+    'probAppraisalHeader' => 'Probation Performance Appraisal',
     'adminEmail' => 'customer@softeboard.com',
     'supportEmail' => 'customer@softeboard.com',
     'senderEmail' => 'customer@softeboard.com',
@@ -182,9 +185,10 @@ return [
         'AppraisalCard' => 'AppraisalCard',//60008
         'EmployeeAppraisalKPI' => 'EmployeeAppraisalKPI', //60010 --->Employee objectives
         'SubmittedAppraisals' => 'SubmittedAppraisals', //60012
-        'ApprovedAppraisals' => 'ApprovedAppraisals', //60013
+        'ApprovedAppraisals' => 'ApprovedAppraisals', //60013 -- overview goal setting
         'MYAppraiseeList' => 'MYAppraiseeList',//60014
         'MYSupervisorList' => 'MYSupervisorList',//60015
+        
         'MYApprovedList' => 'MYApprovedList',//60016
         'EYAppraiseeList' => 'EYAppraiseeList',//60017
         'EYSupervisorList' => 'EYSupervisorList',//60018
@@ -229,6 +233,13 @@ return [
         'StEmployeeAppraisalCompetence' => 'StEmployeeAppraisalCompetence',//60033
         'StAreasofFurtherDev' => 'StAreasofFurtherDev', // 60040
         'ESS_Files' => 'ESS_Files',// 50097
+
+
+        /*Appraisal List*/
+
+        'ProbationStatusList' => 'ProbationStatusList', //60083
+        'ShortTermStatusList' => 'ShortTermStatusList', //60084
+        'LongTermAppraisal_Status' => 'LongTermAppraisal_Status', //60085
 
 
 

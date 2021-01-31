@@ -1428,13 +1428,13 @@ class Navhelper extends Component{
         return $model;
     }
 
-    public function loadpost($post,$model){ // load form data to a model, e.g from html form-data to model
+    public function loadpost($post,$model,$exception = []){ // load form data to a model, e.g from html form-data to model
 
 
         $modeldata = (get_object_vars($model)) ;
 
         foreach($post as $key => $val){
-
+             if(is_object($val) || in_array($key, $exception) ) continue;
             $model->$key = $val;
         }
 

@@ -21,6 +21,8 @@ $this->title = 'UpdateEmployee Objective.';
 
     <?= $this->render('_form',[
         'model' => $model,
+        'ratings' => $ratings,
+        'assessments' => $assessments
     ]) ?>
 
 </div>

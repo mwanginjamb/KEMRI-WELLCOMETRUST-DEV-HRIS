@@ -45,7 +45,7 @@ public $Level;
     public function attributeLabels()
     {
         return [
-
+            'Agreed_Rating' => 'Weight'
         ];
     }
 }

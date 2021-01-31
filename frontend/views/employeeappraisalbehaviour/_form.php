@@ -36,22 +36,18 @@ use yii\widgets\ActiveForm;
 
                             <?= $form->field($model, 'Behaviour_Name')->textInput(['maxlength' => 150]) ?>
 
-                            <?= (!Yii::$app->user->identity->isSupervisor())?$form->field($model, 'Applicable')->checkbox(['value' => true,['enclosedByLabel' => true]]):'' ?>
+                            <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New' )?$form->field($model, 'Applicable')->checkbox(['value' => true,['enclosedByLabel' => true]]):'' ?>
 
                             
 
-                            <?= (
-                                (!Yii::$app->user->identity->isSupervisor() &&
-                                 Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level' &&
-                                 Yii::$app->session->get('MY_Appraisal_Status') == 'Closed') || 
-                                 Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level'
+                            <?= 
+                                (
+                                 Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level' 
                                     )?$form->field($model, 'Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating']):'' ?>
-                            <?= (
+                            <?= 
 
-                                (!Yii::$app->user->identity->isSupervisor() &&
-                                 Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level' &&
-                                 Yii::$app->session->get('MY_Appraisal_Status') == 'Closed')||
-                                 Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level'
+                                (
+                                 Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level' 
 
                              )?$form->field($model, 'Appraisee_Remark')->textarea(['rows' => 3, 'maxlength' => 250]):'' ?>
 
@@ -74,7 +70,7 @@ use yii\widgets\ActiveForm;
                             <?= (Yii::$app->session->get('EY_Appraisal_Status') == 'Peer_2_Level')?$form->field($model, 'Peer_2_Remark')->textarea(['rows' => 3, 'maxlength' => 250]):'' ?>
 
 
-                            <?= (Yii::$app->user->identity->isSupervisor() && Yii::$app->session->get('EY_Appraisal_Status') == 'Agreement_Level')?$form->field($model, 'Agreed_Rating')->dropDownList($ratings,['prompt' => 'Select Rating']):'' ?>
+                            <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?$form->field($model, 'Agreed_Rating')->textInput(['type' => 'number','required' => true]):'' ?>
                             <?= (
                                 Yii::$app->user->identity->isSupervisor() && (
                                 Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level' ||
@@ -120,7 +116,7 @@ use yii\widgets\ActiveForm;
                 <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Evaluate', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success']) ?>
                     </div>
 
 

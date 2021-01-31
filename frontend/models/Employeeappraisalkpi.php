@@ -12,7 +12,8 @@ use yii\base\Model;
 
 class Employeeappraisalkpi extends Model
 {
-    public $Key;
+
+
     public $Appraisal_No;
     public $Employee_No;
     public $Objective;
@@ -27,8 +28,11 @@ class Employeeappraisalkpi extends Model
     public $End_Year_Supervisor_Comments;
     public $Agree;
     public $Disagreement_Comments;
-    public $Line_No;
     public $KRA_Line_No;
+    public $Line_No;
+    public $Due_Date;
+    public $Move_To_PIP;
+    public $Key;
     public $isNewRecord;
 
     public function rules()

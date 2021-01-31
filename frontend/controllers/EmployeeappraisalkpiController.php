@@ -74,8 +74,9 @@ class EmployeeappraisalkpiController extends Controller
         $model->Appraisal_No = $Appraisal_No;
         $model->Employee_No = $Employee_No;
         $model->KRA_Line_No = $KRA_Line_No;
+        $model->isNewRecord = true;
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Employeeappraisalkpi'],$model)  && $model->validate() ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Employeeappraisalkpi'],$model,['Line_No'])  && $model->validate() ){
 
 
             $result = Yii::$app->navhelper->postData($service,$model);
@@ -95,11 +96,15 @@ class EmployeeappraisalkpiController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
                 'model' => $model,
+                'ratings' => $this->getRatings(),
+                'assessments' => $this->getPerformancelevels(),
             ]);
         }
 
         return $this->render('create',[
             'model' => $model,
+            'ratings' => $this->getRatings(),
+            'assessments' => $this->getPerformancelevels(),
         ]);
     }
 
@@ -141,12 +146,27 @@ class EmployeeappraisalkpiController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
+                'ratings' => $this->getRatings(),
+                'assessments' => $this->getPerformancelevels(),
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
+            'ratings' => $this->getRatings(),
+            'assessments' => $this->getPerformancelevels() ,
         ]);
+    }
+
+
+
+    public function getPerformancelevels()
+    {
+        $service = Yii::$app->params['ServiceName']['PerformanceLevel'];
+
+        $result = Yii::$app->navhelper->getData($service, []);
+
+        return Yii::$app->navhelper->refactorArray($result,'Line_Nos','Perfomace_Level');
     }
 
     public function actionDelete(){
@@ -181,6 +201,17 @@ class EmployeeappraisalkpiController extends Controller
             'leaveTypes' => ArrayHelper::map($leaveTypes,'Code','Description'),
             'relievers' => ArrayHelper::map($employees,'No','Full_Name'),
         ]);
+    }
+
+
+
+
+    public function getRatings()
+    {
+          $service = Yii::$app->params['ServiceName']['AppraisalRating'];
+          $data = Yii::$app->navhelper->getData($service, []);
+          $result = Yii::$app->navhelper->refactorArray($data,'Rating','Rating_Description');
+          return $result;
     }
 
 

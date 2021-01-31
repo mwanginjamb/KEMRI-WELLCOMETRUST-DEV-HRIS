@@ -39,6 +39,10 @@ public $Supervisor_User_Id;
 public $Overview_Manager;
 public $Overview_Manager_Name;
 public $Overview_Manager_UserID;
+public $Over_View_Manager_Comments;
+public $Supervisor_Overall_Comments;
+public $Overall_Score;
+public $Is_Long_Term;
 public $Recomended_Action;
 
     public function rules()
@@ -108,14 +112,30 @@ public $Recomended_Action;
 
     //get supervisor status
 
-    public function isSupervisor($Employee_User_Id,$Supervisor_User_Id)
+    public function isSupervisor()
     {
 
-        $user = Yii::$app->user->identity->getId();
-
-        return ($user == $Supervisor_User_Id);
+        return (Yii::$app->user->identity->{'Employee No_'} == $this->Supervisor_No);
 
     }
+
+
+     public function isOverView()
+    {
+
+        return (Yii::$app->user->identity->{'Employee No_'} == $this->Overview_Manager);
+
+    }
+
+     public function isAppraisee()
+    {
+
+        return (Yii::$app->user->identity->{'Employee No_'} == $this->Employee_No);
+
+    }
+
+
+
 
 
 }

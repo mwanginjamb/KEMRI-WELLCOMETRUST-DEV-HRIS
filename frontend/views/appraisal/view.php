@@ -44,20 +44,7 @@ Yii::$app->session->set('isSupervisor',false);
                             </div>
 
                         <?php endif; ?>
-                        <?php if($model->Goal_Setting_Status == 'Approved' && $model->MY_Appraisal_Status == 'Appraisee_Level'): ?>
-
-                            <div class="col-md-4">
-                                <?= Html::a('<i class="fas fa-forward"></i> MY Appraisal',['submitmy','appraisalNo'=> $_GET['Appraisal_No'],'employeeNo' => $_GET['Employee_No']],[
-                                    'class' => 'btn btn-app bg-info submitforapproval',
-                                    'title' => 'Submit Your Mid Year Appraisal for Approval',
-                                    'data' => [
-                                        'confirm' => 'Are you sure you want to submit Your Mid Year Appraisal?',
-                                        'method' => 'post',
-                                    ]
-                                ]) ?>
-                            </div>
-
-                        <?php endif; ?>
+                       
 
                         <?=  ($model->EY_Appraisal_Status == 'Closed')?Html::a('<i class="fas fa-book-open"></i> P.A Report',['report','appraisalNo'=> $_GET['Appraisal_No'],'employeeNo' => $_GET['Employee_No']],[
                             'class' => 'btn btn-app bg-success  pull-right',
@@ -74,7 +61,7 @@ Yii::$app->session->set('isSupervisor',false);
                         ?>
 
 
-                        <?php if($model->MY_Appraisal_Status == 'Closed' && $model->EY_Appraisal_Status == 'Appraisee_Level'): ?>
+                        <?php if($model->MY_Appraisal_Status == 'Closed' && $model->EY_Appraisal_Status == 'Appraisee_Level' ): ?>
 
                             <div class="col-md-4">
                                 <?= Html::a('<i class="fas fa-forward"></i> submit EY',['submitey','appraisalNo'=> $_GET['Appraisal_No'],'employeeNo' => $_GET['Employee_No']],[
@@ -88,6 +75,105 @@ Yii::$app->session->set('isSupervisor',false);
                             </div>
 
                         <?php endif; ?>
+
+
+                         <?php if($model->MY_Appraisal_Status == 'Closed' && $model->EY_Appraisal_Status == 'Agreement_Level'): ?>
+
+                            <div class="col-md-4">
+                                <?= Html::a('<i class="fas fa-check"></i> To Ln Manager',['agreementtolinemgr','appraisalNo'=> $_GET['Appraisal_No'],'employeeNo' => $_GET['Employee_No']],[
+                                    'class' => 'btn btn-app bg-success',
+                                    'title' => 'Submit End Year Appraisal for Approval',
+                                    'data' => [
+                                        'confirm' => 'Are you sure you want to submit End Year Appraisal?',
+                                        'method' => 'post',
+                                    ]
+                                ]) ?>
+                            </div>
+
+                        <?php endif; ?>
+
+
+
+
+                    <?php if($model->Goal_Setting_Status == 'Overview_Manager' && $model->isOverview()): ?>
+                        <div class="col-md-4">
+
+                            <?= Html::a('<i class="fas fa-backward"></i> To Line Mgr.',['backtolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
+                                [
+                                    'class' => 'btn btn-app bg-danger rejectgoals',
+                                    'rel' => $_GET['Appraisal_No'],
+                                    'rev' => $_GET['Employee_No'],
+                                    'title' => 'Submit Probation  Back to Line Manager'
+
+                            ]) ?>
+                        </div>
+                        <div class="col-md-4">&nbsp;</div>
+                        <div class="col-md-4">
+
+                            <?= Html::a('<i class="fas fa-forward"></i> Approve',['approvegoals','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
+                                [
+
+                                'class' => 'btn btn-app submitforapproval','data' => [
+                                'confirm' => 'Are you sure you want to approve goals ?',
+                                'method' => 'post',
+                            ],
+                                'title' => 'Approve Set Probation Goals .'
+                            ]) ?>
+
+                        </div>
+
+                    <?php endif; ?>
+
+
+                    <!-- Overview Manager Actions at MY -->
+                    <?php if($model->MY_Appraisal_Status == 'Overview_Manager' && $model->isOverview()): ?>
+                         <?= Html::a('<i class="fas fa-check"></i> Approve',['ovapprovemy','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
+                                [
+
+                                'class' => 'mx-1 btn btn-app bg-success submitforapproval','data' => [
+                                'confirm' => 'Are you sure you want to approve this Mid-Year Appraisal ?',
+                                'method' => 'post',
+                            ],
+                                'title' => 'Approve Mid Year Appraisal .'
+                            ]) ?>
+
+
+
+                            <?= Html::a('<i class="fas fa-backward"></i> To Line Mgr.',['mybacktolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
+                                [
+                                    'class' => 'btn btn-app bg-danger rejectmyappraisal',
+                                    'rel' => $_GET['Appraisal_No'],
+                                    'rev' => $_GET['Employee_No'],
+                                    'title' => 'Send Mid Year Appraisal Back to Line Manager'
+
+                            ]) ?>
+
+                    <?php endif; ?>
+
+                    <!-- End MY Overview Actions -->
+
+
+                    <!--Mid Year Actions By Appraisee -->
+
+                    <?php if($model->Goal_Setting_Status == 'Closed' && $model->MY_Appraisal_Status == 'Appraisee_Level' && $model->isAppraisee()): ?>
+
+
+                            <?= Html::a('<i class="fas fa-forward"></i> MY Appraisal',['submitmy','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],[
+                                    'class' => 'btn btn-app bg-info submitforapproval',
+                                    'title' => 'Submit Your Mid Year Appraisal for Approval',
+                                    'data' => [
+                                        'confirm' => 'Are you sure you want to submit Your Mid Year Appraisal?',
+                                        'method' => 'post',
+                                    ]
+                                ]) ?>
+
+
+                    <?php endif; ?>
+
+
+                    <!--Enf Mid Year Actions By Appraisee -->
+
+
 
                     </div>
 
@@ -223,26 +309,17 @@ Yii::$app->session->set('isSupervisor',false);
                                     <!--<th>Appraisal No</th>
                                     <th>Employee No</th>-->
                                     <th>KRA</th>
-                                    <th>Perfomance Level</th>
-                                    <th>Perfomance Comment</th>
-                                    <th>Appraisee Self Rating</th>
-                                    <th>Appraiser Rating</th>
-                                    <th>Agreed Rating</th>
-                                    <th>Rating Comments</th>
-                                    <th>Employee Comments</th>
+                                    <th>Overall Rating</th>
+                                    <th>Move To PIP</th>
+                                    <th>Maximum Weight</th>
+                                    <th>Total Weigtht</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach($card->Employee_Appraisal_KRAs->Employee_Appraisal_KRAs as $k){
-
-                                    if(!empty($k->Perfomance_Level) && $k->Perfomance_Level == 1){
-                                        $pl = 'On Track';
-                                    }elseif(!empty($k->Perfomance_Level) && $k->Perfomance_Level == 2){
-                                        $pl = 'Off Track';
-                                    }else{
-                                        $pl = 'Not Set';
-                                    }
+                                    $mvtopip = Html::Checkbox('Move_To_PIP',$k->Move_To_PIP,['readonly' => true,'disabled' => true]);
+                                   
                                     ?>
 
                                     <tr class="parent">
@@ -251,14 +328,11 @@ Yii::$app->session->set('isSupervisor',false);
                                         <!-- <td><?/*= $k->Appraisal_No */?></td>
                                     <td><?/*= $k->Employee_No */?></td>-->
                                         <td><?= $k->KRA ?></td>
-                                        <td><?= !empty($k->Perfomance_Level)?$pl: 'Not Set' ?></td>
-                                        <td><?= !empty($k->Perfomance_Comment)?$k->Perfomance_Comment: 'Not Set' ?></td>
-                                        <td><?= !empty($k->Appraisee_Self_Rating)?$k->Appraisee_Self_Rating: 'Not Set' ?></td>
-                                        <td><?= !empty($k->Appraiser_Rating)?$k->Appraiser_Rating: 'Not Set' ?></td>
-                                        <td><?= !empty($k->Agreed_Rating)?$k->Agreed_Rating: 'Not Set' ?></td>
-                                        <td><?= !empty($k->Rating_Comments)?$k->Rating_Comments: 'Not Set' ?></td>
-                                        <td><?= !empty($k->Employee_Comments)?$k->Employee_Comments: 'Not Set' ?></td>
-                                        <td><?=(($model->Goal_Setting_Status == 'Approved' && $model->MY_Appraisal_Status == 'Appraisee_Level') || $model->EY_Appraisal_Status == 'Appraisee_Level' )?Html::a('Evaluate',['appraisalkra/update','Line_No'=> $k->Line_No,'Appraisal_No' => $k->Appraisal_No,'Employee_No' => $k->Employee_No ],['class' => ' evalkra btn btn-info btn-xs']):''?></td>
+                                        <td><?= !empty($k->Overall_Rating)?$k->Overall_Rating: 'Not Set' ?></td>
+                                        <td><?= $mvtopip ?></td>
+                                        <td><?= !empty($k->Maximum_Weight)?$k->Maximum_Weight: 'Not Set' ?></td>
+                                        <td><?= !empty($k->Total_Weigth)?$k->Total_Weigth: 'Not Set' ?></td>
+                                        <td><?=(($model->Goal_Setting_Status == 'New'))?Html::a('<i class="fa fa-edit"></i>',['appraisalkra/update','Line_No'=> $k->Line_No,'Appraisal_No' => $k->Appraisal_No,'Employee_No' => $k->Employee_No ],['class' => ' evalkra btn btn-info btn-xs']):''?></td>
                                     </tr>
                                     <tr class="child">
                                         <td colspan="11" >
@@ -269,25 +343,59 @@ Yii::$app->session->set('isSupervisor',false);
                                                      <th>KRA Line No</th>
                                                      <th>Appraisal No</th>
                                                      <th>Employee No</th>-->
-                                                    <th>Objective</th>
-                                                    <th>Due Date</th>
-                                                    <th> <?= ($model->Goal_Setting_Status == 'New')?Html::a('<i class="fas fa-plus"></i>',['employeeappraisalkpi/create','Appraisal_No'=> $k->Appraisal_No,'Employee_No' => $k->Employee_No,'KRA_Line_No' => $k->Line_No],['class' => 'btn btn-xs btn-success add-objective','title' => 'Add Objective / KPI']):'' ?>
+                                                    <td><b>Objective</b></td>
+                                                    <td><b>Due Date</b></td>
+                                                    <td><b>Weight</b></td>
+                                                    <td><b>Mid Year Appraisee Assesment</b></td>
+                                                   <!--  <td>Mid_Year_Appraisee_Comments</td> -->
+                                                    <td><b>Mid Year Supervisor Assesment</b></td>
+                                                   <!--  <td>Mid_Year_Supervisor_Comments</td> -->
+                                                    <td><b>Appraisee Self Rating</b></td>
+                                                    <td><b>Employee Comments</b></td>
+                                                    <td><b>Appraiser Rating</b></td>
+                                                    <td><b>End Year Supervisor Comments</b></td>
+                                                    <td><b>Agree</b></td>
+                                                    <td><b>Disagreement Comments</b></td>
+                                                    <td><b>Move To PIP</b></td>
+
+
+                                                    <th> <?= (
+                                                        $model->Goal_Setting_Status == 'New'
+
+                                                    )?Html::a('<i class="fas fa-plus"></i>',['employeeappraisalkpi/create','Appraisal_No'=> $k->Appraisal_No,'Employee_No' => $k->Employee_No,'KRA_Line_No' => $k->Line_No],['class' => 'btn btn-xs btn-success add-objective','title' => 'Add Objective / KPI']):'' ?>
                                                     </th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <?php if(is_array($model->getKPI($k->Line_No))){
 
-                                                    foreach($model->getKPI($k->Line_No) as $kpi):  ?>
+                                                    foreach($model->getKPI($k->Line_No) as $kpi): 
+                                                            $mvkpitopip = Html::Checkbox('Move_To_PIP',$kpi->Move_To_PIP,[]);
+                                                     ?>
                                                         <tr>
-                                                            <!--<td><?/*= $kpi->Line_No */?></td>
-                                                <td><?/*= $kpi->KRA_Line_No */?></td>
-                                                <td><?/*= $kpi->Appraisal_No */?></td>
-                                                <td><?/*= $kpi->Employee_No */?></td>-->
+                                                            
+                                                
                                                             <td><?= $kpi->Objective ?></td>
+                                                            <td><?= !empty($kpi->Due_Date)?$kpi->Due_Date:'Not Set' ?></td>
+                                                            <td><?= !empty($kpi->Weight)?$kpi->Weight:'Not Set' ?></td>
+                                                            <td><?= !empty($kpi->Mid_Year_Appraisee_Assesment)?$kpi->Mid_Year_Appraisee_Assesment:'Not Set' ?></td>
+                                                           <!--  <td><?php !empty($kpi->Mid_Year_Appraisee_Comments)?$kpi->Mid_Year_Appraisee_Comments:'Not Set' ?></td> -->
+                                                            <td><?= !empty($kpi->Mid_Year_Supervisor_Assesment)?$kpi->Mid_Year_Supervisor_Assesment:'Not Set' ?></td>
+                                                            <!-- <td><?php !empty($kpi->Mid_Year_Supervisor_Comments)?$kpi->Mid_Year_Supervisor_Comments:'Not Set' ?></td> -->
+                                                            <td><?= !empty($kpi->Appraisee_Self_Rating)?$kpi->Appraisee_Self_Rating:'Not Set' ?></td>
+                                                            <td><?= !empty($kpi->Employee_Comments)?$kpi->Employee_Comments:'Not Set' ?></td>
+                                                            <td><?= !empty($kpi->Appraiser_Rating)?$kpi->Appraiser_Rating:'Not Set' ?></td>
+                                                            <td><?= !empty($kpi->End_Year_Supervisor_Comments)?$kpi->End_Year_Supervisor_Comments:'Not Set' ?></td>
+                                                            <td><?= !empty($kpi->Agree)?$kpi->Agree:'Not Set' ?></td>
+                                                            <td><?= !empty($kpi->Disagreement_Comments)?$kpi->Disagreement_Comments:'Not Set' ?></td>
+                                                            <td><?= $mvkpitopip ?></td>
 
                                                             <td>
-                                                                <?= ($model->Goal_Setting_Status == 'New')?Html::a('<i class="fas fa-edit"></i> ',['employeeappraisalkpi/update','Appraisal_No'=> $kpi->Appraisal_No,'Employee_No' => $kpi->Employee_No,'KRA_Line_No' => $kpi->KRA_Line_No,'Line_No' => $kpi->Line_No],['class' => 'btn btn-xs btn-primary add-objective', 'title' => 'Update Objective /KPI']):'' ?>
+                                                                <?= (
+                                                                    $model->Goal_Setting_Status == 'New' ||
+                                                                    $model->MY_Appraisal_Status == 'Appraisee_Level' ||
+                                                                    $model->EY_Appraisal_Status == 'Appraisee_Level'
+                                                            )?Html::a('<i class="fas fa-edit"></i> ',['employeeappraisalkpi/update','Appraisal_No'=> $kpi->Appraisal_No,'Employee_No' => $kpi->Employee_No,'KRA_Line_No' => $kpi->KRA_Line_No,'Line_No' => $kpi->Line_No],['class' => 'btn btn-xs btn-primary add-objective', 'title' => 'Update Objective /KPI']):'' ?>
                                                                 <?= ($model->Goal_Setting_Status == 'New')? Html::a('<i class="fa fa-trash"></i>',['employeeappraisalkpi/delete','Key' => $kpi->Key],['class'=> 'btn btn-xs btn-danger delete-objective','title' => 'Delete Objective']):'' ?>
 
                                                             </td>
@@ -327,6 +435,8 @@ Yii::$app->session->set('isSupervisor',false);
                                 <!--<th>Appraisal No</th>
                                 <th>Employee Code</th>-->
                                 <td>Category</td>
+                                <td>Maximum Weight</td>
+                                <td>Overall Rating</td>
 
                             </tr>
                             </thead>
@@ -340,6 +450,8 @@ Yii::$app->session->set('isSupervisor',false);
                                     <!--<td><?/*= $comp->Appraisal_Code */?></td>
                                 <td><?/*= $comp->Employee_Code */?></td>-->
                                     <td><?= isset($comp->Category)?$comp->Category:'Not Set' ?></td>
+                                    <td><?= isset($comp->Maximum_Weigth)?$comp->Maximum_Weigth:'Not Set' ?></td>
+                                    <td><?= isset($comp->Overal_Rating)?$comp->Overal_Rating:'Not Set' ?></td>
 
                                 </tr>
                                 <tr class="child">
@@ -347,7 +459,7 @@ Yii::$app->session->set('isSupervisor',false);
                                         <table class="table table-hover table-borderless table-info">
                                             <thead>
                                             <tr>
-                                                <th colspan="14" style="text-align: center;">Employee Appraisal Behaviours</th>
+                                                <th colspan="15" style="text-align: center;">Employee Appraisal Behaviours</th>
                                             </tr>
                                             <tr>
                                                 <!-- <th>Line No</th>-->
@@ -355,18 +467,18 @@ Yii::$app->session->set('isSupervisor',false);
                                                 <!-- <th>Appraisal Code</th>-->
                                                 <td><b>Behaviour Name</b></td>
                                                 <td><b>Applicable</b></td>
-                                                <td width="7%"><b>Current Proficiency level</b></td>
-                                                <td width="7%"><b>Expected Proficiency Level</b></td>
+                                               <!--  <td width="7%"><b>Current Proficiency level</b></td>
+                                                <td width="7%"><b>Expected Proficiency Level</b></td> -->
                                                 <!--<td width="7%">Behaviour Description</td>-->
-                                                <td width="4%"><b>Self Rating</b></td>
-                                                <td width="10%"><b>Appraisee Remark</b></td>
-                                                <td width="4%"><b>Appraiser Rating</b></td>
-                                                <td width="4%"><b>Peer 1</b></td>
-                                                <td width="10%"><b>Peer 1 Remark</b></td>
-                                                <td width="4%"><b>Peer 2</b></td>
-                                                <td width="10%"><b>Peer 2 Remark</b></td>
-                                                <td width="7%"><b>Agreed Rating</b></td>
-                                                <td width="7%"><b>Overall Remarks</b></td>
+                                                <td><b>Self Rating</b></td>
+                                                <td><b>Appraisee Remark</b></td>
+                                                <td><b>Appraiser Rating</b></td>
+                                               <!--  <td width="4%"><b>Peer 1</b></td>
+                                                <td width="10%"><b>Peer 1 Remark</b></td> -->
+                                               <!--  <td width="4%"><b>Peer 2</b></td>
+                                                <td width="10%"><b>Peer 2 Remark</b></td> -->
+                                                <td><b>Weight</b></td>
+                                                <td><b>Overall Remarks</b></td>
                                                 <td><b>Action</b></td>
                                             </tr>
                                             </thead>
@@ -380,19 +492,22 @@ Yii::$app->session->set('isSupervisor',false);
                                                         <!-- <td><?/*= $be->Appraisal_Code */?></td>-->
                                                         <td><?= isset($be->Behaviour_Name)?$be->Behaviour_Name:'Not Set' ?></td>
                                                         <td><?= Html::checkbox('Applicable',$be->Applicable,['disabled' => true]) ?></td>
-                                                        <td><?= !empty($be->Current_Proficiency_Level)?$be->Current_Proficiency_Level:'' ?></td>
-                                                        <td><?= !empty($be->Expected_Proficiency_Level)?$be->Expected_Proficiency_Level:'' ?></td>
+                                                        <!-- <td><?php !empty($be->Current_Proficiency_Level)?$be->Current_Proficiency_Level:'' ?></td>
+                                                        <td><?php !empty($be->Expected_Proficiency_Level)?$be->Expected_Proficiency_Level:'' ?></td> -->
                                                         <!-- <td><?/*= !empty($be->Behaviour_Description)?$be->Behaviour_Description:'' */?></td>-->
                                                         <td><?= !empty($be->Self_Rating)?$be->Self_Rating:'' ?></td>
                                                         <td><?= !empty($be->Appraisee_Remark)?$be->Appraisee_Remark:'' ?></td>
                                                         <td><?= !empty($be->Appraiser_Rating)?$be->Appraiser_Rating:'' ?></td>
-                                                        <td><?= !empty($be->Peer_1)?$be->Peer_1:'' ?></td>
-                                                        <td><?= !empty($be->Peer_1_Remark)?$be->Peer_1_Remark:'' ?></td>
-                                                        <td><?= !empty($be->Peer_2)?$be->Peer_2:'' ?></td>
-                                                        <td><?= !empty($be->Peer_2_Remark)?$be->Peer_2_Remark:'' ?></td>
+                                                        <!-- <td><?php !empty($be->Peer_1)?$be->Peer_1:'' ?></td>
+                                                        <td><?php !empty($be->Peer_1_Remark)?$be->Peer_1_Remark:'' ?></td>
+                                                        <td><?php !empty($be->Peer_2)?$be->Peer_2:'' ?></td>
+                                                        <td><?php !empty($be->Peer_2_Remark)?$be->Peer_2_Remark:'' ?></td> -->
                                                         <td><?= !empty($be->Agreed_Rating)?$be->Agreed_Rating:'' ?></td>
                                                         <td><?= !empty($be->Overall_Remarks)?$be->Overall_Remarks:'' ?></td>
-                                                        <td><?= ($model->Goal_Setting_Status == 'New' || $model->MY_Appraisal_Status == 'Appraisee_Level' || $model->EY_Appraisal_Status == 'Appraisee_Level' )?Html::a('<i title="Evaluate Behaviour" class="fa fa-edit"></i>',['employeeappraisalbehaviour/update','Employee_No'=>$be->Employee_No,'Line_No'=> $be->Line_No,'Appraisal_No' => $be->Appraisal_Code ],['class' => ' evalbehaviour btn btn-info btn-xs']):'' ?></td>
+                                                        <td><?= (
+                                                            $model->Goal_Setting_Status == 'New' ||
+                                                            $model->MY_Appraisal_Status == 'Appraisee_Level' || 
+                                                            $model->EY_Appraisal_Status == 'Appraisee_Level' )?Html::a('<i title="Evaluate Behaviour" class="fa fa-edit"></i>',['employeeappraisalbehaviour/update','Employee_No'=>$be->Employee_No,'Line_No'=> $be->Line_No,'Appraisal_No' => $be->Appraisal_Code ],['class' => ' evalbehaviour btn btn-info btn-xs']):'' ?></td>
                                                     </tr>
                                                     <?php
                                                 endforeach;
@@ -509,6 +624,43 @@ Yii::$app->session->set('isSupervisor',false);
             </div>
         </div>
     </div>
+
+    <!-- Goal setting rejection by overview -->
+
+
+<div id="backtolinemgr" style="display: none">
+
+        <?= Html::beginForm(['appraisal/backtolinemgr'],'post',['id'=>'backtolinemgr-form']) ?>
+
+        <?= Html::textarea('comment','',['placeholder'=>'Rejection Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
+
+        <?= Html::input('hidden','Appraisal_No','',['class'=> 'form-control']); ?>
+        <?= Html::input('hidden','Employee_No','',['class'=> 'form-control']); ?>
+
+
+        <?= Html::submitButton('submit',['class' => 'btn btn-warning','style'=>'margin-top: 10px']) ?>
+
+        <?= Html::endForm() ?>
+    </div>
+
+
+
+
+    <div id="rejectmyappraisal" style="display: none">
+
+        <?= Html::beginForm(['appraisal/mybacktolinemgr'],'post',['id'=>'mybacktolinemgr-form']) ?>
+
+        <?= Html::textarea('comment','',['placeholder'=>'Rejection Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
+
+        <?= Html::input('hidden','Appraisal_No','',['class'=> 'form-control']); ?>
+        <?= Html::input('hidden','Employee_No','',['class'=> 'form-control']); ?>
+
+
+        <?= Html::submitButton('submit',['class' => 'btn btn-warning','style'=>'margin-top: 10px']) ?>
+
+        <?= Html::endForm() ?>
+    </div>
+
 
 
 <?php
@@ -697,6 +849,96 @@ $script = <<<JS
             
          });
          /*End Add Weakness Development Plan*/
+
+
+
+/*Send Goals Back to Line Mgr*/
+
+         $('.rejectgoals').on('click', function(e){
+        e.preventDefault();
+        const form = $('#backtolinemgr').html(); 
+        const Appraisal_No = $(this).attr('rel');
+        const Employee_No = $(this).attr('rev');
+        
+        console.log('Appraisal No: '+Appraisal_No);
+        console.log('Employee No: '+Employee_No);
+        
+        //Display the rejection comment form
+        $('.modal').modal('show')
+                        .find('.modal-body')
+                        .append(form);
+        
+        //populate relevant input field with code unit required params
+                
+        $('input[name=Appraisal_No]').val(Appraisal_No);
+        $('input[name=Employee_No]').val(Employee_No);
+        
+        //Submit Rejection form and get results in json    
+        $('form#backtolinemgr').on('submit', function(e){
+            e.preventDefault()
+            const data = $(this).serialize();
+            const url = $(this).attr('action');
+            $.post(url,data).done(function(msg){
+                    $('.modal').modal('show')
+                    .find('.modal-body')
+                    .html(msg.note);
+        
+                },'json');
+        });
+        
+        
+    });//End click event on  GOals rejection-button click
+
+
+
+
+
+
+
+/*Send My Back to Line Mgr*/
+
+        $('.rejectmyappraisal').on('click', function(e){
+        e.preventDefault();
+        const form = $('#rejectmyappraisal').html(); 
+        const Appraisal_No = $(this).attr('rel');
+        const Employee_No = $(this).attr('rev');
+        
+        console.log('Appraisal No: '+Appraisal_No);
+        console.log('Employee No: '+Employee_No);
+        
+        //Display the rejection comment form
+        $('.modal').modal('show')
+                        .find('.modal-body')
+                        .append(form);
+        
+        //populate relevant input field with code unit required params
+                
+        $('input[name=Appraisal_No]').val(Appraisal_No);
+        $('input[name=Employee_No]').val(Employee_No);
+        
+        //Submit Rejection form and get results in json    
+        $('form#rejectmyappraisal-form').on('submit', function(e){
+            e.preventDefault()
+            const data = $(this).serialize();
+            const url = $(this).attr('action');
+            $.post(url,data).done(function(msg){
+                    $('.modal').modal('show')
+                    .find('.modal-body')
+                    .html(msg.note);
+        
+                },'json');
+        });
+        
+        
+    });//End click event on my appraisal overview back to line mgr
+
+
+
+
+
+
+
+
     
         
     });//end jquery

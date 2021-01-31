@@ -747,11 +747,11 @@ class ProbationController extends Controller
         $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanApproveGoalSetting');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Probation Goals Approved Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Appraisal Goals Approved Successfully.', true);
             return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Approving Probation Goals  : '. $result);
+            Yii::$app->session->setFlash('error', 'Error   : '. $result);
             return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
 
         }
