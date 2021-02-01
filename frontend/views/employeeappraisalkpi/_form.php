@@ -77,15 +77,28 @@ use yii\widgets\ActiveForm;
 
 
                                      <?=
-                                     (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?
+                                     (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && 
+
+                                        (Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level' ||
+                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level')
+
+                                    )?
                                      $form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...',$disabled])
                                      :
-                                     (Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level')?$form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...']):'' ?>
+                                     (
+                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level' || 
+                                        Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level'
+                                    )?$form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...']):'' ?>
 
                                     
 
 
-                                     <?= (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')? 
+                                     <?= (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' &&
+
+                                      (Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level' ||
+                                      Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level')
+
+                                  )? 
 
                                      $form->field($model, 'Employee_Comments')->textInput(['type' => 'text'])
                                      :
@@ -95,19 +108,42 @@ use yii\widgets\ActiveForm;
 
 
 
-                                      <?= (Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level')?$form->field($model, 'Appraiser_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...']):'' ?>
+                                      <?= (
+
+                                        Yii::$app->session->get('isSupervisor') && 
+                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level'
+                                    )?$form->field($model, 'Appraiser_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...']):'' ?>
+
+
+                                       <?= (
+                                        Yii::$app->session->get('isSupervisor') &&
+                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level')?$form->field($model, 'Move_To_PIP')->dropDownList([
+                                        true => 'Yes', false => 'No'
+                                     ]): '' ?>
 
 
 
-                                     <?= (Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level')? $form->field($model, 'End_Year_Supervisor_Comments')->textInput(['type' => 'text']): '' ?>
+                                     <?= (
+                                        Yii::$app->session->get('isSupervisor') && 
+                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level'
+                                    )? $form->field($model, 'End_Year_Supervisor_Comments')->textInput(['type' => 'text']): '' ?>
 
-                                     <?= (Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Agreement_Level')?$form->field($model, 'Agree')->dropDownList([
+                                     <?= (
+                                        Yii::$app->session->get('isAppraisee') &&
+                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Agreement_Level'
+                                    )?$form->field($model, 'Agree')->dropDownList([
                                         true => 'I agree', false => 'I disagree'
                                      ]): '' ?>
 
-                                      <?= (Yii::$app->session->get('Goal_Setting_Status' && Yii::$app->session->get('Appraisal_Status') == 'Agreement_Level') == 'Closed')? $form->field($model, 'Disagreement_Comments')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Your Comment']):'' ?>
+                                      <?= (
+                                        Yii::$app->session->get('isAppraisee') &&
+                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Agreement_Level'
+                                    )? $form->field($model, 'Disagreement_Comments')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Your Comment']):'' ?>
 
-                                      <?= (Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Overview_Manager' )? $form->field($model, 'Overview_Manager_Comments')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Over View Manager Comment']):'' ?>
+                                      <?= (
+                                        Yii::$app->session->get('isOverview') &&
+                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Overview_Manager'
+                                        )? $form->field($model, 'Overview_Manager_Comments')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Over View Manager Comment']):'' ?>
 
 
 

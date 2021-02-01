@@ -94,6 +94,12 @@ return [
         'LeaveAttachments' => 'LeaveAttachments', //50031
 
 
+        /***************Leave Reimbursement*********************/
+
+        'LeaveReimbursementList' => 'LeaveReimbursementList', // 50094
+        'LeaveReimbursementCard' => 'LeaveReimbursementCard', //50095
+
+
         /************************** Fund Requisition *************************************/
 
         'AllowanceRequestList' => 'AllowanceRequestList', //64093(Page)

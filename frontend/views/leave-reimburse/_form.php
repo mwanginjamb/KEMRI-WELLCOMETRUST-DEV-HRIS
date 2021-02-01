@@ -42,42 +42,39 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                         <div class="col-md-6">
 
-                            <?= $form->field($model, 'Recall_No')->hiddenInput()->label(false) ?>
+                          
                             <?= $form->field($model, 'Key')->hiddenInput()->label(false) ?>
-                            <?= $form->field($model, 'Recall_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= '<p><span>Employee No</span> '.Html::a($model->Employee_No,'#'); '</p>' ?>
-                            <?= $form->field($model, 'Leave_No_To_Recall')->dropDownList($leaves,['prompt' => 'Select ..']) ?>
+                            <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= '<p><span>Employee Name</span> '.Html::a($model->Employee_Name,'#'); '</p>' ?>
-                            <?= '<p><span>Program Code</span> '.Html::a($model->Global_Dimension_1_Code,'#'); '</p>' ?>
+                            
+                            <?= '<p><span>Program Code</span> '.Html::a($model->_x003C_Global_Dimension_1_Code_x003E_,'#'); '</p>' ?>
+                            <?= '<p><span>Department Code</span> '.Html::a($model->Global_Dimension_2_Code,'#'); '</p>' ?>
 
 
+                            <?= $form->field($model, 'Application_No')->textInput(['required' => true, 'readonly'=>true]) ?>
                             <?= $form->field($model, 'Application_Date')->textInput(['required' => true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'User_ID')->textInput(['required' => true, 'disabled'=>true]) ?>
-                            <?= '<p><span>Program Code</span> '.Html::a($model->Leave_Code,'#'); '</p>' ?>
-                            <?= $form->field($model, 'Start_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'End_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Days_Applied')->textInput(['type' => 'number','required' =>  true,'min'=> 1,'readonly'=> true, 'disabled'=>true]) ?>
+                            
+                            <?= $form->field($model, 'User_ID')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Leave_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Leave_Type_Decription')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
-                            <?= $form->field($model, 'Days_To_Recall')->textInput(['required'=> true, 'type'=> 'number','min'=> 1]) ?>
-                            <?= $form->field($model, 'Leave_balance')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                          
 
                         </div>
 
                         <div class="col-md-6">
-                            <?= $form->field($model, 'Total_No_Of_Days')->textInput(['readonly'=> true,'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Holidays')->textInput(['readonly'=> true,'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Weekend_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Days_To_Reimburse')->textInput(['type'=> 'number','required' => true]) ?>
+                            <?= $form->field($model, 'Leave_balance')->textInput(['readonly'=> true,'disabled'=>true]) ?>
                             <?= $form->field($model, 'Balance_After')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Reporting_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Leave_Status')->textInput(['maxlength' => 250,'readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Comments')->textarea(['rows'=> 2,'maxlength' => 250]) ?>
-                            <?= $form->field($model, 'Supervisor_Code')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-
-                            <?= '<p><span>Program Code</span> '.Html::a($model->Reliever,'#'); '</p>' ?>
-
-                            <?= $form->field($model, 'Reliever_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Comments')->textArea(['rows'=> 2, 'required'=>true]) ?>
+                            <?= $form->field($model, 'Phone_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'E_Mail_Address')->textInput(['type' => 'email','readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Grade')->textInput(['type' => 'email','readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= '<p><span>Posted</span> '.Html::checkbox('Posted',[$model->Posted]).'</p>' ?>
+
+                            <?= '<p><span>Approval_Entries</span> '.Html::a($model->Approval_Entries,'#'); '</p>' ?>
+
+                            
 
                         </div>
 
@@ -203,28 +200,29 @@ $script = <<<JS
      
      /*Set Days to Recall*/
      
-      $('#leaverecall-days_to_recall').blur(function(e){
-        const Days_To_Recall = e.target.value;
-        const Recall_No = $('#leaverecall-recall_no').val();
-        if(Days_To_Recall.length){
-            const url = $('input[name=url]').val()+'leaverecall/setdays';
-            $.post(url,{'Days_To_Recall': Days_To_Recall,'Recall_No': Recall_No}).done(function(msg){
+      $('#leavereimburse-days_to_reimburse').blur(function(e){
+        const Days_To_Reimburse = e.target.value;
+        const Application_No = $('#leavereimburse-application_no').val();
+        if(Days_To_Reimburse.length){
+            const url = $('input[name=url]').val()+'leave-reimburse/setdays';
+            $.post(url,{'Days_To_Reimburse': Days_To_Reimburse,'Application_No': Application_No}).done(function(msg){
                    //populate empty form fields with new data
                     
                 
-                     $('#leaverecall-balance_after').val(msg.Balance_After);
-                     $('#leaverecall-key').val(msg.Key);
+                     $('#leavereimburse-leave_balance').val(msg.Leave_balance);
+                     $('#leavereimburse-balance_after').val(msg.Balance_After);
+                     $('#leavereimburse-key').val(msg.Key);
                    
                     console.log(typeof msg);
                     console.table(msg);
                     if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-leaverecall-days_to_recall');
+                        const parent = document.querySelector('.field-leavereimburse-days_to_reimburse');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = msg;
                         disableSubmit();
                         
                     }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-leaverecall-days_to_recall');
+                        const parent = document.querySelector('.field-leavereimburse-days_to_reimburse');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = ''; 
                         enableSubmit();

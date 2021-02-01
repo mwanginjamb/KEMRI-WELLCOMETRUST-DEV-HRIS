@@ -111,7 +111,7 @@ class LeaveController extends Controller
             if(!is_string($result)){
 
                 Yii::$app->session->setFlash('success','Leave Request Created Successfully.' );
-                return $this->redirect(['view','No' => $result->Application_No]);
+                return $this->redirect(['index']);
 
             }else{
                 Yii::$app->session->setFlash('error','Error Creating Leave Request'.$result );

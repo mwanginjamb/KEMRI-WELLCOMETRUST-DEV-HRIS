@@ -11,9 +11,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'Leave Recall Application';
-$this->params['breadcrumbs'][] = ['label' => 'Leave Recall List', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'New Recall', 'url' => ['create']];
+$this->title = 'Leave Reimbursement Application';
+$this->params['breadcrumbs'][] = ['label' => 'Leave Reimburse List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'New Leave Reimbursement', 'url' => ['create']];
 //$this->params['breadcrumbs'][] = $this->title;
 
 $model->isNewRecord = true;
@@ -25,7 +25,6 @@ $model->isNewRecord = true;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'leaves' => $leaves,
     ]) ?>
 
 </div>

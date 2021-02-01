@@ -17,6 +17,8 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 Yii::$app->session->set('MY_Appraisal_Status',$model->MY_Appraisal_Status);
 Yii::$app->session->set('EY_Appraisal_Status',$model->EY_Appraisal_Status);
 Yii::$app->session->set('isSupervisor','true');
+Yii::$app->session->set('isOverview', $model->isOverView());
+Yii::$app->session->set('isAppraisee', $model->isAppraisee());
 //Yii::$app->recruitment->printrr($peers);
 $absoluteUrl = \yii\helpers\Url::home(true);
 ?>

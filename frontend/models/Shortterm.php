@@ -33,6 +33,12 @@ public $Overview_Manager_UserID;
 public $Probation_Recomended_Action;
 public $Is_Short_Term;
 public $Overall_Score;
+
+public $Probation_Start_Date;
+public $Probation_End_date;
+public $Overview_Rejection_Comments;
+public $Supervisor_Rejection_Comments;
+
     public function rules()
     {
         return [

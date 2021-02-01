@@ -10,7 +10,7 @@ namespace frontend\controllers;
 use frontend\models\Careerdevelopmentstrength;
 use frontend\models\Employeeappraisalkra;
 use frontend\models\Experience;
-use frontend\models\Imprestcard;
+use frontend\models\LeaveReimburse;
 use frontend\models\Imprestline;
 use frontend\models\Imprestsurrendercard;
 use frontend\models\Leaveplancard;
@@ -30,7 +30,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 
-class LeaverecallController extends Controller
+class LeaveReimburseController extends Controller
 {
     public function behaviors()
     {
@@ -78,12 +78,13 @@ class LeaverecallController extends Controller
 
     public function actionCreate(){
 
-        $model = new Leaverecall();
-        $service = Yii::$app->params['ServiceName']['LeaveRecallCard'];
+        $model = new LeaveReimburse();
+        $service = Yii::$app->params['ServiceName']['LeaveReimbursementCard'];
 
         /*Do initial request */
-        if(!isset(Yii::$app->request->post()['Leaverecall'])){
+        if(!isset(Yii::$app->request->post()['LeaveReimburse'])){
             $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
+            $model->Leave_Code = 'Annual';
             $request = Yii::$app->navhelper->postData($service,$model);
             //Yii::$app->recruitment->printrr($request);
             if(is_object($request) )
@@ -95,22 +96,17 @@ class LeaverecallController extends Controller
             }
         }
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leaverecall'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['LeaveReimburse'],$model) ){
 
-            $filter = [
-                'Recall_No' => $model->Recall_No,
-            ];
-            /*Read the card again to refresh Key in case it changed*/
-            $refresh = Yii::$app->navhelper->getData($service,$filter);
-            Yii::$app->navhelper->loadmodel($refresh[0],$model);
+
             $result = Yii::$app->navhelper->updateData($service,$model);
             if(!is_string($result)){
 
-                Yii::$app->session->setFlash('success','Leave Recall Created Successfully.' );
+                Yii::$app->session->setFlash('success','Leave Reimbursement Document Created Successfully.' );
                 return $this->redirect(['index']);
 
             }else{
-                Yii::$app->session->setFlash('error','Error Creating Leave Recall '.$result );
+                Yii::$app->session->setFlash('error','Error Creating Leave Reimbursement '.$result );
                 return $this->redirect(['index']);
 
             }
@@ -122,7 +118,6 @@ class LeaverecallController extends Controller
 
         return $this->render('create',[
             'model' => $model,
-            'leaves' => $model->leaves,
 
         ]);
     }
@@ -131,13 +126,13 @@ class LeaverecallController extends Controller
 
 
     public function actionUpdate(){
-        $model = new Leaverecall();
-        $service = Yii::$app->params['ServiceName']['LeaveRecallCard'];
+        $model = new LeaveReimburse();
+        $service = Yii::$app->params['ServiceName']['LeaveReimbursementCard'];
         $model->isNewRecord = false;
-        if(!isset(Yii::$app->request->post()['Leaverecall']))
+        if(!isset(Yii::$app->request->post()['LeaveReimburse']))
         {
             $filter = [
-                'Recall_No' => Yii::$app->request->get('Recall_No'),
+                'Application_No' => Yii::$app->request->get('No'),
             ];
             $result = Yii::$app->navhelper->getData($service,$filter);
 
@@ -151,24 +146,24 @@ class LeaverecallController extends Controller
 
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leaverecall'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['LeaveReimburse'],$model) ){
             $filter = [
-                'Recall_No' => $model->Recall_No,
+                'Application_No' => $model->Application_No,
             ];
-            /*Read the card again to refresh Key in case it changed*/
-            $refresh = Yii::$app->navhelper->getData($service,$filter);
-            Yii::$app->navhelper->loadmodel($refresh[0],$model);
+            
+
+
 
             $result = Yii::$app->navhelper->updateData($service,$model);
 
             if(!is_string($result)){
 
-                Yii::$app->session->setFlash('success','Leave Recall Request Updated Successfully.' );
+                Yii::$app->session->setFlash('success','Leave Reimbursement Document Updated Successfully.' );
 
-                return $this->redirect(['view','No' => $result->Recall_No]);
+                return $this->redirect(['index']);
 
             }else{
-                Yii::$app->session->setFlash('success','Error Updating Leave Recall Request '.$result );
+                Yii::$app->session->setFlash('success','Error Updating Leave Reimbursement Request '.$result );
                 return $this->redirect(['index']);
 
             }
@@ -180,13 +175,12 @@ class LeaverecallController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-                'leaves' => $model->leaves,
+            
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
-            'leaves' => $model->leaves,
 
         ]);
     }
@@ -204,17 +198,17 @@ class LeaverecallController extends Controller
     }
 
     public function actionView($No){
-        $model = new Leaverecall();
-        $service = Yii::$app->params['ServiceName']['LeaveRecallCard'];
+        $model = new LeaveReimburse();
+        $service = Yii::$app->params['ServiceName']['LeaveReimbursementCard'];
 
         $filter = [
-            'Recall_No' => $No
+            'Application_No' => $No
         ];
 
-        $result = Yii::$app->navhelper->getData($service, $filter);
+        $result = Yii::$app->navhelper->findOne($service,'Application_No', $No);
 
         //load nav result to model
-        $model = $this->loadtomodel($result[0], $model);
+        $model = $this->loadtomodel($result, $model);
 
         //Yii::$app->recruitment->printrr($model);
 
@@ -228,30 +222,30 @@ class LeaverecallController extends Controller
     // Get imprest list
 
     public function actionList(){
-        $service = Yii::$app->params['ServiceName']['LeaveRecallList'];
+        $service = Yii::$app->params['ServiceName']['LeaveReimbursementList'];
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->Employee[0]->No,
+            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
         $results = \Yii::$app->navhelper->getData($service,$filter);
         $result = [];
         foreach($results as $item){
             $link = $updateLink = $deleteLink =  '';
-            $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->Recall_No ],['class'=>'btn btn-outline-primary btn-xs']);
+            $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->Application_No ],['class'=>'btn btn-outline-primary btn-xs']);
             if($item->Status == 'New'){
-                $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->Recall_No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
-                $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->Recall_No],['class'=>'btn btn-info btn-xs']);
+                $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->Application_No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
+                $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->Application_No],['class'=>'btn btn-info btn-xs']);
             }else if($item->Status == 'Pending_Approval'){
-                $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->Recall_No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->Application_No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
             }
 
             $result['data'][] = [
                 'Key' => $item->Key,
-                'No' => $item->Recall_No,
+                'No' => $item->Application_No,
                 'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
                 'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
-                'Days_Applied' => !empty($item->Days_Applied)?$item->Days_Applied:'',
-                'Days_Recalled' => !empty($item->Days_To_Recall)?$item->Days_To_Recall:'',
+                'Days_To_Reimburse' => !empty($item->Days_To_Reimburse)?$item->Days_To_Reimburse:'',
+                'Application_Date' => !empty($item->Application_Date)?$item->Application_Date:'',
                 'Status' => $item->Status,
                 'Action' => $link,
                 'Update_Action' => $updateLink,
@@ -332,7 +326,7 @@ class LeaverecallController extends Controller
         $service = Yii::$app->params['ServiceName']['LeaveRecallCard'];
 
         $filter = [
-            'Recall_No' => Yii::$app->request->post('Recall_No')
+            'Application_No' => Yii::$app->request->post('Recall_No')
         ];
         $request = Yii::$app->navhelper->getData($service, $filter);
 
@@ -353,18 +347,20 @@ class LeaverecallController extends Controller
 
     /*Set Receipt Amount */
     public function actionSetdays(){
-        $model = new Leaverecall();
-        $service = Yii::$app->params['ServiceName']['LeaveRecallCard'];
+        $model = new LeaveReimburse();
+        $service = Yii::$app->params['ServiceName']['LeaveReimbursementCard'];
 
         $filter = [
-            'Recall_No' => Yii::$app->request->post('Recall_No')
+            'Application_No' => Yii::$app->request->post('Application_No')
         ];
         $request = Yii::$app->navhelper->getData($service, $filter);
 
-        if(is_array($request)){
+        if(!is_string($request)){
             Yii::$app->navhelper->loadmodel($request[0],$model);
             $model->Key = $request[0]->Key;
-            $model->Days_To_Recall = Yii::$app->request->post('Days_To_Recall');
+            $model->Days_To_Reimburse = Yii::$app->request->post('Days_To_Reimburse');
+        }else{
+            print_r($result); exit;
         }
 
         $result = Yii::$app->navhelper->updateData($service,$model);
@@ -478,15 +474,15 @@ class LeaverecallController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendLeaveRecallForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendLeaveForApproval');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending Request for Approval  : '. $result);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
 
         }
     }
@@ -502,15 +498,15 @@ class LeaverecallController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelLeaveRecallApprovalRequest');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelLeaveApprovalRequest');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
-            return $this->redirect(['view','No' => $No]);
+            Yii::$app->session->setFlash('success', 'Approval Request Cancelled Successfully.', true);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
 
         }
     }

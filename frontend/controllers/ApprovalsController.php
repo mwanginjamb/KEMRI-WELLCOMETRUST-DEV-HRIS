@@ -205,7 +205,7 @@ class ApprovalsController extends Controller
 
         $filter = [
             //'Employee_No' => Yii::$app->user->identity->{'Employee_No'},
-            'Approver_No' => Yii::$app->user->identity->{'Employee_No'},
+            'Approver_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
         $approvals = \Yii::$app->navhelper->getData($service,$filter);
 
@@ -371,7 +371,7 @@ class ApprovalsController extends Controller
 
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
-            if(is_object($Commentrequest) && !is_string($result)){
+            if(!is_string($result)){
                 return ['note' => '<div class="alert alert-success">Request Rejected Successfully. </div>' ];
             }else{
                 return ['note' => '<div class="alert alert-danger">Error Rejecting Request: '.$result.'   '.$Commentrequest.'</div>'];

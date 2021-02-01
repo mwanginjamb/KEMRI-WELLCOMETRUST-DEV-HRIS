@@ -302,6 +302,9 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                            <?= $form->field($model, 'Employee_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                            <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
+                           <?= $form->field($model, 'Probation_Start_Date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                           <?= $form->field($model, 'Probation_End_date')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
                            <p class="parent"><span>+</span>
                                <?= $form->field($model, 'Job_Title')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
@@ -315,9 +318,11 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                        <div class="col-md-6">
 
                            <?= $form->field($model, 'Appraisal_Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                          
                            <?= $form->field($model, 'Supervisor_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Overall_Score')->textInput(['readonly'=> true]) ?>
+                           <?= $form->field($model, 'Overall_Score')->textInput(['readonly'=> true]) ?>
+
+                           <?= $form->field($model, 'Supervisor_Rejection_Comments')->textArea(['rows' => 2,'readonly'=> true]) ?>
+                           <?= $form->field($model, 'Overview_Rejection_Comments')->textArea(['rows' => 2,'readonly'=> true]) ?>
 
                            <p class="parent"><span>+</span>
 

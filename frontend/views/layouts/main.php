@@ -29,11 +29,18 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
    
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     
     <?php $this->head() ?>
+    <style>
+        @viewport {
+          zoom: 0.75;
+          min-zoom: 0.5;
+          max-zoom: 0.9;
+        }
+    </style>
 </head>
 
 <?php $this->beginBody() ?>

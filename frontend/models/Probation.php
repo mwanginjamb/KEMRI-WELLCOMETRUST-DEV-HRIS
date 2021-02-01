@@ -35,6 +35,11 @@ public $Over_View_Manager_Comments;
 
 public $Overall_Score;
 
+public $Probation_Start_Date;
+public $Probation_End_date;
+public $Overview_Rejection_Comments;
+public $Supervisor_Rejection_Comments;
+
     public function rules()
     {
         return [

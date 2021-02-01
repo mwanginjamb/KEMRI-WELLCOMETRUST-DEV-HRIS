@@ -18,6 +18,8 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 Yii::$app->session->set('MY_Appraisal_Status',$model->MY_Appraisal_Status);
 Yii::$app->session->set('EY_Appraisal_Status',$model->EY_Appraisal_Status);
 Yii::$app->session->set('isSupervisor',false);
+Yii::$app->session->set('isOverview', $model->isOverView());
+Yii::$app->session->set('isAppraisee', $model->isAppraisee());
 ?>
 
     <div class="row">
@@ -370,7 +372,7 @@ Yii::$app->session->set('isSupervisor',false);
                                                 <?php if(is_array($model->getKPI($k->Line_No))){
 
                                                     foreach($model->getKPI($k->Line_No) as $kpi): 
-                                                            $mvkpitopip = Html::Checkbox('Move_To_PIP',$kpi->Move_To_PIP,[]);
+                                                            $mvkpitopip = Html::Checkbox('Move_To_PIP',$kpi->Move_To_PIP,['readonly' => true,'disabled' => true]);
                                                      ?>
                                                         <tr>
                                                             
