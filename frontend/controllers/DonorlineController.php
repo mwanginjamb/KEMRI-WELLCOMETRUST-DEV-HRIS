@@ -7,13 +7,8 @@
  */
 
 namespace frontend\controllers;
-use frontend\models\Contractrenewalline;
-use frontend\models\Employeeappraisalkra;
-use frontend\models\Experience;
-use frontend\models\Leaveplanline;
-use frontend\models\Storerequisitionline;
-use frontend\models\Vehiclerequisitionline;
-use frontend\models\Weeknessdevelopmentplan;
+use frontend\models\Donorline;
+
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
@@ -23,11 +18,10 @@ use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\BadRequestHttpException;
 
-use frontend\models\Leave;
 use yii\web\Response;
-use kartik\mpdf\Pdf;
 
-class ContractrenewallineController extends Controller
+
+class DonorlineController extends Controller
 {
     public function behaviors()
     {
@@ -72,29 +66,29 @@ class ContractrenewallineController extends Controller
 
     }
 
-    public function actionCreate($No){
-       $service = Yii::$app->params['ServiceName']['ContractRenewalLines'];
-       $model = new Contractrenewalline();
+    public function actionCreate($Contract_Code,$Contract_Line_No, $Employee_No, $Change_No){
 
-        if(Yii::$app->request->get('No') && !isset(Yii::$app->request->post()['Contractrenewalline'])){
+       $service = Yii::$app->params['ServiceName']['NewEmployeeDonors'];
+       $model = new Donorline();
 
-                $model->Change_No = $No;
-                $model->Employee_No = Yii::$app->request->get('Employee_No');
+        if(Yii::$app->request->isGet && !isset(Yii::$app->request->post()['Donorline'])){
+
+               
+                $model->Contract_Code = $Contract_Code;
+                $model->Contract_Line_No = $Contract_Line_No;
+                $model->Employee_No =  $Employee_No;
+                $model->Change_No = $Change_No;
+                
+
                 $result = Yii::$app->navhelper->postData($service, $model);
-
-                if(is_string($result))
-                {
+                if(is_string($result)){
                     Yii::$app->recruitment->printrr($result);
                 }
-                
-                
-
-
                 $model = Yii::$app->navhelper->loadmodel($result,$model);
         }
         
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Contractrenewalline'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Donorline'],$model) ){
 
 
 
@@ -110,13 +104,15 @@ class ContractrenewallineController extends Controller
             }
 
         }
-         $model->Contract_Start_Date = date('Y-m-d');
+
+                $model->Grant_Start_Date = date('Y-m-d');
+                $model->Grant_End_Date = date('Y-m-d');
+                $model->isNewRecord = true;
+
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
                 'model' => $model,
-                'contracts' => $this->getContracts(),
-                'grades' => $this->getPayrollscales(),
-                'jobs' => $this->getJobs(),
+                'donors' => $this->getDonors()
             ]);
         }
 
@@ -124,12 +120,16 @@ class ContractrenewallineController extends Controller
     }
 
 
-    public function actionUpdate(){
-        $model = new Contractrenewalline() ;
+    public function actionUpdate($Contract_Code,$Contract_Line_No, $Employee_No){
+       
+       $service = Yii::$app->params['ServiceName']['NewEmployeeDonors'];
+       $model = new Donorline();
         $model->isNewRecord = false;
-        $service = Yii::$app->params['ServiceName']['ContractRenewalLines'];
+       
         $filter = [
-            'Line_No' => Yii::$app->request->get('No'),
+            'Contract_Code' => $Contract_Code,
+            'Contract_Line_No' => $Contract_Line_No,
+            'Employee_No' => $Employee_No,
         ];
         $result = Yii::$app->navhelper->getData($service,$filter);
 
@@ -141,10 +141,12 @@ class ContractrenewallineController extends Controller
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Contractrenewalline'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Donorline'],$model) ){
 
             $filter = [
-                'Line_No' => $model->Line_No,
+                 'Contract_Code' => $model->Contract_Code,
+                'Contract_Line_No' => $model->Contract_Line_No,
+                'Employee_No' => $model->Employee_No,
             ];
             $refresh = Yii::$app->navhelper->getData($service, $filter);
             $model->Key = $refresh[0]->Key;
@@ -167,17 +169,13 @@ class ContractrenewallineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-                'contracts' => $this->getContracts(),
-                'grades' => $this->getPayrollscales(),
-                'jobs' => $this->getJobs(),
+                'donors' => $this->getDonors()
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
-            'contracts' => $this->getContracts(),
-            'grades' => $this->getPayrollscales(),
-            'jobs' => $this->getJobs(),
+            'donors' => $this->getDonors()
         ]);
     }
 
@@ -193,8 +191,8 @@ class ContractrenewallineController extends Controller
     }
 
     public function actionSetfield($field){
-        $model = new Contractrenewalline();
-        $service = Yii::$app->params['ServiceName']['ContractRenewalLines'];
+        $model = new Donorline();
+        $service = Yii::$app->params['ServiceName']['NewEmployeeDonors'];
 
         $filter = [
             'Line_No' => Yii::$app->request->post('Line_No')
@@ -288,6 +286,17 @@ class ContractrenewallineController extends Controller
 
     }
 
+    /*Get Donor List */
+
+    public function getDonors(){
+        $service = Yii::$app->params['ServiceName']['DonorList'];
+        $filter = [];
+        $result = \Yii::$app->navhelper->getData($service, $filter);
+
+        return Yii::$app->navhelper->refactorArray($result,'Donor_Code','Donor_Name');
+
+    }
+
     /*Get Locations*/
 
     public function getLocations(){
@@ -333,43 +342,24 @@ class ContractrenewallineController extends Controller
     }
 
 
-  public function getPayrollscales()
-    {
-        $service = Yii::$app->params['ServiceName']['PayrollScales'];
-        $result = Yii::$app->navhelper->getData($service, []);
+    /*Get Vehicles */
+    public function getVehicles(){
+        $service = Yii::$app->params['ServiceName']['AvailableVehicleLookUp'];
 
-         return Yii::$app->navhelper->refactorArray($result,'Scale','Sequence');
-    }
-
-    public function actionPointerDd($scale)
-    {
-        $service = Yii::$app->params['ServiceName']['PayrollScalePointers'];
-        $filter = ['Scale' => $scale];
-        $result = Yii::$app->navhelper->getData($service, $filter);
-
-        $data = Yii::$app->navhelper->refactorArray($result, 'Pointer','Pointer');
-
-        if(count($data) )
-        {
-            foreach($data  as $k => $v )
-            {
-                echo "<option value='$k'>".$v."</option>";
+        $result = \Yii::$app->navhelper->getData($service, []);
+        $arr = [];
+        $i = 0;
+        foreach($result as $res){
+            if(!empty($res->Vehicle_Registration_No) && !empty($res->Make_Model)){
+                ++$i;
+                $arr[$i] = [
+                    'Code' => $res->Vehicle_Registration_No,
+                    'Description' => $res->Make_Model
+                ];
             }
-        }else{
-            echo "<option value=''>No data Available</option>";
         }
-    }
 
-
-    //get Jobs
-
-
-    public function getJobs()
-    {
-        $service = Yii::$app->params['ServiceName']['ApprovedHRJobs'];
-        $result = Yii::$app->navhelper->getData($service, []);
-
-         return Yii::$app->navhelper->refactorArray($result,'Job_ID','Job_Description');
+        return ArrayHelper::map($arr,'Code','Description');
     }
 
 

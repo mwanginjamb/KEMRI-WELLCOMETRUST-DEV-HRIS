@@ -34,7 +34,9 @@ use yii\widgets\ActiveForm;
                             <tbody>
 
 
-                            <?= $form->field($model, 'Behaviour_Name')->textInput(['maxlength' => 150]) ?>
+                            <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?
+                            $form->field($model, 'Behaviour_Name')->textInput(['maxlength' => 150]):
+                            $form->field($model, 'Behaviour_Name')->textInput(['maxlength' => 150,'disabled' => true, 'readonly' => true]) ?>
 
                             <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New' )?$form->field($model, 'Applicable')->checkbox(['value' => true,['enclosedByLabel' => true]]):'' ?>
 
@@ -42,11 +44,14 @@ use yii\widgets\ActiveForm;
 
                             <?= 
                                 (
+
+                                 Yii::$app->session->get('isAppraisee') &&
                                  Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level' 
                                     )?$form->field($model, 'Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating']):'' ?>
                             <?= 
 
                                 (
+                                 Yii::$app->session->get('isAppraisee') &&
                                  Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level' 
 
                              )?$form->field($model, 'Appraisee_Remark')->textarea(['rows' => 3, 'maxlength' => 250]):'' ?>

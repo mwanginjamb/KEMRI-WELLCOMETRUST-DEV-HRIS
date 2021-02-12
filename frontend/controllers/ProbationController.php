@@ -157,7 +157,7 @@ class ProbationController extends Controller
 
 
     public function actionUpdate(){
-        $model = new Employeeappraisalkra() ;
+        $model = new Employeeappraisalkra();
         $model->isNewRecord = false;
         $service = Yii::$app->params['ServiceName']['EmployeeAppraisalKRA'];
         $filter = [

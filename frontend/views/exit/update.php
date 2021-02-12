@@ -22,6 +22,7 @@ $this->title = 'Update Exit Document';
 
     <?= $this->render('_form',[
         'model' => $model,
+        'reasons' => $reasons,
 
     ]) ?>
 

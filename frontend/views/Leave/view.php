@@ -113,6 +113,12 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <?= $form->field($model, 'Total_No_Of_Days')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                 <?= $form->field($model, 'Leave_balance')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
+                                <?php if($model->Rejection_Comments): ?>
+
+                                    <?= $form->field($model, 'Rejection_Comments')->textArea(['rows' => 2,'readonly'=> true, 'disabled'=>true]) ?>
+
+                                <?php endif; ?>
+
 
 
 

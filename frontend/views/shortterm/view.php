@@ -557,9 +557,9 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <?php if(is_array($model->getBehaviours($competency->Line_No))){
+                                            <?php if(is_array($model->getBehaviours($competency->Line_No, $model->Appraisal_No))){
 
-                                                foreach($model->getBehaviours($competency->Line_No) as $be):  ?>
+                                                foreach($model->getBehaviours($competency->Line_No, $model->Appraisal_No) as $be):  ?>
                                                     <tr>
                                                         
                                                         <td><?= isset($be->Behaviour_Name)?$be->Behaviour_Name:'Not Set' ?></td>

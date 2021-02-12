@@ -869,6 +869,7 @@ class AppraisalController extends Controller
                     'Goal_Setting_Status' => !empty($req->Goal_Setting_Status) ? $req->Goal_Setting_Status : '',
                     'Appraisal_Status' =>  !empty($req->Appraisal_Status) ? $req->Appraisal_Status : '',
                     'Supervisor_Name' =>  !empty($req->Supervisor_Name) ?$req->Supervisor_Name : '',
+                    'Probation_Recomended_Action' =>  !empty($req->Probation_Recomended_Action) ?$req->Probation_Recomended_Action : '',
                     'Overview_Manager_Name' =>  !empty($req->Overview_Manager_Name) ? $req->Overview_Manager_Name : '',
                     'Action' => !empty($Viewlink) ? $Viewlink : '',
 

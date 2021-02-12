@@ -22,6 +22,8 @@ $this->title = 'Update Line.';
         <?= $this->render('_form', [
             'model' => $model,
             'contracts' => $contracts,
+            'grades' => $grades,
+            'jobs' => $jobs,
         ]) ?>
     </div>
 </div>

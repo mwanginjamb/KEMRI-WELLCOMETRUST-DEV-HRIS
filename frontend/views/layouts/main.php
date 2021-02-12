@@ -265,7 +265,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 <!--end Aprroval Management-->
 
 
-                        <li class="nav-item has-treeview  <?= Yii::$app->recruitment->currentCtrl(['leave','leavestatement','leaverecall','leaveplan'])?'menu-open':'' ?>">
+                        <li class="nav-item has-treeview  <?= Yii::$app->recruitment->currentCtrl(['leave','leavestatement','leaverecall','leaveplan','leave-reimburse'])?'menu-open':'' ?>">
                             <a href="#" class="nav-link <?= Yii::$app->recruitment->currentCtrl('leave')?'active':'' ?>">
                                 <i class="nav-icon fas fa-paper-plane"></i>
                                 <p>
@@ -306,6 +306,15 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                     <a href="<?= $absoluteUrl ?>leaverecall/index" class="nav-link <?= Yii::$app->recruitment->currentaction('leaverecall',['index','view'])?'active':'' ?>">
                                         <i class="fa fa-list nav-icon"></i>
                                         <p>Recall Leave List</p>
+                                    </a>
+                                </li>
+
+                                <!-- Leave Reimbursement -->
+
+                                 <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>leave-reimburse/index" class="nav-link <?= Yii::$app->recruitment->currentaction('leave-reimburse',['index','view'])?'active':'' ?>">
+                                        <i class="fa fa-list nav-icon"></i>
+                                        <p>Leave Reimbursement</p>
                                     </a>
                                 </li>
 

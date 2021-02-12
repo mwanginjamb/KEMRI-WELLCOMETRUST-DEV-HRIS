@@ -18,19 +18,39 @@ $this->params['breadcrumbs'][] = ['label' => 'Change Request Card', 'url' => ['v
 /* Yii::$app->session->set('MY_Appraisal_Status',$model->MY_Appraisal_Status);
 Yii::$app->session->set('EY_Appraisal_Status',$model->EY_Appraisal_Status);
 Yii::$app->session->set('isSupervisor',false);*/
-?>
+
+
+                    if(Yii::$app->session->hasFlash('success')){
+                        print ' <div class="alert alert-success alert-dismissable">
+                                 ';
+                        echo Yii::$app->session->getFlash('success');
+                        print '</div>';
+                    }else if(Yii::$app->session->hasFlash('error')){
+                        print ' <div class="alert alert-danger alert-dismissable">
+                                 ';
+                        echo Yii::$app->session->getFlash('error');
+                        print '</div>';
+                    }
+                    
+//print Yii::$app->user->identity->{'Employee No_'};
+//Yii::$app->recruitment->printrr($model->ClearingEmployee->Clearing_Employee);
+
+
+?> 
 
 <div class="row">
     <div class="col-md-12">
 
+<?php if( $model->ClearingEmployee->Employee_No == Yii::$app->user->identity->{'Employee No_'} ){ ?>
 
 
-
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Library',['cancel-request'],['class' =>  $model->CheckStatus('Library').' btn btn-app submitforapproval',
+        <?=  Html::a('<i class="fas fa-paper-plane"></i> Send to Library',['clear'],['class' =>  $model->CheckStatus('Library').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
-                    'No'=> $model->Form_No,
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Library'
                 ],
                 'method' => 'get',
             ],
@@ -38,11 +58,31 @@ Yii::$app->session->set('isSupervisor',false);*/
 
         ]) ?>
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Lab',['cancel-request'],['class' => $model->CheckStatus('Lab').' btn btn-app submitforapproval',
+        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Lab',['clear'],['class' => $model->CheckStatus('Lab').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
-                    'No'=> $model->Form_No,
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Lab'
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Cancel Approval Request'
+
+        ]) 
+
+?>
+
+        
+
+        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to ICT',['clear'],['class' => $model->CheckStatus('ICT').' btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send this document ?',
+                'params'=>[
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'ICT'
                 ],
                 'method' => 'get',
             ],
@@ -50,12 +90,13 @@ Yii::$app->session->set('isSupervisor',false);*/
 
         ]) ?>
 
-
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to ICT',['cancel-request'],['class' => $model->CheckStatus('ICT').' btn btn-app submitforapproval',
+        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Store',['clear'],['class' => $model->CheckStatus('Store').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
-                    'No'=> $model->Form_No,
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Store'
                 ],
                 'method' => 'get',
             ],
@@ -63,11 +104,13 @@ Yii::$app->session->set('isSupervisor',false);*/
 
         ]) ?>
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Store',['cancel-request'],['class' => $model->CheckStatus('Store').' btn btn-app submitforapproval',
+        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Archives',['clear'],['class' => $model->CheckStatus('Archives').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
-                    'No'=> $model->Form_No,
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Archive'
                 ],
                 'method' => 'get',
             ],
@@ -75,11 +118,13 @@ Yii::$app->session->set('isSupervisor',false);*/
 
         ]) ?>
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Archives',['cancel-request'],['class' => $model->CheckStatus('Archives').' btn btn-app submitforapproval',
+        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Assets',['clear'],['class' => $model->CheckStatus('Assets').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
-                    'No'=> $model->Form_No,
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Asset'
                 ],
                 'method' => 'get',
             ],
@@ -87,18 +132,21 @@ Yii::$app->session->set('isSupervisor',false);*/
 
         ]) ?>
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Assets',['cancel-request'],['class' => $model->CheckStatus('Assets').' btn btn-app submitforapproval',
+<?php } ?>
+
+
+     <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'})? Html::a('<i class="fas fa-check"></i> Clear',['clear-section'],['class' => 'btn btn-app',
             'data' => [
-                'confirm' => 'Are you sure you want to send this document ?',
+                'confirm' => 'Are you sure you want to clear this section ?',
                 'params'=>[
-                    'No'=> $model->Form_No,
+                    'exitNo' => $model->Exit_No,
+                    'FormNo' => $model->Form_No,
                 ],
                 'method' => 'get',
             ],
-            'title' => 'Cancel Approval Request'
+            'title' => 'Clear '.$model->Action_ID.' section'
 
-        ]) ?>
-
+        ]): '' ?>
 
     </div>
 </div>
@@ -131,19 +179,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                     </div>
 
 
-                    <?php
-                    if(Yii::$app->session->hasFlash('success')){
-                        print ' <div class="alert alert-success alert-dismissable">
-                                 ';
-                        echo Yii::$app->session->getFlash('success');
-                        print '</div>';
-                    }else if(Yii::$app->session->hasFlash('error')){
-                        print ' <div class="alert alert-danger alert-dismissable">
-                                 ';
-                        echo Yii::$app->session->getFlash('error');
-                        print '</div>';
-                    }
-                    ?>
+                   
                 </div>
                 <div class="card-body">
 

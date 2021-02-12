@@ -368,11 +368,11 @@ class OvertimeController extends Controller
         $data = [
             'applicationNo' => $No,
             'sendMail' => 1,
-            'approvalUrl' => '',
+            'approvalUrl' => Html::encode(Yii::$app->urlManager->createAbsoluteUrl(['overtime/view', 'No' => $No])),
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendRequisitionHeaderForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendOverTimeForApproval');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Approval Request Sent to Supervisor Successfully.', true);
@@ -396,7 +396,7 @@ class OvertimeController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelRequisitionHeaderApprovalRequest');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelOverTimeApprovalRequest');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Approval Request Cancelled Successfully.', true);

@@ -42,7 +42,7 @@ public $isNewRecord;
     public function rules()
     {
         return [
-
+                ['Reasons_For_Not_Serving_Notice', 'required'],
         ];
     }
 

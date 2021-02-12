@@ -21,6 +21,8 @@ public $Employee_No;
 public $Employee_Name;
 public $Approval_Entries;
 public $Approval_Status;
+
+public $Craeted_By;
 public $isNewRecord;
 
 
@@ -48,6 +50,20 @@ public $isNewRecord;
         $lines = Yii::$app->navhelper->getData($service, $filter);
         return $lines;
 
+    }
+
+
+    public function getDonorLine($Contract_Code,$Contract_Line_No) {
+        $service = Yii::$app->params['ServiceName']['NewEmployeeDonors'];
+        $filter = [
+            'Change_No' => $this->No,
+            'Employee_No' => $this->Employee_No,
+            'Contract_Code' => $Contract_Code,
+            'Contract_Line_No' => $Contract_Line_No
+        ];
+
+        $lines = Yii::$app->navhelper->getData($service, $filter);
+        return $lines;
     }
 
 

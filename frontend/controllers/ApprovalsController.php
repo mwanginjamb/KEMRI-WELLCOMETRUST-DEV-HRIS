@@ -215,15 +215,23 @@ class ApprovalsController extends Controller
 
         $result = [];
 
+        $leaveWorkflows = ['Leave_Application','Leave_Reinstatement','Leave_Reimbursement'];
+
         if(!is_object($approvals)){
             foreach($approvals as $app){
 
 
-                    if(stripos($app->Details, 'leave') !== FALSE && stripos($app->Details, 'Recall') == FALSE && stripos($app->Details, 'Plan') == FALSE){
+                    if(in_array($app->Document_Type, $leaveWorkflows)){
                         $Approvelink = ($app->Status == 'Open')? Html::a('Approve Leave',['approve-leave','app'=> $app->Document_No ],['class'=>'btn btn-success btn-xs','data' => [
                             'confirm' => 'Are you sure you want to Approve this request?',
                             'method' => 'post',
                         ]]):'';
+
+                        $Rejectlink = ($app->Status == 'Open')? Html::a('Reject Request',['reject-request', 'docType' => $app->Document_Type ],['class'=>'btn btn-warning reject btn-xs',
+                            'rel' => $app->Document_No,
+                            'rev' => $app->Record_ID_to_Approve,
+                            'name' => $app->Table_ID
+                        ]): "";
                     }
                     elseif(stripos($app->Details, 'Recall') !== FALSE)
                     {
@@ -253,18 +261,35 @@ class ApprovalsController extends Controller
 
 
                     }
-                    else{
-                        $Approvelink = ($app->Status == 'Open')? Html::a('Approve Request',['approve-request','app'=> $app->Document_No, 'empNo' => $app->Approver_No ],['class'=>'btn btn-success btn-xs','data' => [
+                    elseif($app->Document_Type == 'Contract_Renewal') // Contract Renewal
+                    {
+                        $Approvelink = ($app->Status == 'Open')? Html::a('Approve Request',['approve-request','app'=> $app->Document_No, 'empNo' => $app->Approver_No, 'docType' => $app->Document_Type  ],['class'=>'btn btn-success btn-xs','data' => [
                             'confirm' => 'Are you sure you want to Approve this request?',
                             'method' => 'post',
                         ]]):'';
+
+                        $Rejectlink = ($app->Status == 'Open')? Html::a('Reject Request',['reject-request', 'docType' => $app->Document_Type ],['class'=>'btn btn-warning reject btn-xs',
+                            'rel' => $app->Document_No,
+                            'rev' => $app->Record_ID_to_Approve,
+                            'name' => $app->Table_ID
+                        ]): "";
+
+
+                    }
+                    else{
+                        $Approvelink = ($app->Status == 'Open')? Html::a('Approve Request',['approve-request','app'=> $app->Document_No, 'empNo' => $app->Approver_No, 'docType' => $app->Document_Type],['class'=>'btn btn-success btn-xs','data' => [
+                            'confirm' => 'Are you sure you want to Approve this request?',
+                            'method' => 'post',
+                        ]]):'';
+
+                        $Rejectlink = ($app->Status == 'Open')? Html::a('Reject Request',['reject-request', 'docType' => $app->Document_Type ],['class'=>'btn btn-warning reject btn-xs',
+                            'rel' => $app->Document_No,
+                            'rev' => $app->Record_ID_to_Approve,
+                            'name' => $app->Table_ID
+                        ]): "";
                     }
 
-                    $Rejectlink = ($app->Status == 'Open')? Html::a('Reject Request',['reject-request' ],['class'=>'btn btn-warning reject btn-xs',
-                        'rel' => $app->Document_No,
-                        'rev' => $app->Record_ID_to_Approve,
-                        'name' => $app->Table_ID
-                        ]): "";
+                    
 
 
                     /*Card Details */
@@ -277,7 +302,23 @@ class ApprovalsController extends Controller
                     {
                         $detailsLink = Html::a('Request Details',['imprest/view','No'=> $app->Document_No ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
-                    else{
+                    elseif($app->Document_Type == 'Leave_Reimbursement')
+                    {
+                        $detailsLink = Html::a('View Details',['leave-reimburse/view','No'=> $app->Document_No ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                    }
+                     elseif($app->Document_Type == 'Leave_Application')
+                    {
+                        $detailsLink = Html::a('View Details',['leave/view','No'=> $app->Document_No ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                    }
+                    elseif($app->Document_Type == 'Contract_Renewal')
+                    {
+                        $detailsLink = Html::a('View Details',['contractrenewal/view','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                    }
+                     elseif($app->Document_Type == 'Employee_Exit')
+                    {
+                        $detailsLink = Html::a('View Details',['exit/view','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                    }
+                    else{ //Employee_Exit
                         $detailsLink = '';
 
                     }
@@ -321,7 +362,23 @@ class ApprovalsController extends Controller
         if($docType == 'Requisition_Header')
         {
             $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveRequisitionHeader');
-        }else{
+        }elseif($docType == 'Leave_Reimbursement')
+        {
+             $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveLeave');
+        }
+        elseif($docType == 'Contract_Renewal')
+        {
+             $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanApproveChangeRequest');
+        }
+         elseif($docType == 'Overtime_Application')
+        {
+             $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanApproveOverTime');
+        }
+          elseif($docType == 'Employee_Exit')
+        {
+             $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanApproveEmployeeExit');
+        }
+        else{
             $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanApproveImprest');
         }
 
@@ -361,10 +418,32 @@ class ApprovalsController extends Controller
             $Commentrequest = Yii::$app->navhelper->postData($Commentservice, $commentData);
            // Call rejection cu function
 
+            if(is_string($Commentrequest)){
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return ['note' => '<div class="alert alert-danger">Error Rejecting Request: '. $Commentrequest.'</div>'];
+            }
+
             if($docType == 'Requisition_Header')
             {
                 $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectRequisitionHeader');
-            }else{
+            }
+            elseif($docType == 'Leave_Reimbursement')
+             {
+                $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectLeave');
+             }
+             elseif($docType == 'Contract_Renewal')
+             {
+                $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectChangeRequest');
+             }
+              elseif($docType == 'Overtime_Application')
+            {
+                 $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanRejectOverTime');
+            }
+            elseif($docType == 'Employee_Exit')
+            {
+                 $result = Yii::$app->navhelper->PortalWorkFlows($service,['applicationNo' => $app],'IanRejectEmployeeExit');
+            }
+            else{
                 $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectLeave');
             }
 
@@ -374,7 +453,7 @@ class ApprovalsController extends Controller
             if(!is_string($result)){
                 return ['note' => '<div class="alert alert-success">Request Rejected Successfully. </div>' ];
             }else{
-                return ['note' => '<div class="alert alert-danger">Error Rejecting Request: '.$result.'   '.$Commentrequest.'</div>'];
+                return ['note' => '<div class="alert alert-danger">Error Rejecting Request: '.$result.'</div>'];
             }
 
 

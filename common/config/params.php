@@ -14,8 +14,8 @@ return [
     'senderName' => 'HRMIS mailer',
     'user.passwordResetTokenExpire' => 3600,
     'powered' => 'Iansoft Ltd',
-    'NavisionUsername'=>'jkipkurgat',
-    'NavisionPassword'=>'Pa55P0rt%',
+    'NavisionUsername'=> 'svc-hrmcn01', //'jkipkurgat',
+    'NavisionPassword'=> 'Admin@123', //'Pa55P0rt%',
 
 
     'NavTestApprover' => 'Approver',
@@ -278,6 +278,7 @@ return [
         'MiscArticles' => 'MiscArticles', //5218
 
 
+
         /**********************KEMRI Salary Increment****************************************/
 
         'SalaryIncrementList' => 'SalaryIncrementList', // 55025
@@ -285,12 +286,17 @@ return [
         'ContractChangeLines' => 'ContractChangeLines', //55018
         'PayrollScales' => 'PayrollScales', //58014
         'PayrollScalePointers' => 'PayrollScalePointers', //58023
+        'ApprovedHRJobs' => 'ApprovedHRJobs', //55053
+       
+
+
 
         /**********************KEMRI EXMPLOYEE EXIT*********************************************/
 
         'ExitList' => 'ExitList', //52002
         'ExitListCard' => 'ExitListCard', // 52003
         'FinalDues' => 'FinalDues', // 52034
+        'ExitReasons' => 'ExitReasons', //52007
 
         'ClearanceFormList' => 'ClearanceFormList', //52025
         'ClearanceFormCard' => 'ClearanceFormCard', //52026
@@ -354,6 +360,12 @@ return [
         'ContractRenewalCard' => 'ContractRenewalCard', //55017
         'ContractRenewalLines' => 'ContractRenewalLines', //55018
         'EmployeeContracts' => 'EmployeeContracts', //5217
+
+        'EmployeeDonors' => 'EmployeeDonors', //57993
+        'NewEmployeeDonors' => 'NewEmployeeDonors', //57994
+        'DonorList' => 'DonorList', // 60054
+        'GrantActivity' => 'GrantActivity', //57995
+        'GrantTypes' => 'GrantTypes', // 57996
 
 
 

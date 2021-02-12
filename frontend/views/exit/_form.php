@@ -74,20 +74,23 @@ if(Yii::$app->session->hasFlash('success')){
                     <div class="row">
                         <div class=" row col-md-12">
                             <div class="col-md-6">
-                                <?= $form->field($model, 'Date_of_Exit')->textInput(['type'=> 'date']) ?>
+
+                                <?= $form->field($model, 'Reason_For_Exit')->dropDownList($reasons,['prompt' => 'Select ...']) ?>
+                                <?= $form->field($model, 'Date_Of_Notice')->textInput(['type'=> 'date','min' => date('Y-m-d')]) ?>
+                                
                                 <?= $form->field($model, 'Interview_Conducted_By')->textInput(['readonly' => true]) ?>
-                                <?= $form->field($model, 'Reason_For_Exit')->dropDownList([],['prompt' => 'Select ...']) ?>
+                                
                                 <?= $form->field($model, 'Reason_Description')->textInput(['readonly' => true]) ?>
                                 <?= $form->field($model, 'Notice_Period')->hiddenInput(['readonly'=> true])->label(false) ?>
 
 
                             </div>
                             <div class="col-md-6">
-                                <?= $form->field($model, 'Date_Of_Notice')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Date_of_Exit')->textInput(['type'=> 'date','min' => date('Y-m-d')]) ?>
                                 <?= $form->field($model, 'Expiry_of_Notice')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Date_of_Exit_Interview')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Notice_Fully_Served')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Reasons_For_Not_Serving_Notice')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Reasons_For_Not_Serving_Notice')->textArea(['rows' => 2]) ?>
 
                             </div>
                         </div>
@@ -110,7 +113,7 @@ if(Yii::$app->session->hasFlash('success')){
                 <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success', 'id' => 'submit']) ?>
                     </div>
 
 
@@ -164,29 +167,36 @@ $script = <<<JS
                 },'json');
         });*/
 
-        // Set other Employee
+    $('#employeeexit-reasons_for_not_serving_notice').hide();
+
+        // Set other fields
         
-     $('#salaryadvance-loan_type').change(function(e){
-        const loan = e.target.value;
-        const No = $('#salaryadvance-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'salaryadvance/setloantype';
-            $.post(url,{'loan': loan,'No': No}).done(function(msg){
+     $('#employeeexit-date_of_notice').change(function(e){
+
+        const Date_Of_Notice = e.target.value;
+        const Exit_No = $('#employeeexit-exit_no').val();
+        if(Exit_No.length){
+            const url = $('input[name=url]').val()+'exit/setfield?field='+'Date_Of_Notice';
+            $.post(url,{'Date_Of_Notice': Date_Of_Notice,'Exit_No': Exit_No}).done(function(msg){
                    //populate empty form fields with new data
                    
-                   $('#salaryadvance-repayment_period').val(msg.Repayment_Period);
-                   $('#salaryadvance-key').val(msg.Key);
-                    console.log(typeof msg);
+                   $('#employeeexit-date_of_notice').val(msg.Date_Of_Notice);
+                   $('#employeeexit-date_of_exit').val(msg.Date_of_Exit);
+                   $('#employeeexit-notice_fully_served').val(msg.Notice_Fully_Served);
+                   $('#employeeexit-key').val(msg.Key);
+                    
                     console.table(msg);
                     if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-employee_no');
+                        const parent = document.querySelector('.field-employeeexit-date_of_notice');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = msg;
+                        disableSubmit();
                         
                     }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-employee_no');
+                        const parent = document.querySelector('.field-employeeexit-date_of_notice');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = ''; 
+                        enableSubmit();
                         
                     }
                     
@@ -194,57 +204,80 @@ $script = <<<JS
         }
      });
      
-     /*Set Program and Department dimension */
-     
-     $('#salaryadvance-amount_requested').blur(function(e){
-        const amount = e.target.value;
-        const No = $('#salaryadvance-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'salaryadvance/setamount';
-            $.post(url,{'amount': amount,'No': No}).done(function(msg){
+     $('#employeeexit-date_of_exit').change(function(e){
+
+        const Date_of_Exit = e.target.value;
+        const Exit_No = $('#employeeexit-exit_no').val();
+        if(Exit_No.length){
+            const url = $('input[name=url]').val()+'exit/setfield?field='+'Date_of_Exit';
+            $.post(url,{'Date_of_Exit': Date_of_Exit,'Exit_No': Exit_No}).done(function(msg){
                    //populate empty form fields with new data
-                   $('#salaryadvance-take_home').val(msg.Take_Home);
-                   $('#salaryadvance-key').val(msg.Key);
                    
-                    console.log(typeof msg);
+                   $('#employeeexit-date_of_notice').val(msg.Date_Of_Notice);
+                   $('#employeeexit-date_of_exit').val(msg.Date_of_Exit);
+                   $('#employeeexit-notice_fully_served').val(msg.Notice_Fully_Served);
+                   $('#employeeexit-expiry_of_notice').val(msg.Expiry_of_Notice);
+                   $('#employeeexit-key').val(msg.Key);
+
+                   if( msg.Notice_Fully_Served === 'No') {
+                        $('#employeeexit-reasons_for_not_serving_notice').show();
+                   }else{
+                        $('#employeeexit-reasons_for_not_serving_notice').hide();
+                   }
+                    
                     console.table(msg);
                     if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_1_code');
+                        const parent = document.querySelector('.field-employeeexit-date_of_exit');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = msg;
+                        disableSubmit();
                         
                     }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_1_code');
+                        const parent = document.querySelector('.field-employeeexit-date_of_exit');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = ''; 
+                        enableSubmit();
                         
                     }
                     
                 },'json');
         }
      });
-     
-     
-     /* set department */
-     
-     $('#imprestcard-global_dimension_2_code').change(function(e){
-        const dimension = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setdimension?dimension=Global_Dimension_2_Code';
-            $.post(url,{'dimension': dimension,'No': No}).done(function(msg){
+
+
+      $('#employeeexit-reason_for_exit').change(function(e){
+
+        const Reason_For_Exit = e.target.value;
+        const Exit_No = $('#employeeexit-exit_no').val();
+        if(Exit_No.length){
+            const url = $('input[name=url]').val()+'exit/setfield?field='+'Reason_For_Exit';
+            $.post(url,{'Reason_For_Exit': Reason_For_Exit,'Exit_No': Exit_No}).done(function(msg){
                    //populate empty form fields with new data
-                    console.log(typeof msg);
+                   
+                   // $('#employeeexit-date_of_notice').val(msg.Date_Of_Notice);
+                   //$('#employeeexit-date_of_exit').val(msg.Date_of_Exit);
+                   $('#employeeexit-notice_fully_served').val(msg.Notice_Fully_Served);
+                   $('#employeeexit-expiry_of_notice').val(msg.Expiry_of_Notice);
+                   $('#employeeexit-key').val(msg.Key);
+
+                   if( msg.Notice_Fully_Served === 'No') {
+                        $('#employeeexit-reasons_for_not_serving_notice').show();
+                   }else{
+                        $('#employeeexit-reasons_for_not_serving_notice').hide();
+                   }
+                    
                     console.table(msg);
                     if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_2_code');
+                        const parent = document.querySelector('.field-employeeexit-reason_for_exit');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = msg;
+                        disableSubmit();
                         
                     }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-global_dimension_2_code');
+                        const parent = document.querySelector('.field-employeeexit-reason_for_exit');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = ''; 
+                        enableSubmit();
                         
                     }
                     
@@ -253,36 +286,6 @@ $script = <<<JS
      });
      
      
-     /*Set Imprest Type*/
-     
-     $('#imprestcard-imprest_type').change(function(e){
-        const Imprest_Type = e.target.value;
-        const No = $('#imprestcard-no').val();
-        if(No.length){
-            const url = $('input[name=url]').val()+'imprest/setimpresttype';
-            $.post(url,{'Imprest_Type': Imprest_Type,'No': No}).done(function(msg){
-                   //populate empty form fields with new data
-                    console.log(typeof msg);
-                    console.table(msg);
-                    if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-imprestcard-imprest_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = msg;
-                        
-                    }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-imprestcard-imprest_type');
-                        const helpbBlock = parent.children[2];
-                        helpbBlock.innerText = '';
-                        
-                         $('.modal').modal('show')
-                        .find('.modal-body')
-                        .html('<div class="alert alert-success">Imprest Type Update Successfully.</div>');
-                        
-                    }
-                    
-                },'json');
-        }
-     });
      
      
      /* Add Line */
@@ -295,12 +298,25 @@ $script = <<<JS
                             .load(url); 
 
         });
+
+
+    function disableSubmit(){
+         document.getElementById('submit').setAttribute("disabled", "true");
+    }
+        
+    function enableSubmit(){
+        document.getElementById('submit').removeAttribute("disabled");
+    
+    }
      
      /*Handle modal dismissal event  */
     $('.modal').on('hidden.bs.modal',function(){
         var reld = location.reload(true);
         setTimeout(reld,1000);
     }); 
+
+
+
      
      
      

@@ -63,7 +63,7 @@ class ExitController extends Controller
             ],
             'contentNegotiator' =>[
                 'class' => ContentNegotiator::class,
-                'only' => ['list'],
+                'only' => ['list','setfield'],
                 'formatParam' => '_format',
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
@@ -71,6 +71,30 @@ class ExitController extends Controller
                 ],
             ]
         ];
+    }
+
+
+    public function actionSetfield($field){
+        $model = new EmployeeExit();
+        $service = Yii::$app->params['ServiceName']['ExitListCard'];
+
+        $filter = [
+            'Exit_No' => Yii::$app->request->post('Exit_No')
+        ];
+        $result = Yii::$app->navhelper->getData($service, $filter);
+        // Yii::$app->recruitment->printrr($line);
+        if(is_array($result)){
+            Yii::$app->navhelper->loadmodel($result[0],$model);
+            $model->Key = $result[0]->Key;
+            $model->$field = Yii::$app->request->post($field);
+
+        }
+
+
+        $result = Yii::$app->navhelper->updateData($service,$model);
+
+        return $result;
+
     }
 
     public function actionIndex(){
@@ -108,6 +132,7 @@ class ExitController extends Controller
                 Yii::$app->session->setFlash('error',$request);
                 return $this->render('create',[
                     'model' => $model,
+                    'reasons' => $this->getReasons(),
                 ]);
             }
         }
@@ -119,12 +144,13 @@ class ExitController extends Controller
             ];
             /*Read the card again to refresh Key in case it changed*/
             $refresh = Yii::$app->navhelper->getData($service,$filter);
-            $model = Yii::$app->navhelper->loadmodel($refresh[0],$model);
+            //$model = Yii::$app->navhelper->loadmodel($refresh[0],$model);
+            $model->Key = $refresh[0]->Key;
             $result = Yii::$app->navhelper->updateData($service,$model);
             if(!is_string($result)){
 
                 Yii::$app->session->setFlash('success','Request Created Successfully.' );
-                return $this->redirect(['view','No' => $result->Exit_No]);
+                return $this->redirect(['index']);
 
             }else{
                 Yii::$app->session->setFlash('error','Error Creating Request '.$result );
@@ -136,9 +162,11 @@ class ExitController extends Controller
 
 
         //Yii::$app->recruitment->printrr($model);
+        $model->Date_Of_Notice = date('Y-m-d');
         $model->Date_of_Exit = date('Y-m-d');
         return $this->render('create',[
             'model' => $model,
+            'reasons' => $this->getReasons()
         ]);
     }
 
@@ -177,13 +205,11 @@ class ExitController extends Controller
 
                 Yii::$app->session->setFlash('success','Document Updated Successfully.' );
 
-                return $this->redirect(['view','No' => $result->Exit_No]);
+                return $this->redirect(['index']);
 
             }else{
                 Yii::$app->session->setFlash('success','Error Updating Document '.$result );
-                return $this->render('update',[
-                    'model' => $model,
-                ]);
+                return $this->render(['index']);
 
             }
 
@@ -191,9 +217,13 @@ class ExitController extends Controller
 
 
         // Yii::$app->recruitment->printrr($model);
+        $model->Date_Of_Notice = date('Y-m-d');
+        $model->Date_of_Exit = date('Y-m-d');
+
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
+                'reasons' => $this->getReasons()
 
 
             ]);
@@ -201,6 +231,7 @@ class ExitController extends Controller
 
         return $this->render('update',[
             'model' => $model,
+            'reasons' => $this->getReasons()
 
         ]);
     }
@@ -211,7 +242,7 @@ class ExitController extends Controller
         $data= [
             'exitNo' => $No
         ];
-        $result = Yii::$app->navhelper->EmployeeExit($service,$data,'IanGenerateExitClearance');
+        $result = Yii::$app->navhelper->EmployeeExit($service,$data,'IanGenenerateClearanceFormPortal');
        // Yii::$app->recruitment->printrr($result);
         return $this->redirect('../exit-form');
     }
@@ -271,6 +302,26 @@ class ExitController extends Controller
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return $data;
     }
+
+    /*Get Exit Reasons - self */
+
+     public function getReasons()
+    {
+        $service = Yii::$app->params['ServiceName']['ExitReasons'];
+
+        $filter = [
+            'Self' => true
+        ];
+
+        $relatives = Yii::$app->navhelper->getData($service, $filter);
+
+        return Yii::$app->navhelper->refactorArray($relatives,'Reason_Code','Reason_Description');
+
+    }
+
+
+
+    
 
     public function actionMiscCode()
     {
@@ -362,9 +413,11 @@ class ExitController extends Controller
                 $link = $updateLink = $deleteLink =  '';
                 $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->Exit_No],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);
                 if($item->Status == 'New'){
-                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->Exit_No],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
+                    $link = Html::a('<i class="fas fa-paper-plane"></i>',['send-for-approval','No'=> $item->Exit_No,'employeeNo' => $item->Employee_No ],['title'=>'Send Approval Request','class'=>'btn btn-primary btn-xs']);
                     $updateLink = Html::a('<i class="far fa-edit"></i>',['update','No'=> $item->Exit_No],['class'=>'btn btn-info btn-xs','title' => 'Update Request']);
-                }
+                }/*else if($item->Status == 'Pending_Approval'){
+                     $link = Html::a('<i class="fas fa-times"></i>',['cancel-request','No'=> $item->Exit_No ],['title'=>'Cancel Approval Request','class'=>'btn btn-warning btn-xs']);
+                }*/
 
                 $result['data'][] = [
                     'Key' => $item->Key,
@@ -373,6 +426,7 @@ class ExitController extends Controller
                     'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
                     'Date_of_Exit' => !empty($item->Date_of_Exit)?$item->Date_of_Exit:'',
                     'Interview_Conducted_By' => !empty($item->Interview_Conducted_By)?$item->Interview_Conducted_By:'',
+                    'Status' => !empty($item->Status)?$item->Status:'', 
                     'Action' => $link.' '. $updateLink.' '.$Viewlink ,
 
                 ];
@@ -531,26 +585,26 @@ class ExitController extends Controller
 
     /* Call Approval Workflow Methods */
 
-    public function actionSendForApproval()
+    public function actionSendForApproval($No)
     {
         $service = Yii::$app->params['ServiceName']['PortalFactory'];
-        $DocNo = Yii::$app->request->get('No');
+        
         $data = [
-            'applicationNo' => $DocNo,
+            'applicationNo' => $No,
             'sendMail' => true,
-            'approvalUrl' => '',
+            'approvalUrl' => Html::encode(Yii::$app->urlManager->createAbsoluteUrl(['exit/view', 'No' => $No])),
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendVehicleBookingRequisitionForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendEmployeeExitForApproval');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
-            return $this->redirect(['view','No' => $DocNo]);
+            Yii::$app->session->setFlash('success', 'Request Sent  Successfully.', true);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending  Request for Approval  : '. $result);
-            return $this->redirect(['view','No' => $DocNo]);
+            return $this->redirect(['index']);
 
         }
     }
@@ -566,15 +620,15 @@ class ExitController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelVehicleBookingRequisitionApprovalRequest');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelEmployeeExitApprovalRequest');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
-            return $this->redirect(['view','No' => $Plan_No]);
+            return $this->redirect(['index']);
 
         }
     }

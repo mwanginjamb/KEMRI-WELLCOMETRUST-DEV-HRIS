@@ -28,9 +28,9 @@ return [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'sqlsrv:server=keklf-sql55\powerpivot;database=KEMRI_HRMIS_UAT', //KEKLF-SQL55\POWERPIVOT
-            'username' => 'ess',
-            'password' => 'ess123',
+            'dsn' => 'sqlsrv:server=KEKLF-SQL55\POWERPIVOT;database=KEMRI_HRMIS_UAT', //KEKLF-SQL55\POWERPIVOT - KEMRI_HRMIS_UAT  --live: 172.16.12.73
+            'username' => 'ess', //'ess',
+            'password' => 'ess123', //'ess123',
             'charset' => 'utf8',
         ],
         'nav' => [

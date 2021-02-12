@@ -29,9 +29,9 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <?= $form->field($model, 'End_Time')->textInput(['type' => 'time']) ?>
                                     <?= $form->field($model, 'Hours_Worked')->textInput(['readonly' => true]) ?>
                                     <?= $form->field($model, 'Work_Done')->textarea(['rows' => 2,'maxlemgth' => 250]) ?>
-                                    <?= $form->field($model, 'Application_No')->textInput(['readonly' => true]); ?>
-                                    <?= $form->field($model, 'Key')->textInput(['readonly' => true]); ?>
-                                    <?= $form->field($model, 'Line_No')->textInput(['readonly'=> true])->label(false) ?>
+                                    <?= $form->field($model, 'Application_No')->hiddenInput(['readonly' => true])->label(false); ?>
+                                    <?= $form->field($model, 'Key')->hiddenInput(['readonly' => true])->label(false); ?>
+                                    <?= $form->field($model, 'Line_No')->hiddenInput(['readonly'=> true])->label(false) ?>
 
                             </div>
 

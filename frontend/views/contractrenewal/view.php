@@ -117,7 +117,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                        <?=($model->Approval_Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> Add Line',['contractrenewalline/create','No'=>$model->No],['class' => 'add-line btn btn-outline-info',
+                        <?=($model->Approval_Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> Add Line',['contractrenewalline/create','No'=>$model->No, 'Employee_No' => $model->Employee_No ],['class' => 'add-line btn btn-outline-info',
                         ]):'' ?>
                     </div>
                 </div>
@@ -147,7 +147,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
                                     <td><b>Pointer</b></td>
                                     <td><b>Grade</b></td>
                                     <td><b>Salary</b></td>
-                                    <td><b>New Salary</b></td>
+                                    <!-- <td><b>New Salary</b></td> -->
                                     <td><b>Status</b></td>
 
                                     <?php if($model->Approval_Status == 'New'): ?><td><b>Actions</b></td> <?php endif; ?>
@@ -163,9 +163,11 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
 
                                     if(!empty($obj->Contract_Code)) {
                                         $updateLink = Html::a('<i class="fa fa-edit"></i>', ['contractrenewalline/update', 'No' => $obj->Line_No], ['class' => 'update-objective btn btn-outline-info btn-xs']);
-                                        $deleteLink = Html::a('<i class="fa fa-trash"></i>', ['contractrenewalline/delete', 'Key' => $obj->Key], ['class' => 'delete btn btn-outline-danger btn-xs']);
+                                       // $deleteLink = Html::a('<i class="fa fa-trash"></i>', ['contractrenewalline/delete', 'Key' => $obj->Key], ['class' => 'delete btn btn-outline-danger btn-xs']);
+
+                                        $donorDetails = Html::a('<i class="fa fa-plus"></i>', ['donorline/create', 'Contract_Code' => $obj->Contract_Code,'Contract_Line_No' => $obj->Line_No, 'Employee_No' => $model->Employee_No,'Change_No' => $model->No], ['class' => 'update-objective btn btn-success btn-xs', 'title' => 'Add Donor Details']);
                                         ?>
-                                        <tr>
+                                        <tr class="parent">
 
                                             <td><?= !empty($obj->Contract_Code) ? $obj->Contract_Code : 'Not Set' ?></td>
                                             <td><?= !empty($obj->Contract_Description) ? $obj->Contract_Description : 'Not Set' ?></td>
@@ -180,12 +182,63 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
                                             <td><?= !empty($obj->Pointer) ? $obj->Pointer : 'Not Set' ?></td>
                                             <td><?= !empty($obj->Grade) ? $obj->Grade : 'Not Set' ?></td>
                                             <td><?= !empty($obj->Salary) ? $obj->Salary : 'Not Set' ?></td>
-                                            <td><?= !empty($obj->New_Salary) ? $obj->New_Salary : 'Not Set' ?></td>
+                                           <!--  <td><?php !empty($obj->New_Salary) ? $obj->New_Salary : 'Not Set' ?></td> -->
                                             <td><?= !empty($obj->Status) ? $obj->Status : 'Not Set' ?></td>
 
-                                            <?php if($model->Approval_Status == 'New'): ?>
-                                                <td><?= $updateLink . '|' . $deleteLink ?></td>
+                                            <?php if($obj->Status == 'New'): ?>
+                                                <td><?= $updateLink . '|' . $donorDetails ?></td>
                                             <?php endif; ?>
+                                        </tr>
+                                        <tr class="child">
+                                            <td colspan="16">
+                                                
+
+
+                                                    <table class="table table-hover table-borderless table-info">
+                                                        <thead>
+                                                            <tr>
+                                                                <td><b>Grant Code</b></td>  
+                                                                <td><b>Grand Name</b></td>  
+                                                                <td><b>Grant Activity</b></td>  
+                                                                <td><b>Grant Type</b></td>  
+                                                                <td><b>Grant Start Date</b></td>  
+                                                                <td><b>Grant End Date</b></td>  
+                                                                <td><b>Percentage</b></td>  
+                                                                <td><b>Grant Status</b></td> 
+                                                                <td>Action</td>
+                                                            </tr> 
+                                                        </thead>
+                                            <tbody>
+                                                 <?php if(is_array($model->getDonorLine($obj->Contract_Code,$obj->Line_No))){
+                                                    foreach($model->getDonorLine($obj->Contract_Code,$obj->Line_No) as $d):  
+
+                                                        $donorUpdate = Html::a('<i class="fa fa-edit"></i>', ['donorline/update', 'Contract_Code' => $obj->Contract_Code,'Contract_Line_No' => $obj->Line_No, 'Employee_No' => $model->Employee_No], ['class' => 'update-objective btn btn-success btn-xs', 'title' => 'Update Donor Details']);
+                                        
+                                                    ?>
+
+
+                                                        <tr>
+                                                            <td><?= !empty($d->Grant_Code)?$d->Grant_Code:'' ?></td>
+                                                            <td><?= !empty($d->Grant_Name)?$d->Grant_Name:'' ?></td>
+                                                            <td><?= !empty($d->Grant_Activity)?$d->Grant_Activity:'' ?></td>
+                                                            <td><?= !empty($d->Grant_Type)?$d->Grant_Type:'' ?></td>
+                                                            <td><?= !empty($d->Grant_Start_Date)?$d->Grant_Start_Date:'' ?></td>
+                                                            <td><?= !empty($d->Grant_End_Date)?$d->Grant_End_Date:'' ?></td>
+                                                            <td><?= !empty($d->Percentage)?$d->Percentage:'' ?></td>
+                                                            <td><?= !empty($d->Grant_Status)?$d->Grant_Status:'' ?></td>
+                                                            <td><?= $donorUpdate ?></td>
+
+                                                        </tr>
+
+                                                <?php
+                                            endforeach;
+                                                 } ?>
+                                                        </tbody>
+                                                    </table>
+
+
+                                            </td>                                          
+                                              
                                         </tr>
                                         <?php
                                     }

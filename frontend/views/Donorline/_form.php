@@ -23,40 +23,26 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 <div class="row">
 
                             <div class="col-md-12">
-                                    <?= $form->field($model, 'Line_No')->hiddenInput(['readonly' => true])->label(false) ?>
-                                    <?= $form->field($model, 'Contract_Code')->dropDownList($contracts, ['prompt' => 'Select Contract Type...']) ?>
-                                    <?= $form->field($model, 'Contract_Start_Date')->textInput(['type' => 'date']) ?>
-                                    <?= $form->field($model, 'Contract_Period')->textInput(['maxlength' => '3']) ?>
-
-                                    
-
-
-                                    <?= $form->field($model, 'Grade')->dropDownList($grades, [
-                                    'prompt' => 'Select Scale ...',
-                                    'onchange' => '$.post("../contractrenewalline/pointer-dd?scale="+$(this).val(), (data) => {
-                                                    $("select#contractrenewalline-pointer").html( data );
-                                                })'
-                                     ]) ?>
-
-
-
-
-                                    <?= $form->field($model, 'Pointer')->dropDownList([],['prompt' => 'Select ....']) ?>
-                                    <?= $form->field($model, 'Job_Code')->dropDownList($jobs,['prompt' => 'Select ...']) ?>
-
-
-
-
-
-                                    <?= $form->field($model, 'Contract_End_Date')->textInput(['readonly' => true, 'disabled' => true]) ?>
-
-
-
-
+                                    <?= $form->field($model, 'Key')->hiddenInput(['readonly' => true])->label(false) ?>
+                                    <?= $form->field($model, 'Grant_Code')->dropDownList($donors, ['prompt' => 'Select Contract Code...']) ?>
+                                     <?= $form->field($model, 'Grant_Name')->textInput(['readonly' => true,'disabled' => true]) ?>
+                                    <?= $form->field($model, 'Grant_Activity')->textInput(['readonly' => true,'disabled' => true]) ?>
+                                    <?= $form->field($model, 'Grant_Type')->textInput(['readonly' => true,'disabled' => true]) ?>
+                                    <?= $form->field($model, 'Grant_Start_Date')->textInput(['type' => 'date']) ?>
+                                    <?= $form->field($model, 'Grant_End_Date')->textInput(['type' => 'date']) ?>
+                                    <?= $form->field($model, 'Percentage')->textInput(['type' => 'number']) ?>
+                                    <?= $form->field($model, 'Grant_Status')->dropDownList([
+                                        '_blank_' => '_blank_',
+                                        'Active' => 'Active',
+                                        'Expired' => 'Expired',
+                                        'Inactive' => 'Inactive'
+                                    ],['prompt' => 'Select ...']) ?>
                                     <?= $form->field($model, 'Employee_No')->hiddenInput(['readonly' => true])->label(false) ?>
+                                    <?= $form->field($model, 'Contract_Code')->hiddenInput(['readonly' => true])->label(false) ?>
                                     <?= $form->field($model, 'Change_No')->hiddenInput(['readonly' => true])->label(false) ?>
-                                    <?= $form->field($model, 'Key')->hiddenInput(['readonly'=> true])->label(false) ?>
-                                    <?= $form->field($model, 'Line_No')->hiddenInput(['readonly'=> true])->label(false) ?>
+                                    <?= $form->field($model, 'Contract_Line_No')->hiddenInput(['readonly' => true])->label(false) ?>
+                                    <?= $form->field($model, 'Line_No')->hiddenInput(['readonly' => true, 'disabled' => true])->label(false) ?>
+                                   
                             </div>
                 </div>
 
@@ -89,30 +75,34 @@ $script = <<<JS
                 },'json');
         });
 
-         $('#contractrenewalline-contract_code').on('change', function(e){
+         $('#donorline-grant_code').on('change', function(e){
             e.preventDefault();
                   
-            const Contract_Code = e.target.value;
-            const Line_No = $('#contractrenewalline-line_no').val();
+            const Grant_Code = e.target.value;
+            const Line_No = $('#donorline-line_no').val();
             
             
-            const url = $('input[name="absolute"]').val()+'contractrenewalline/setfield?field='+'Contract_Code';
-            $.post(url,{'Contract_Code': Contract_Code,'Line_No': Line_No}).done(function(msg){
+            const url = $('input[name="absolute"]').val()+'donorline/setfield?field='+'Grant_Code';
+            $.post(url,{'Grant_Code': Grant_Code,'Line_No': Line_No}).done(function(msg){
                    //populate empty form fields with new data
                     console.log(typeof msg);
                     console.table(msg);
                     if((typeof msg) === 'string') { // A string is an error
-                        const parent = document.querySelector('.field-contractrenewalline-contract_code');
+                        const parent = document.querySelector('.field-donorline-grant_code');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = msg;
                         disableSubmit();
                     }else{ // An object represents correct details
-                        const parent = document.querySelector('.field-contractrenewalline-contract_code');
+                        const parent = document.querySelector('.field-donorline-grant_code');
                         const helpbBlock = parent.children[2];
                         helpbBlock.innerText = ''; 
                         enableSubmit();
                     }
-                    $('#contractrenewalline-key').val(msg.Key);
+                    $('#donorline-key').val(msg.Key);
+                    $('#donorline-grant_name').val(msg.Grant_Name);
+                    $('#donorline-grant_activity').val(msg.Grant_Activity);
+                    $('#donorline-grant_type').val(msg.Grant_Type);
+                    
                     
                    
                     

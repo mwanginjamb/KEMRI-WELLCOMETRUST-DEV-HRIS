@@ -327,44 +327,81 @@ exit;*/
 
 
 
-                <div class="card card-info">
-                    <div class="card-header">
-                        <h3 class="card-title">My Leave Balances</h3>
+                <div class="row">
+
+                    <div class="col-md-7">
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">My Leave Balances</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered dt-responsive table-hover" id="leavebances">
+                                    <thead>
+                                        <tr>
+                                            <th>Leave Type</th>
+                                            <th>Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <?php
+
+
+
+                                    foreach($balances as $key => $val){
+                                        if($key == 'Key') {
+                                            continue;
+                                        }
+                                        elseif ($key == 'Annual_Leave_Bal' || $key == 'Compasionate_Leave_Bal'){
+                                            print '
+                                            <tr>
+                                                <td>'.$key.'</td><td>'.$val.'</td>
+                                             </tr>
+                                             ';
+                                        }
+
+
+                                    } ?>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="card-body">
-                        <table class="table table-bordered dt-responsive table-hover" id="leavebances">
-                            <thead>
-                                <tr>
-                                    <th>Leave Type</th>
-                                    <th>Balance</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                            <?php
 
 
+                    <div class="col-md-5">
 
-                            foreach($balances as $key => $val){
-                                if($key == 'Key') {
-                                    continue;
-                                }
-                                elseif ($key == 'Annual_Leave_Bal' || $key == 'Compasionate_Leave_Bal'){
-                                    print '
-                                    <tr>
-                                        <td>'.$key.'</td><td>'.$val.'</td>
-                                     </tr>
-                                     ';
-                                }
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <h3 class="card-title">Current Performance Appraisal Status</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered dt-responsive table-hover" id="leavebances">
+                                    <thead>
+                                        <tr>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
+                                        <tr>
+                                            <td><?= Yii::$app->dashboard->getAppraisalStatus(); ?></td>
+                                        </tr>
 
-                            } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
 
-                            </tbody>
-                        </table>
                     </div>
+
+
+
+
+
                 </div>
-            </div>
 
         </div>
     </div>

@@ -16,7 +16,7 @@ $this->title = 'Add Line';
 $this->params['breadcrumbs'][] = $this->title;
 
 
-//$model->isNewRecord = true;
+
 
 ?>
 
@@ -30,9 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="card-body">
         <?= $this->render('_form', [
             'model' => $model,
-            'contracts' => $contracts,
-            'grades' => $grades,
-            'jobs' => $jobs,
+            'donors' => $donors
         ]) ?>
     </div>
 </div>

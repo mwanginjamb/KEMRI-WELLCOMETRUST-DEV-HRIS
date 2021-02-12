@@ -73,7 +73,7 @@ class ContractrenewalController extends Controller
 
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Contractrenewal'])){
-           // $model->Employee_No = Yii::$app->user->identity->Employee_No;
+            $model->Craeted_By = Yii::$app->user->identity->{'Employee No_'};
             $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
@@ -208,7 +208,7 @@ class ContractrenewalController extends Controller
     public function actionList(){
         $service = Yii::$app->params['ServiceName']['ContractRenewalList'];
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
+            'Craeted_By' => Yii::$app->user->identity->{'Employee No_'},
         ];
 
         $results = \Yii::$app->navhelper->getData($service,$filter);
@@ -230,7 +230,7 @@ class ContractrenewalController extends Controller
                     'Key' => $item->Key,
                     'No' => $item->No,
                     'Employee_No' => !empty($item->Employee_No)?$item->Employee_No:'',
-                    'Employee_Name' => !empty($item->Created_On)?$item->Created_On:'',
+                    'Employee_Name' => !empty($item->Employee_Name)?$item->Employee_Name:'',
                     'Approval_Status' => $item->Approval_Status,
                     'Action' => $link.' '. $updateLink.' '.$Viewlink ,
 
@@ -328,39 +328,39 @@ class ContractrenewalController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendLeavePlanForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendEmployeeChangeRequestForApproval');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
-            return $this->redirect(['view','No' => Yii::$app->request->get('No')]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending  Request for Approval  : '. $result);
-            return $this->redirect(['view','No' => $No]);
+            return $this->redirect(['index']);
 
         }
     }
 
     /*Cancel Approval Request */
 
-    public function actionCancelRequest($Plan_No)
+    public function actionCancelRequest($No)
     {
         $service = Yii::$app->params['ServiceName']['PortalFactory'];
 
         $data = [
-            'applicationPlan_No' => $Plan_No,
+            'applicationNo' => $No,
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelLeavePlanApprovalRequest');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelChangeRequestApprovalRequest');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Cancelling Approval Request.  : '. $result);
-            return $this->redirect(['view','Plan_No' => $Plan_No]);
+            return $this->redirect(['index']);
 
         }
     }

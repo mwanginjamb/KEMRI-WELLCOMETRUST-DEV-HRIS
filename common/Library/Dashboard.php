@@ -244,5 +244,24 @@ class Dashboard extends Component
     }
 
 
+    public function getAppraisalStatus()
+    {
+         $service = Yii::$app->params['ServiceName']['PortalFactory'];
+         $data = [
+            'empNo' => Yii::$app->user->identity->{'Employee No_'}
+         ];
+
+         $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanGetAppraisalStatus');
+
+         if(!is_string($result))
+         {
+            return $result['return_value'];
+         }
+         else{
+            return 'We have no idea, Sorry';
+         }
+    }
+
+
 
 }

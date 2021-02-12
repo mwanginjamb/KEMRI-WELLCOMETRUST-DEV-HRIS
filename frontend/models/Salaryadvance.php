@@ -52,7 +52,7 @@ public $isNewRecord;
     public function rules()
     {
         return [
-            [['Amount_Requested','Loan_Type','Purpose'], 'required'],
+            [['Amount_Requested','Purpose'], 'required'],
             ['Amount_Requested','integer','min'=> 1]
         ];
     }

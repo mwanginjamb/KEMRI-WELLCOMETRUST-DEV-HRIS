@@ -74,6 +74,7 @@ $script = <<<JS
                 { title: 'Goal Setting Status' ,data: 'Goal_Setting_Status'},
                 { title: 'Appraisal Status' ,data: 'Appraisal_Status'},
                 { title: 'Supervisor Name' ,data: 'Supervisor_Name'},
+                { title: 'Probation Recomended Action' ,data: 'Probation_Recomended_Action'},
                 { title: 'Overview Manager Name' ,data: 'Overview_Manager_Name'},
                
                 { title: 'Action', data: 'Action' },

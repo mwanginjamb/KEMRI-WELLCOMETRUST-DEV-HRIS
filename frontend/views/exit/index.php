@@ -79,10 +79,11 @@ $script = <<<JS
             paging: true,
             columns: [
                 { title: 'No' ,data: 'No'},
-                { title: 'Employee_No' ,data: 'Employee_No'},
+                { title: 'Employee No' ,data: 'Employee_No'},
                 { title: 'Employee_Name' ,data: 'Employee_Name'},
-                { title: 'Date_of_Exit' ,data: 'Date_of_Exit'},
-                { title: 'Interview_Conducted_By' ,data: 'Interview_Conducted_By'},
+                { title: 'Date of Exit' ,data: 'Date_of_Exit'},
+                { title: 'Interview Conducted By' ,data: 'Interview_Conducted_By'},
+                { title: 'Status' ,data: 'Status'},
                 { title: 'Action', data: 'Action' },
                                
             ] ,                              

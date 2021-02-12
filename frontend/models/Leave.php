@@ -48,6 +48,7 @@ public $Grade;
 public $Status;
 public $Approval_Entries;
 public $Leave_Allowance;
+public $Rejection_Comments;
 public $isNewRecord;
 
     /*public function __construct(array $config = [])

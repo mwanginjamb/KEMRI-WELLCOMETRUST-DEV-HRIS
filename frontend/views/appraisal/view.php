@@ -580,7 +580,7 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
 
             <?php //if($model->EY_Appraisal_Status !== 'Agreement_Level'){ ?>
 
-            <?php if($model->MY_Appraisal_Status == 'Closed' && $model->EY_Appraisal_Status == 'Agreement_Level'){ ?>
+            <?php if($model->MY_Appraisal_Status == 'Closed' && ($model->EY_Appraisal_Status == 'Agreement_Level' || $model->EY_Appraisal_Status == 'Overview_Manager')){ ?>
 
 
 
@@ -592,7 +592,86 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
 
                 <!---Areas_of_Further_Development-->
 
+                <div class="card-info">
+                    <div class="card-header">
+                            <h4 class="card-title">Areas of Further Development</h4> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
+                            <?= Html::a('<i class="fas fa-plus"></i> Add New',['furtherdevelopmentarea/create','Appraisal_No'=> $model->Appraisal_No,'Employee_No' => $model->Employee_No],['class' => 'btn btn-xs btn-primary add']) ?>
+
+                    </div>
+                    <div class="card-body">
+
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <td>#</td>
+                               <!--  <th>Line No.</th> -->
+                                <th>Employee No</th>
+                                <th>Appraisal No</th>
+                                <th>Weakness</th>
+                                <th>Action</th>
+
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <?php if(property_exists($card->Areas_of_Further_Development,'Areas_of_Further_Development')){ ?>
+                                <?php foreach($card->Areas_of_Further_Development->Areas_of_Further_Development as $fda){ ?>
+                                    <tr class="parent">
+                                        <td><span>+</span></td>
+                                       <!--  <td><?php $fda->Line_No ?></td> -->
+                                        <td><?php $fda->Employee_No ?></td>
+                                        <td><?= $fda->Appraisal_No ?></td>
+                                        <td><?= $fda->Weakness ?></td>
+
+                                        <td>
+                                            <?= Html::a('<i class="fas fa-edit"></i> ',['furtherdevelopmentarea/update','Line_No'=> $fda->Line_No,'Appraisal_No'=> $model->Appraisal_No,'Employee_No' => $model->Employee_No],['class' => 'btn btn-xs btn-outline-primary update-learning']) ?>
+                                            <?= Html::a('<i class="fas fa-plus-square"></i> ',['weeknessdevelopmentplan/create','Wekaness_Line_No'=> $fda->Line_No,'Appraisal_No'=> $model->Appraisal_No,'Employee_No' => $model->Employee_No],['class' => 'btn btn-xs btn-outline-primary add','Add a Weakness Development Plan.']) ?>
+                                        </td>
+                                    </tr>
+                                    <!--Start displaying children-->
+                                    <tr class="child">
+                                        <td colspan="11" >
+                                            <table class="table table-hover table-borderless table-info">
+                                                <thead>
+                                                <tr >
+                                                   <!--  <th>Line No</th>
+                                                    <th>Appraisal No</th>
+                                                    <th>Employee No</th> -->
+                                                    <th>Development Plan</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <?php if(is_array($model->getWeaknessdevelopmentplan($fda->Line_No))){
+
+                                                    foreach($model->getWeaknessdevelopmentplan($fda->Line_No) as $wdp):  ?>
+                                                        <tr>
+                                                            <!-- <td><?php $wdp->Line_No ?></td>
+                                                            <td><?php $wdp->Appraisal_No ?></td>
+                                                            <td><?php $wdp->Employee_No ?></td> -->
+                                                            <td><?= $wdp->Development_Plan ?></td>
+                                                            <td>
+                                                                <?= Html::a('<i class="fas fa-edit"></i> ',['weeknessdevelopmentplan/update','Line_No'=> $wdp->Line_No,'Appraisal_No'=> $model->Appraisal_No,'Employee_No' => $model->Employee_No],['class' => 'btn btn-xs btn-outline-primary update-learning','title'=> 'Update Weakness Development Plan']) ?>
+                                                                <?= Html::a('<i class="fas fa-trash"></i> ',['weeknessdevelopmentplan/delete','Key'=> $wdp->Key],['class' => 'btn btn-xs btn-outline-primary delete', 'title'=>'Delete Weakness Development Plan']) ?>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                    endforeach;
+                                                }
+                                                ?>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <!--end displaying children-->
+                                <?php } ?>
+                            <?php }  ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
 
                 <!--/-Areas_of_Further_Development-->

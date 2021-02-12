@@ -100,9 +100,9 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                      <?php if($model->Goal_Setting_Status == 'Overview_Manager' && $model->isOverview()): ?>
                         <div class="col-md-4">
 
-                            <?= Html::a('<i class="fas fa-backward"></i> To Line Mgr.',['backtolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
+                            <?= Html::a('<i class="fas fa-backward"></i> Line Mgr.',['backtolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
                                 [
-                                    'class' => 'btn btn-app bg-danger rejectgoals',
+                                    'class' => 'mx-1 btn btn-app bg-danger rejectgoals',
                                     'rel' => $_GET['Appraisal_No'],
                                     'rev' => $_GET['Employee_No'],
                                     'title' => 'Submit Probation  Back to Line Manager'
@@ -115,7 +115,7 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                             <?= Html::a('<i class="fas fa-forward"></i> Approve',['approvegoals','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
                                 [
 
-                                'class' => 'btn btn-app submitforapproval','data' => [
+                                'class' => 'mx-1 btn btn-app submitforapproval','data' => [
                                 'confirm' => 'Are you sure you want to approve goals ?',
                                 'method' => 'post',
                             ],
@@ -190,7 +190,7 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 
                             <?= Html::a('<i class="fas fa-backward"></i> To Line Mgr.',['overviewbacktolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
                                 [
-                                    'class' => 'btn btn-app bg-danger Overviewbacktolinemgr',
+                                    'class' => 'mx-1 btn btn-app bg-danger Overviewbacktolinemgr',
                                     'rel' => $_GET['Appraisal_No'],
                                     'rev' => $_GET['Employee_No'],
                                     'title' => 'Send Probation Appraisal Back to Line Manager'
@@ -506,7 +506,7 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 
                                                 <td><?= !empty($kpi->Appraisee_Self_Rating_Ex)?$kpi->Appraisee_Self_Rating_Ex:'N/A' ?></td>
                                                 <td><?= !empty($kpi->Appraiser_Rating_Ex)?$kpi->Appraiser_Rating_Ex:'N/A' ?></td>
-                                                <td><?= !isset($kpi->Employee_Comments_Ex)?$kpi->Employee_Comments_Ex:'N/A' ?></td>
+                                                <td><?= !empty($kpi->Employee_Comments_Ex)?$kpi->Employee_Comments_Ex:'N/A' ?></td>
                                                 <td><?= !empty($kpi->End_Year_Supervisor_Comments_E)?$kpi->End_Year_Supervisor_Comments_E:'N/A' ?></td>
 
                                  <?php endif; ?>

@@ -27,7 +27,11 @@ public $Global_Dimension_3_Code;
 public $Global_Dimension_4_Code;
 public $Global_Dimension_5_Code;
 public $Action_ID;
-public $isNewRecord;
+public $Library_Clearance_Lines;
+public $Lab_Clearance_Lines;
+public $ICT_Clearance_Lines;
+public $Store_CLearance_Form;
+public $Assigned_Assets_Clearance;
 
 
 
@@ -155,7 +159,11 @@ public $isNewRecord;
             ];
             //Get Status
             $result = Yii::$app->navhelper->getData($service, $filter);
-            return $result[0]->Status;
+            if(is_array($result)){
+                return $result[0]->Status == 'Cleared'?'text-success':'';
+            }else{
+                return false;
+            }
         }
         elseif($section == 'ICT')
         {
@@ -165,7 +173,11 @@ public $isNewRecord;
             ];
             //Get Status
             $result = Yii::$app->navhelper->getData($service, $filter);
-            return $result[0]->Status == 'Cleared'?'text-success':'';
+            if(is_array($result)){
+                return $result[0]->Status == 'Cleared'?'text-success':'';
+            }else{
+                return false;
+            }
         }
         elseif($section == 'Store')
         {
@@ -175,7 +187,13 @@ public $isNewRecord;
             ];
             //Get Status
             $result = Yii::$app->navhelper->getData($service, $filter);
-            return $result[0]->Status == 'Cleared'?'text-success':'';
+            // return $result[0]->Status == 'Cleared'?'text-success':'';
+
+            if(is_array($result)){
+                return $result[0]->Status == 'Cleared'?'text-success':'';
+            }else{
+                return false;
+            }
         }
         elseif($section == 'Library')
         {
@@ -185,7 +203,13 @@ public $isNewRecord;
             ];
             //Get Status
             $result = Yii::$app->navhelper->getData($service, $filter);
-            return $result[0]->Status == 'Cleared'?'text-success':'';
+            // return $result[0]->Status == 'Cleared'?'text-success':'';
+
+             if(is_array($result)){
+                return $result[0]->Status == 'Cleared'?'text-success':'';
+            }else{
+                return false;
+            }
         }
         elseif($section == 'Archives')
         {
@@ -220,6 +244,26 @@ public $isNewRecord;
             return false;
         }
     }
+
+
+    public function getClearingEmployee()
+    {
+        $service = Yii::$app->params['ServiceName']['ClearanceStatus'];
+
+        $filter = [
+            'Exit_No' => $this->Exit_No ,
+            'Form_No' => $this->Form_No ,
+            'Employee_No' => $this->Employee_No,
+            'Section' => $this->Action_ID
+        ];
+
+        $result = Yii::$app->navhelper->getData($service, $filter);
+
+        return $result[0];
+    }
+
+
+    
 
 
 

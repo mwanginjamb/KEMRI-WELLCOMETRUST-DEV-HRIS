@@ -73,11 +73,11 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                         <div class="col-md-6">
                             <?= $form->field($model, 'Repayment_Period')->textInput(['readonly'=> true]) ?>
                             <?= $form->field($model, 'Instalments')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Basic_Pay')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, '_x0031__3_of_Basic')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Current_Net_Pay')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Basic_Pay', ['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->Basic_Pay)]])->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, '_x0031__3_of_Basic',['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->_x0031__3_of_Basic)]])->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Current_Net_Pay',['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->Current_Net_Pay)]])->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
-                            <?= $form->field($model, 'Take_Home')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Take_Home', ['inputOptions' => ['value' => Yii::$app->formatter->asDecimal($model->Take_Home)]])->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Amount_Requested')->textInput(['required'=> true]) ?>
                             <?= $form->field($model, 'Months_Paid')->textInput(['readonly'=> true,'disabled'=>true]) ?>
 

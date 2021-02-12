@@ -28,7 +28,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                 'confirm' => 'Are you sure you want to send this document for approval?',
                 'params'=>[
                     'No'=> $_GET['No'],
-                    'employeeNo' => Yii::$app->user->identity->{'Employee_No'},
+                    'employeeNo' => Yii::$app->user->identity->{'Employee No_'},
                 ],
                 'method' => 'get',
         ],

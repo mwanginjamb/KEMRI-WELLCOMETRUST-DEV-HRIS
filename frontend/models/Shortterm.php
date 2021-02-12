@@ -68,6 +68,7 @@ public $Supervisor_Rejection_Comments;
     public function getKpi($KRA_Line_No){
         $service = Yii::$app->params['ServiceName']['ProbationKPIs'];
         $filter = [
+            'Appraisal_No'=> $this->Appraisal_No,
             'KRA_Line_No' => $KRA_Line_No,
         ];
 
@@ -90,10 +91,11 @@ public $Supervisor_Rejection_Comments;
 
     /*Get Behaviours*/
 
-     public function getBehaviours($Category_Id){
+     public function getBehaviours($Category_Id,$Appraisal_No){
         $service = Yii::$app->params['ServiceName']['EmployeeAppraisalBehaviours'];
         $filter = [
             'Category_Line_No' => $Category_Id,
+            'Appraisal_Code' => $Appraisal_No
         ];
 
         $results = Yii::$app->navhelper->getData($service, $filter);

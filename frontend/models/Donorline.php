@@ -10,30 +10,24 @@ namespace frontend\models;
 use yii\base\Model;
 
 
-class Contractrenewalline extends Model
+class Donorline extends Model
 {
 
 public $Key;
-public $Contract_Code;
-public $Contract_Description;
-public $Contract_Start_Date;
-public $Contract_Period;
-public $Contract_End_Date;
-public $Notice_Period;
-public $Job_Title;
-public $Line_Manager;
-public $Manager_Name;
-public $Department;
-public $Pointer;
-public $Grade;
-public $Salary;
-public $New_Salary;
-public $Status;
-public $Change_No;
-public $Line_No;
+public $Grant_Code;
+public $Grant_Name;
+public $Grant_Activity;
+public $Grant_Type;
+public $Grant_Start_Date;
+public $Grant_End_Date;
+public $Percentage;
+public $Grant_Status;
 public $Employee_No;
+public $Contract_Code;
+public $Change_No;
+public $Contract_Line_No;
+public $Line_No;
 public $isNewRecord;
-public $Job_Code;
 
     public function rules()
     {

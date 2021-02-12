@@ -67,18 +67,23 @@ if(Yii::$app->session->hasFlash('success')){
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($model as $status):
-                                $cleared = ($status->Status == 'Cleared')?'text-success text-bold':'';
+                            <?php 
+                            
+                            foreach($model as $status):
+                                $cleared = (!empty($status->Status) && $status->Status == 'Cleared')?'text-success text-bold':'';
                                 ?>
                                     <tr class="<?= $cleared ?>">
-                                        <td><?= $status->Exit_No  ?></td>
-                                        <td><?= $status->Form_No ?></td>
-                                        <td><?= $status->Employee_No ?></td>
-                                        <td><?= $status->Clearing_Employee ?></td>
-                                        <td><?= $status->Section ?></td>
-                                        <td ><?= $status->Status ?></td>
+                                        <td><?= !empty($status->Exit_No)?$status->Exit_No:''  ?></td>
+                                        <td><?= !empty($status->Form_No)?$status->Form_No:'' ?></td>
+                                        <td><?= !empty($status->Employee_No)?$status->Employee_No:'' ?></td>
+                                        <td><?= !empty($status->Clearing_Employee)?$status->Clearing_Employee:'' ?></td>
+                                        <td><?= !empty($status->Section)?$status->Section:'' ?></td>
+                                        <td ><?= !empty($status->Status)?$status->Status:'' ?></td>
                                     </tr>
-                            <?php endforeach; ?>
+                            <?php endforeach;
+
+                                
+                             ?>
                         </tbody>
                     </table>
                 </div>

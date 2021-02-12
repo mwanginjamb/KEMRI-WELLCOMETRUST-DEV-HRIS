@@ -361,6 +361,75 @@ class ExitFormController extends Controller
         ]);
     }
 
+    public function actionClear($exitNo, $formNo, $stage)
+    {
+         $service = Yii::$app->params['ServiceName']['EmployeeExitManagement'];
+         $data = [
+            'exitNo' => $exitNo,
+            'formNo' => $formNo,
+            'sendEmail' => 1,
+            'approvalURL' => Html::encode(Yii::$app->urlManager->createAbsoluteUrl(['exit-form/view', 'No' => $exitNo]))
+        ];
+
+        if($stage == 'Library')
+        {
+            $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToLibraryForClearance');
+        }
+        elseif($stage == 'Store')
+        {
+            $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToStoreForClearance');
+        }
+        elseif($stage == 'Archive')
+        {
+            $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToArchiveForClearance');
+        }
+        elseif($stage == 'Lab')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToLabForClearance');
+        }
+        elseif($stage == 'Asset')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToAssetForClearance');
+        }
+
+
+        if(is_string($result))
+        {
+            Yii::$app->session->setFlash('error', 'Error: '. $result);
+            
+        }else{
+            
+            Yii::$app->session->setFlash('success', 'Clearance Successfully Sent For Approval.');
+        }
+
+        return $this->redirect(['view','No' => $formNo]);
+
+
+    }
+
+    public function actionClearSection($exitNo,$FormNo)
+    {
+         $service = Yii::$app->params['ServiceName']['EmployeeExitManagement'];
+        $data = [
+            'exitNo' =>  $exitNo,
+            'formNo' => $FormNo ,
+            'sendEmail' => true ,
+            'approvalURL' => Html::encode(Yii::$app->urlManager->createAbsoluteUrl(['exit-form/view', 'No' => $exitNo]))
+        ];
+
+        $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanClearSection');
+
+        if(!is_string($result))
+        {
+            Yii::$app->session->setFlash('success', 'Section Cleared Successfully.');
+        }else
+        {
+            Yii::$app->session->setFlash('error', 'Error: '.$result);
+        }
+
+        return $this->redirect(['index']);
+    }
+
     // Get clearance status
 
     public function actionClearanceStatus($form_no){

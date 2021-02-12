@@ -182,11 +182,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <td><b>Employee_No</b></td>
-                                <td><b>Exit_No</b></td>
+                                <td><b>Employee No</b></td>
+                                <td><b>Exit No</b></td>
                                 <td><b>Description</b></td>
                                 <td><b>Amount</b></td>
-                                <td><b>Include_in_Payment</b></td>
+                                <td><b>Include in Payment</b></td>
 
                             </tr>
                             </thead>
@@ -194,8 +194,10 @@ Yii::$app->session->set('isSupervisor',false);*/
                             <?php
                             // print '<pre>'; print_r($model->getObjectives()); exit;
                             foreach($model->dues as $obj):
-                                $updateLink = Html::a('<i class="fa fa-edit"></i>',['dependant/update','No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
-                                $deleteLink = Html::a('<i class="fa fa-trash"></i>',['dependant/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+
+                                if(!empty($obj->Line_No)){
+                                               // $updateLink = Html::a('<i class="fa fa-edit"></i>',['dependant/update','No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
+                                                //$deleteLink = Html::a('<i class="fa fa-trash"></i>',['dependant/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                                 ?>
                                 <tr>
 
@@ -207,7 +209,9 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php
+                                } // End if condition for Line_No
+                             endforeach; ?>
                             </tbody>
                         </table>
                     </div>
