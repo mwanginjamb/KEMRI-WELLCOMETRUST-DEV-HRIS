@@ -341,6 +341,7 @@ class ExitFormController extends Controller
 
 
 
+
     public function actionView($No){
         $model = new ExitForm();
         $service = Yii::$app->params['ServiceName']['ClearanceFormCard'];
@@ -390,6 +391,38 @@ class ExitFormController extends Controller
         elseif($stage == 'Asset')
         {
              $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToAssetForClearance');
+        }
+         elseif($stage == 'ICT')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToICTForClearance');
+        }
+        elseif($stage == 'Security')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToSecurityForClearance');
+        }
+        elseif($stage == 'Payroll')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToPayrollForClearance');
+        }
+        elseif($stage == 'Training')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToTrainingForClearance');
+        }
+        elseif($stage == 'Personal_Account')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToPersonalAccountForClearance');
+        }
+        elseif($stage == 'HOD')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToHODForClearance');
+        }
+        elseif($stage == 'Human_Resources')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToHRForClearance');
+        }
+        elseif($stage == 'Executive_Director')
+        {
+             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToEDForClearance');
         }
 
 
@@ -453,14 +486,15 @@ class ExitFormController extends Controller
     public function actionList(){
         $service = Yii::$app->params['ServiceName']['ClearanceFormList'];
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->Employee[0]->No,
+           
         ];
+         // 'Employee_No' => Yii::$app->user->identity->Employee[0]->No,
 
         $results = \Yii::$app->navhelper->getData($service,$filter);
         $result = [];
         foreach($results as $item){
 
-            if(!empty($item->Form_No ))
+            if(!empty($item->Form_No) && ($item->Employee_No == Yii::$app->user->identity->{'Employee No_'} || ( !empty($item->Responsible_Employee) && $item->Responsible_Employee == Yii::$app->user->identity->{'Employee No_'}))  )
             {
                 $link = $updateLink = $deleteLink =  '';
                 $Viewlink = Html::a('<i class="fas fa-eye"></i>',['view','No'=> $item->Form_No ],['class'=>'btn btn-outline-primary btn-xs','title' => 'View Request.' ]);

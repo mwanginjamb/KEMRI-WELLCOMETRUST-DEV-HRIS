@@ -136,7 +136,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                         <div class=" row col-md-12">
                             <div class="col-md-6">
                                 <?= $form->field($model, 'Date_of_Exit')->textInput(['readonly'=> true]) ?>
-                                <?= $form->field($model, 'Interview_Conducted_By')->textInput(['readonly' => true]) ?>
+                                <?php $form->field($model, 'Interview_Conducted_By')->textInput(['readonly' => true]) ?>
                                 <?= $form->field($model, 'Reason_For_Exit')->textInput(['readonly' => true]) ?>
                                 <?= $form->field($model, 'Reason_Description')->textInput(['readonly' => true]) ?>
                                 <?= $form->field($model, 'Notice_Period')->hiddenInput(['readonly'=> true])->label(false) ?>
@@ -146,8 +146,8 @@ Yii::$app->session->set('isSupervisor',false);*/
                             <div class="col-md-6">
                                 <?= $form->field($model, 'Date_Of_Notice')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Expiry_of_Notice')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Date_of_Exit_Interview')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Notice_Fully_Served')->checkbox(['readonly'=> true,'disabled'=> true]) ?>
+                                <?php $form->field($model, 'Date_of_Exit_Interview')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Notice_Fully_Served')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Reasons_For_Not_Serving_Notice')->textInput(['readonly'=> true,'disabled'=> true]) ?>
 
                             </div>
@@ -176,7 +176,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                 <div class="card-body">
 
                     <?php
-                   // Yii::$app->recruitment->printrr($model);
+                    // Yii::$app->recruitment->printrr($model->dues);
                     if(is_array($model->dues)){ //show Lines ?>
                     <div class="table-responsive">
                         <table class="table table-bordered">
@@ -186,7 +186,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <td><b>Exit No</b></td>
                                 <td><b>Description</b></td>
                                 <td><b>Amount</b></td>
-                                <td><b>Include in Payment</b></td>
+                                
 
                             </tr>
                             </thead>
@@ -195,17 +195,16 @@ Yii::$app->session->set('isSupervisor',false);*/
                             // print '<pre>'; print_r($model->getObjectives()); exit;
                             foreach($model->dues as $obj):
 
-                                if(!empty($obj->Line_No)){
-                                               // $updateLink = Html::a('<i class="fa fa-edit"></i>',['dependant/update','No'=> $obj->Line_No],['class' => 'update-objective btn btn-outline-info btn-xs']);
-                                                //$deleteLink = Html::a('<i class="fa fa-trash"></i>',['dependant/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                if(!empty($obj->Employee_No)){
+                                               
                                 ?>
                                 <tr>
 
-                                    <td data-key="<?= $obj->Key ?>" data-name="Employee_No" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="FinalDues" ><?= !empty($obj->Employee_No)?$obj->Employee_No:'Not Set' ?></td>
-                                    <td data-key="<?= $obj->Key ?>" data-name="Exit_No" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="FinalDues" ><?= !empty($obj->Exit_No)?$obj->Exit_No:'Not Set' ?></td>
-                                    <td data-key="<?= $obj->Key ?>" data-name="Description" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="FinalDues" ><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
-                                    <td data-key="<?= $obj->Key ?>" data-name="Amount" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="FinalDues" ondblclick="addInput(this,'date')"><?= !empty($obj->Amount)?$obj->Amount:'Not Set' ?></td>
-                                    <td><?= !empty($obj->Age)?Html::checkbox('Include_in_Payment', $obj->Include_in_Payment):'Not Set' ?></td>
+                                    <td><?= !empty($obj->Employee_No)?$obj->Employee_No:'Not Set' ?></td>
+                                    <td ><?= !empty($obj->Exit_No)?$obj->Exit_No:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Description)?$obj->Description:'Not Set' ?></td>
+                                    <td><?= !empty($obj->Amount)?number_format($obj->Amount):'Not Set' ?></td>
+                                    
 
 
                                 </tr>

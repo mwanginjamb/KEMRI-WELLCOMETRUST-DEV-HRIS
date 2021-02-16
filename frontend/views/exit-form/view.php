@@ -9,7 +9,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Change Request - '.$model->Form_No;
+$this->title = 'Exit Form:  - '.$model->Form_No;
 $this->params['breadcrumbs'][] = ['label' => 'Change Request', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Change Request Card', 'url' => ['view','No'=> $model->Form_No]];
 /** Status Sessions */
@@ -33,7 +33,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                     }
                     
 //print Yii::$app->user->identity->{'Employee No_'};
-//Yii::$app->recruitment->printrr($model->ClearingEmployee->Clearing_Employee);
+// Yii::$app->recruitment->printrr($model->sequence);
 
 
 ?> 
@@ -44,7 +44,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 <?php if( $model->ClearingEmployee->Employee_No == Yii::$app->user->identity->{'Employee No_'} ){ ?>
 
 
-        <?=  Html::a('<i class="fas fa-paper-plane"></i> Send to Library',['clear'],['class' =>  $model->CheckStatus('Library').' btn btn-app submitforapproval',
+        <?=  ($model->sequence && $model->sequence == 'Library')?Html::a('<i class="fas fa-paper-plane"></i> Send to Library',['clear'],['class' =>  $model->CheckStatus('Library').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -54,11 +54,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                 ],
                 'method' => 'get',
             ],
-            'title' => 'Cancel Approval Request'
+            'title' => 'Send For Clearance'
 
-        ]) ?>
+        ]): '' ?>
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Lab',['clear'],['class' => $model->CheckStatus('Lab').' btn btn-app submitforapproval',
+        <?= ($model->sequence && $model->sequence == 'Lab')?Html::a('<i class="fas fa-paper-plane"></i> Send to Lab',['clear'],['class' => $model->CheckStatus('Lab').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -68,15 +68,15 @@ Yii::$app->session->set('isSupervisor',false);*/
                 ],
                 'method' => 'get',
             ],
-            'title' => 'Cancel Approval Request'
+            'title' => 'Send For Clearance'
 
-        ]) 
+        ]):''; 
 
 ?>
 
         
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to ICT',['clear'],['class' => $model->CheckStatus('ICT').' btn btn-app submitforapproval',
+        <?= ($model->sequence && $model->sequence == 'ICT')?Html::a('<i class="fas fa-paper-plane"></i> Send to ICT',['clear'],['class' => $model->CheckStatus('ICT').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -86,11 +86,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                 ],
                 'method' => 'get',
             ],
-            'title' => 'Cancel Approval Request'
+            'title' => 'Send For Clearance'
 
-        ]) ?>
+        ]):'' ?>
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Store',['clear'],['class' => $model->CheckStatus('Store').' btn btn-app submitforapproval',
+        <?= ($model->sequence && $model->sequence == 'Store')?Html::a('<i class="fas fa-paper-plane"></i> Send to Store',['clear'],['class' => $model->CheckStatus('Store').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -100,11 +100,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                 ],
                 'method' => 'get',
             ],
-            'title' => 'Cancel Approval Request'
+            'title' => 'Send For Clearance'
 
-        ]) ?>
+        ]):'' ?>
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Archives',['clear'],['class' => $model->CheckStatus('Archives').' btn btn-app submitforapproval',
+        <?= ($model->sequence && $model->sequence == 'Archive')?Html::a('<i class="fas fa-paper-plane"></i> Send to Archives',['clear'],['class' => $model->CheckStatus('Archives').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -114,11 +114,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                 ],
                 'method' => 'get',
             ],
-            'title' => 'Cancel Approval Request'
+            'title' => 'Send For Clearance'
 
-        ]) ?>
+        ]):'' ?>
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send to Assets',['clear'],['class' => $model->CheckStatus('Assets').' btn btn-app submitforapproval',
+        <?= ($model->sequence && $model->sequence == 'Asset')? Html::a('<i class="fas fa-paper-plane"></i> Send to Assets',['clear'],['class' => $model->CheckStatus('Assets').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -128,9 +128,125 @@ Yii::$app->session->set('isSupervisor',false);*/
                 ],
                 'method' => 'get',
             ],
-            'title' => 'Cancel Approval Request'
+            'title' => 'Send For Clearance'
 
-        ]) ?>
+        ]):'' ?>
+
+        <!-- Add Other Stage Actions -->
+
+        <?= ($model->sequence && $model->sequence == 'Security')?Html::a('<i class="fas fa-paper-plane"></i> Send to Security',['clear'],['class' => $model->CheckStatus('Security').' btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send this document ?',
+                'params'=>[
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Security'
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Send For Clearance'
+
+        ]):'' ?>
+
+
+        <?= ($model->sequence && $model->sequence == 'Payroll')?Html::a('<i class="fas fa-paper-plane"></i> Send to Payroll',['clear'],['class' => $model->CheckStatus('Payroll').' btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send this document ?',
+                'params'=>[
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Payroll'
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Send For Clearance'
+
+        ]):'' ?>
+
+
+        <?= ($model->sequence && $model->sequence == 'Personal_Account')?Html::a('<i class="fas fa-paper-plane"></i>  Personal A/C ',['clear'],['class' => $model->CheckStatus('Personal_Account').' btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send this document ?',
+                'params'=>[
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Personal_Account'
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Send For Clearance'
+
+        ]):'' ?>
+
+
+         <?= ($model->sequence && $model->sequence == 'Training')?Html::a('<i class="fas fa-paper-plane"></i>  Training ',['clear'],['class' => $model->CheckStatus('Training').' btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send this document ?',
+                'params'=>[
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Training'
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Send For Clearance'
+
+        ]):'' ?>
+
+
+         <?= ($model->sequence && $model->sequence == 'Human_Resources')?Html::a('<i class="fas fa-paper-plane"></i>  Human_Resources ',['clear'],['class' => $model->CheckStatus('Training').' btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send this document ?',
+                'params'=>[
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Human_Resources'
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Send For Clearance'
+
+        ]):'' ?>
+
+
+         <?= ($model->sequence && $model->sequence == 'Executive_Director')?Html::a('<i class="fas fa-paper-plane"></i>  Executive Director ',['clear'],['class' => $model->CheckStatus('Training').' btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send this document ?',
+                'params'=>[
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'Executive_Director'
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Send For Clearance'
+
+        ]):'' ?>
+
+         <?= ($model->sequence && $model->sequence == 'HOD')?Html::a('<i class="fas fa-paper-plane"></i>  HOD ',['clear'],['class' => $model->CheckStatus('Training').' btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to send this document ?',
+                'params'=>[
+                    'exitNo' => $model->Exit_No,
+                    'formNo' => $model->Form_No,
+                    'stage' => 'HOD'
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Send For Clearance'
+
+        ]):'' ?>
+
+
+
+
+
+
+
+
+
+
+
 
 <?php } ?>
 
@@ -226,7 +342,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                        Library Clearance Lines
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['library-clearance/create','No' => $model->Form_No],['class' => 'add-line btn btn-sm btn-info ml-auto']) ?>
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['library/create',
+                        'Form_No' => $model->Form_No,
+                        'Exit_no' => $model->Exit_No,
+                        'Employee_no' => $model->Employee_No
+                    ],['class' => 'add-line btn btn-sm btn-info ml-auto']) ?>
                     </div>
 
                 </div>
@@ -285,7 +405,12 @@ Yii::$app->session->set('isSupervisor',false);*/
                         Lab Clearance Lines
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['lab-clearance/create','No' => $model->Form_No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['lab/create',
+                        'Form_No' => $model->Form_No,
+                        'Exit_no' => $model->Exit_No,
+                        'Employee_no' => $model->Employee_No
+
+                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -341,7 +466,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                         ICT Clearance
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['ict-clearance/create','No' => $model->Form_No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['ict/create',
+                            'Form_No' => $model->Form_No,
+                            'Exit_no' => $model->Exit_No,
+                            'Employee_no' => $model->Employee_No
+                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -369,15 +498,15 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <?php
                                 // print '<pre>'; print_r($model->getObjectives()); exit;
                                 foreach($model->ict as $benobj):
-                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['ict-clearance/update','No'=> $benobj->No],['class' => 'update-benobjective btn btn-outline-info btn-xs']);
+                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['ict-clearance/update','No'=> $benobj->Line_No],['class' => 'update-benobjective btn btn-outline-info btn-xs']);
                                     $deleteLink = Html::a('<i class="fa fa-trash"></i>',['ict/clearance','Key'=> $benobj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                                     ?>
                                     <tr>
 
-                                        <td data-key="<?= $benobj->Key ?>" data-name="Employee_no" data-no="<?= $benobj->No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addInput(this)"><?= !empty($benobj->Employee_no)?$benobj->Employee_no:'Not Set' ?></td>
-                                        <td data-key="<?= $benobj->Key ?>" data-name="Exit_no" data-no="<?= $benobj->No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addDropDown(this,'type')"><?= !empty($benobj->Exit_no)?$benobj->Exit_no:'Not Set' ?></td>
-                                        <td data-key="<?= $benobj->Key ?>" data-name="Item_Description" data-no="<?= $benobj->No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addDropDown(this,'relatives')"><?= !empty($benobj->Item_Description)?$benobj->Item_Description:'Not Set' ?></td>
-                                        <td data-key="<?= $benobj->Key ?>" data-name="Item_Worth" data-no="<?= $benobj->No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addInput(this)"><?= !empty($benobj->Item_Worth)?$benobj->Item_Worth:'Not Set' ?></td>
+                                        <td data-key="<?= $benobj->Key ?>" data-name="Employee_no" data-no="<?= $benobj->Line_No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addInput(this)"><?= !empty($benobj->Employee_no)?$benobj->Employee_no:'Not Set' ?></td>
+                                        <td data-key="<?= $benobj->Key ?>" data-name="Exit_no" data-no="<?= $benobj->Line_No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addDropDown(this,'type')"><?= !empty($benobj->Exit_no)?$benobj->Exit_no:'Not Set' ?></td>
+                                        <td data-key="<?= $benobj->Key ?>" data-name="Item_Description" data-no="<?= $benobj->Line_No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addDropDown(this,'relatives')"><?= !empty($benobj->Item_Description)?$benobj->Item_Description:'Not Set' ?></td>
+                                        <td data-key="<?= $benobj->Key ?>" data-name="Item_Worth" data-no="<?= $benobj->Line_No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addInput(this)"><?= !empty($benobj->Item_Worth)?$benobj->Item_Worth:'Not Set' ?></td>
 
 
                                     </tr>
@@ -399,7 +528,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                         Store Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['store-clearance/create','No' => $model->Form_No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['store/create',
+                        'Form_No' => $model->Form_No,
+                        'Exit_no' => $model->Exit_No,
+                        'Employee_no' => $model->Employee_No
+                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -416,8 +549,6 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td><b>Exit_no</b></td>
                                     <td><b>Item_Description</b></td>
                                     <td><b>Item_Worth</b></td>
-
-
 
                                 </tr>
                                 </thead>
@@ -455,7 +586,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                         Assigned Assets Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['assigned-assets-clearance/create','No' => $model->Form_No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                        <?php Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['asset/create',
+                        
+                        'Exit_no' => $model->Exit_No,
+                        'Employee_no' => $model->Employee_No
+                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -492,7 +627,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                         <td data-key="<?= $whobj->Key ?>" data-name="Description" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this)"><?= !empty($whobj->Description)?$whobj->Description:'Not Set' ?></td>
                                         <td data-key="<?= $whobj->Key ?>" data-name="Asset_Number" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this)"><?= !empty($whobj->Asset_Number)?$whobj->Asset_Number:'Not Set' ?></td>
                                         <td data-key="<?= $whobj->Key ?>" data-name="Condition" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addDropDown(this,'condition')"><?= !empty($whobj->Condition)?$whobj->Condition:'Not Set' ?></td>
-                                        <td data-key="<?= $whobj->Key ?>" data-name="Returned" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this, 'checkbox')"><?= !empty($whobj->Returned)?$whobj->Returned:'Not Set' ?></td>
+                                        <td data-key="<?= $whobj->Key ?>" data-name="Returned" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addDropDown(this, 'returned')"><?= !empty($whobj->Returned)?$whobj->Returned:'Not Set' ?></td>
                                         <td data-key="<?= $whobj->Key ?>" data-name="Value_on_Return" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this, 'number')"><?= !empty($whobj->Value_on_Return)?$whobj->Value_on_Return:'Not Set' ?></td>
 
                                     </tr>
@@ -506,9 +641,238 @@ Yii::$app->session->set('isSupervisor',false);*/
             </div>
 
 
+            <!-- Security Clearance -->
+
+
+            <div class="card" id="Security">
+                <div class="card-header">
+                    <div class="card-title">
+                        Security Clearance Form
+                    </div>
+                    <div class="card-tools">
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['security/create',
+                        'Form_No' => $model->Form_No,
+                        'Exit_no' => $model->Exit_No,
+                        'Employee_no' => $model->Employee_No
+                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <?php
+
+                    if(is_array($model->security)){ //show Lines ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <td><b>Employee_no</b></td>
+                                    <td><b>Item_Description</b></td>
+                                    <td><b>Item_Worth</b></td>
+                                    
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                // print '<pre>'; print_r($model->getObjectives()); exit;
+                                foreach($model->security as $secobj):
+                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['assigned-assets-clearance/update','No'=> $secobj->Line_No],['class' => 'update-secobjective btn btn-outline-info btn-xs']);
+                                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['assigned-assets-clearance/delete','Key'=> $secobj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                    ?>
+                                    <tr>
+
+                                        <td data-key="<?= $secobj->Key ?>" data-name="Employee_no" data-no="<?= $secobj->Line_No ?>" data-filter-field="Line_No" data-service="SecurityClearanceForm" ><?= !empty($secobj->Employee_no)?$secobj->Employee_no:'Not Set' ?></td>
+                                        <td data-key="<?= $secobj->Key ?>" data-name="Item_Description" data-no="<?= $secobj->Line_No ?>" data-filter-field="Line_No" data-service="SecurityClearanceForm" ondblclick="addInput(this)"><?= !empty($secobj->Item_Description)?$secobj->Item_Description:'Not Set' ?></td>
+                                        <td data-key="<?= $secobj->Key ?>" data-name="Item_Worth" data-no="<?= $secobj->Line_No ?>" data-filter-field="Line_No" data-service="SecurityClearanceForm" ondblclick="addInput(this)"><?= !empty($secobj->Item_Worth)?$secobj->Item_Worth:'Not Set' ?></td>
+                                       
+
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
+                </div>
+            </div>
 
 
 
+            <!-- Training Clearance -->
+
+
+            <div class="card" id="Training">
+                <div class="card-header">
+                    <div class="card-title">
+                        Training Clearance Form
+                    </div>
+                    <div class="card-tools">
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['training/create',
+                        'Form_No' => $model->Form_No,
+                        'Exit_no' => $model->Exit_No,
+                        'Employee_no' => $model->Employee_No
+                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <?php
+
+                    if(is_array($model->training)){ //show Lines ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <td><b>Employee_no</b></td>
+                                    <td><b>Item_Description</b></td>
+                                    <td><b>Item_Worth</b></td>
+                                   
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                // print '<pre>'; print_r($model->getObjectives()); exit;
+                                foreach($model->training as $tobj):
+                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['assigned-assets-clearance/update','No'=> $tobj->Line_No],['class' => 'update-tobjective btn btn-outline-info btn-xs']);
+                                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['assigned-assets-clearance/delete','Key'=> $tobj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                    ?>
+                                    <tr>
+
+                                        <td data-key="<?= $tobj->Key ?>" data-name="Employee_no" data-no="<?= $tobj->Line_No ?>" data-filter-field="Line_No" data-service="TrainingClearanceForm" ><?= !empty($tobj->Employee_no)?$tobj->Employee_no:'Not Set' ?></td>
+                                        <td data-key="<?= $tobj->Key ?>" data-name="Item_Description" data-no="<?= $tobj->Line_No ?>" data-filter-field="Line_No" data-service="TrainingClearanceForm" ondblclick="addInput(this)"><?= !empty($tobj->Item_Description)?$tobj->Item_Description:'Not Set' ?></td>
+                                        <td data-key="<?= $tobj->Key ?>" data-name="Item_Worth" data-no="<?= $tobj->Line_No ?>" data-filter-field="Line_No" data-service="TrainingClearanceForm" ondblclick="addInput(this)"><?= !empty($tobj->Item_Worth)?$tobj->Item_Worth:'Not Set' ?></td>
+                                        
+
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
+                </div>
+            </div>
+
+
+
+            <!-- Payroll Clearance -->
+
+
+            <div class="card" id="Payroll">
+                <div class="card-header">
+                    <div class="card-title">
+                        Payroll Clearance Form
+                    </div>
+                    <div class="card-tools">
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['payroll/create',
+                        'Form_No' => $model->Form_No,
+                        'Exit_no' => $model->Exit_No,
+                        'Employee_no' => $model->Employee_No
+                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <?php
+
+                    if(is_array($model->payroll)){ //show Lines ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <td><b>Employee_no</b></td>
+                                    <td><b>Item_Description</b></td>
+                                    <td><b>Item_Worth</b></td>
+                                    
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                // print '<pre>'; print_r($model->getObjectives()); exit;
+                                foreach($model->payroll as $pobj):
+                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['assigned-assets-clearance/update','No'=> $pobj->Line_No],['class' => 'update-pobjective btn btn-outline-info btn-xs']);
+                                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['assigned-assets-clearance/delete','Key'=> $pobj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                    ?>
+                                    <tr>
+
+                                        <td data-key="<?= $pobj->Key ?>" data-name="Employee_no" data-no="<?= $pobj->Line_No ?>" data-filter-field="Line_No" data-service="PayrollClearanceForm" ><?= !empty($pobj->Employee_no)?$pobj->Employee_no:'Not Set' ?></td>
+                                        <td data-key="<?= $pobj->Key ?>" data-name="Item_Description" data-no="<?= $pobj->Line_No ?>" data-filter-field="Line_No" data-service="PayrollClearanceForm" ondblclick="addInput(this)"><?= !empty($pobj->Item_Description)?$pobj->Item_Description:'Not Set' ?></td>
+                                        <td data-key="<?= $pobj->Key ?>" data-name="Item_Worth" data-no="<?= $pobj->Line_No ?>" data-filter-field="Line_No" data-service="PayrollClearanceForm" ondblclick="addInput(this)"><?= !empty($pobj->Item_Worth)?$pobj->Item_Worth:'Not Set' ?></td>
+                                        
+
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
+                </div>
+            </div>
+
+            <!-- Peronal Clearance -->
+
+
+
+
+            <div class="card" id="Personal">
+                <div class="card-header">
+                    <div class="card-title">
+                        Personal Account Clearance Form
+                    </div>
+                    <div class="card-tools">
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['personal/create',
+                        'Form_No' => $model->Form_No,
+                        'Exit_no' => $model->Exit_No,
+                        'Employee_no' => $model->Employee_No
+                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <?php
+
+                    if(is_array($model->personal)){ //show Lines ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <td><b>Employee_no</b></td>
+                                    <td><b>Item_Description</b></td>
+                                    <td><b>Item_Worth</b></td>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                // print '<pre>'; print_r($model->getObjectives()); exit;
+                                foreach($model->personal as $PerObj):
+                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['assigned-assets-clearance/update','No'=> $PerObj->Line_No],['class' => 'update-PerObjective btn btn-outline-info btn-xs']);
+                                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['assigned-assets-clearance/delete','Key'=> $PerObj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                    ?>
+                                    <tr>
+
+                                        <td data-key="<?= $PerObj->Key ?>" data-name="Employee_no" data-no="<?= $PerObj->Line_No ?>" data-filter-field="Line_No" data-service="PersonalAccountClearance" ><?= !empty($PerObj->Employee_no)?$PerObj->Employee_no:'Not Set' ?></td>
+                                        <td data-key="<?= $PerObj->Key ?>" data-name="Item_Description" data-no="<?= $PerObj->Line_No ?>" data-filter-field="Line_No" data-service="PersonalAccountClearance" ondblclick="addInput(this)"><?= !empty($PerObj->Item_Description)?$PerObj->Item_Description:'Not Set' ?></td>
+                                        <td data-key="<?= $PerObj->Key ?>" data-name="Item_Worth" data-no="<?= $PerObj->Line_No ?>" data-filter-field="Line_No" data-service="PersonalAccountClearance" ondblclick="addInput(this)"><?= !empty($PerObj->Item_Worth)?$PerObj->Item_Worth:'Not Set' ?></td>
+                                       
+
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
+                </div>
+            </div>
 
 
 
@@ -530,7 +894,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Change Request Management</h4>
+                    <h4 class="modal-title" id="myModalLabel" style="position: absolute">Exit Management</h4>
                 </div>
                 <div class="modal-body">
 

@@ -124,6 +124,7 @@ class ExitController extends Controller
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['EmployeeExit'])){
             $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
+            $model->Date_Of_Notice = date('Y-m-d');
             $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
@@ -162,7 +163,7 @@ class ExitController extends Controller
 
 
         //Yii::$app->recruitment->printrr($model);
-        $model->Date_Of_Notice = date('Y-m-d');
+        
         $model->Date_of_Exit = date('Y-m-d');
         return $this->render('create',[
             'model' => $model,

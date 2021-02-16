@@ -116,6 +116,68 @@ public $Assigned_Assets_Clearance;
 
     }
 
+    /*Get Security*/
+
+    public function getSecurity(){
+        $service = Yii::$app->params['ServiceName']['SecurityClearanceForm'];
+        $filter = [
+            'Exit_no' => $this->Exit_No,
+        ];
+
+        $lines = Yii::$app->navhelper->getData($service, $filter);
+        return $lines;
+
+    }
+
+
+    /*Get Training*/
+
+    public function getTraining(){
+        $service = Yii::$app->params['ServiceName']['TrainingClearanceForm'];
+        $filter = [
+            'Exit_no' => $this->Exit_No,
+        ];
+
+        $lines = Yii::$app->navhelper->getData($service, $filter);
+        return $lines;
+
+    }
+
+
+    /*get Payroll*/
+
+     public function getPayroll(){
+        $service = Yii::$app->params['ServiceName']['PayrollClearanceForm'];
+        $filter = [
+            'Exit_no' => $this->Exit_No,
+        ];
+
+        $lines = Yii::$app->navhelper->getData($service, $filter);
+        return $lines;
+
+    }
+
+
+
+    /*Get Personal */
+
+    public function getPersonal(){
+        $service = Yii::$app->params['ServiceName']['PersonalAccountClearance'];
+        $filter = [
+            'Exit_no' => $this->Exit_No,
+        ];
+
+        $lines = Yii::$app->navhelper->getData($service, $filter);
+        return $lines;
+
+    }
+
+
+    /*gET Sacco*/
+
+
+    /*Get Human Resources*/
+
 
 
 
@@ -240,7 +302,64 @@ public $Assigned_Assets_Clearance;
             }else{
                 return false;
             }
-        }else{
+        }
+        elseif($section == 'Training')
+        {
+            $filter = [
+                'Form_No' => $this->Form_No,
+                'Section' => $section,
+            ];
+            //Get Status
+            $result = Yii::$app->navhelper->getData($service, $filter);
+            if(is_array($result)){
+                return $result[0]->Status == 'Cleared'?'text-success':'';
+            }else{
+                return false;
+            }
+        }
+        elseif($section == 'Security')
+        {
+            $filter = [
+                'Form_No' => $this->Form_No,
+                'Section' => $section,
+            ];
+            //Get Status
+            $result = Yii::$app->navhelper->getData($service, $filter);
+            if(is_array($result)){
+                return $result[0]->Status == 'Cleared'?'text-success':'';
+            }else{
+                return false;
+            }
+        }
+        elseif($section == 'Payroll')
+        {
+            $filter = [
+                'Form_No' => $this->Form_No,
+                'Section' => $section,
+            ];
+            //Get Status
+            $result = Yii::$app->navhelper->getData($service, $filter);
+            if(is_array($result)){
+                return $result[0]->Status == 'Cleared'?'text-success':'';
+            }else{
+                return false;
+            }
+        }
+        elseif($section == 'Personal_Account')
+        {
+            $filter = [
+                'Form_No' => $this->Form_No,
+                'Section' => $section,
+            ];
+            //Get Status
+            $result = Yii::$app->navhelper->getData($service, $filter);
+            if(is_array($result)){
+                return $result[0]->Status == 'Cleared'?'text-success':'';
+            }else{
+                return false;
+            }
+        }
+        else{
             return false;
         }
     }
@@ -260,6 +379,19 @@ public $Assigned_Assets_Clearance;
         $result = Yii::$app->navhelper->getData($service, $filter);
 
         return $result[0];
+    }
+
+    public function getSequence()
+    {
+        $service = Yii::$app->params['ServiceName']['EmployeeExitManagement'];
+        $result = Yii::$app->navhelper->codeunit($service,['formNo' => $this->Form_No],'IanGetNextSequence');
+
+       if(!is_string($result))
+       {
+        return $result['return_value'];
+       }
+
+       return false;
     }
 
 

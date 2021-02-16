@@ -78,9 +78,9 @@ if(Yii::$app->session->hasFlash('success')){
                                 <?= $form->field($model, 'Reason_For_Exit')->dropDownList($reasons,['prompt' => 'Select ...']) ?>
                                 <?= $form->field($model, 'Date_Of_Notice')->textInput(['type'=> 'date','min' => date('Y-m-d')]) ?>
                                 
-                                <?= $form->field($model, 'Interview_Conducted_By')->textInput(['readonly' => true]) ?>
+                                <?= $form->field($model, 'Notice_Period')->textInput(['readonly' => true, 'disabled' => true]) ?>
                                 
-                                <?= $form->field($model, 'Reason_Description')->textInput(['readonly' => true]) ?>
+                                <?= $form->field($model, 'Reason_Description')->textInput(['readonly' => true, 'disabled' => true]) ?>
                                 <?= $form->field($model, 'Notice_Period')->hiddenInput(['readonly'=> true])->label(false) ?>
 
 
@@ -88,7 +88,7 @@ if(Yii::$app->session->hasFlash('success')){
                             <div class="col-md-6">
                                 <?= $form->field($model, 'Date_of_Exit')->textInput(['type'=> 'date','min' => date('Y-m-d')]) ?>
                                 <?= $form->field($model, 'Expiry_of_Notice')->textInput(['readonly'=> true,'disabled'=> true]) ?>
-                                <?= $form->field($model, 'Date_of_Exit_Interview')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?php $form->field($model, 'Date_of_Exit_Interview')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Notice_Fully_Served')->textInput(['readonly'=> true,'disabled'=> true]) ?>
                                 <?= $form->field($model, 'Reasons_For_Not_Serving_Notice')->textArea(['rows' => 2]) ?>
 
@@ -181,7 +181,7 @@ $script = <<<JS
                    //populate empty form fields with new data
                    
                    $('#employeeexit-date_of_notice').val(msg.Date_Of_Notice);
-                   $('#employeeexit-date_of_exit').val(msg.Date_of_Exit);
+                  // $('#employeeexit-date_of_exit').val(msg.Date_of_Exit);
                    $('#employeeexit-notice_fully_served').val(msg.Notice_Fully_Served);
                    $('#employeeexit-key').val(msg.Key);
                     
@@ -213,7 +213,7 @@ $script = <<<JS
             $.post(url,{'Date_of_Exit': Date_of_Exit,'Exit_No': Exit_No}).done(function(msg){
                    //populate empty form fields with new data
                    
-                   $('#employeeexit-date_of_notice').val(msg.Date_Of_Notice);
+                  // $('#employeeexit-date_of_notice').val(msg.Date_Of_Notice);
                    $('#employeeexit-date_of_exit').val(msg.Date_of_Exit);
                    $('#employeeexit-notice_fully_served').val(msg.Notice_Fully_Served);
                    $('#employeeexit-expiry_of_notice').val(msg.Expiry_of_Notice);

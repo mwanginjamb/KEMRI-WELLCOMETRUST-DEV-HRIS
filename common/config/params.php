@@ -306,6 +306,13 @@ return [
         'StoreCLearanceForm' => 'StoreCLearanceForm', //52031
         'AssignedAssetsClearance' => 'AssignedAssetsClearance', //52033
         'ClearanceStatus' => 'ClearanceStatus', // 52035
+
+        'SecurityClearanceForm' => 'SecurityClearanceForm', //52037
+        'TrainingClearanceForm' => 'TrainingClearanceForm', // 52038
+        'PayrollClearanceForm' => 'PayrollClearanceForm', //52039
+        'PersonalAccountClearance' => 'PersonalAccountClearance', //52040
+
+
         'EmployeeExitManagement' => 'EmployeeExitManagement', //50233 - CodeUnit--------------
 
 
