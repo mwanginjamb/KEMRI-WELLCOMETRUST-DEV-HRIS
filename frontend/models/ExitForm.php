@@ -65,6 +65,24 @@ public $Assigned_Assets_Clearance;
 
     }
 
+
+
+    // get Archive Lines
+
+     public function getArchives(){
+        $service = Yii::$app->params['ServiceName']['ArchivesClearance'];
+        $filter = [
+            'Exit_no' => $this->Exit_No,
+        ];
+
+        $lines = Yii::$app->navhelper->getData($service, $filter);
+        return $lines;
+
+    }
+
+
+
+
     /*Get Lab Lines*/
 
     public function getLab(){

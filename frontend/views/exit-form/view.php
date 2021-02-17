@@ -104,13 +104,13 @@ Yii::$app->session->set('isSupervisor',false);*/
 
         ]):'' ?>
 
-        <?= ($model->sequence && $model->sequence == 'Archive')?Html::a('<i class="fas fa-paper-plane"></i> Send to Archives',['clear'],['class' => $model->CheckStatus('Archives').' btn btn-app submitforapproval',
+        <?= ($model->sequence && $model->sequence == 'Archives')?Html::a('<i class="fas fa-paper-plane"></i> Send to Archives',['clear'],['class' => $model->CheckStatus('Archives').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
                     'exitNo' => $model->Exit_No,
                     'formNo' => $model->Form_No,
-                    'stage' => 'Archive'
+                    'stage' => 'Archives'
                 ],
                 'method' => 'get',
             ],
@@ -118,17 +118,17 @@ Yii::$app->session->set('isSupervisor',false);*/
 
         ]):'' ?>
 
-        <?= ($model->sequence && $model->sequence == 'Asset')? Html::a('<i class="fas fa-paper-plane"></i> Send to Assets',['clear'],['class' => $model->CheckStatus('Assets').' btn btn-app submitforapproval',
+        <?= ($model->sequence && $model->sequence == 'Assets')? Html::a('<i class="fas fa-paper-plane"></i> Send to Safety',['clear'],['class' => $model->CheckStatus('Assets').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
                     'exitNo' => $model->Exit_No,
                     'formNo' => $model->Form_No,
-                    'stage' => 'Asset'
+                    'stage' => 'Assets'
                 ],
                 'method' => 'get',
             ],
-            'title' => 'Send For Clearance'
+            'title' => 'Send For Clearance to Health and Safety.'
 
         ]):'' ?>
 
@@ -164,7 +164,7 @@ Yii::$app->session->set('isSupervisor',false);*/
         ]):'' ?>
 
 
-        <?= ($model->sequence && $model->sequence == 'Personal_Account')?Html::a('<i class="fas fa-paper-plane"></i>  Personal A/C ',['clear'],['class' => $model->CheckStatus('Personal_Account').' btn btn-app submitforapproval',
+        <?= ($model->sequence && $model->sequence == 'Personal Account')?Html::a('<i class="fas fa-paper-plane"></i>  Personal A/C ',['clear'],['class' => $model->CheckStatus('Personal_Account').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -194,7 +194,7 @@ Yii::$app->session->set('isSupervisor',false);*/
         ]):'' ?>
 
 
-         <?= ($model->sequence && $model->sequence == 'Human_Resources')?Html::a('<i class="fas fa-paper-plane"></i>  Human_Resources ',['clear'],['class' => $model->CheckStatus('Training').' btn btn-app submitforapproval',
+         <?= ($model->sequence && $model->sequence == 'Human Resources')?Html::a('<i class="fas fa-paper-plane"></i>  Human_Resources ',['clear'],['class' => $model->CheckStatus('Human_Resources').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -209,7 +209,7 @@ Yii::$app->session->set('isSupervisor',false);*/
         ]):'' ?>
 
 
-         <?= ($model->sequence && $model->sequence == 'Executive_Director')?Html::a('<i class="fas fa-paper-plane"></i>  Executive Director ',['clear'],['class' => $model->CheckStatus('Training').' btn btn-app submitforapproval',
+         <?= ($model->sequence && $model->sequence == 'Executive Director')?Html::a('<i class="fas fa-paper-plane"></i>  Executive Director ',['clear'],['class' => $model->CheckStatus('Executive_Director').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -223,7 +223,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
         ]):'' ?>
 
-         <?= ($model->sequence && $model->sequence == 'HOD')?Html::a('<i class="fas fa-paper-plane"></i>  HOD ',['clear'],['class' => $model->CheckStatus('Training').' btn btn-app submitforapproval',
+         <?= ($model->sequence && $model->sequence == 'HOD')?Html::a('<i class="fas fa-paper-plane"></i>  HOD ',['clear'],['class' => $model->CheckStatus('HOD').' btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document ?',
                 'params'=>[
@@ -251,7 +251,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 <?php } ?>
 
 
-     <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'})? Html::a('<i class="fas fa-check"></i> Clear',['clear-section'],['class' => 'btn btn-app',
+     <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'})? Html::a('<i class="fas fa-check"></i> Clear',['clear-section'],['class' => 'btn btn-app clear-section',
             'data' => [
                 'confirm' => 'Are you sure you want to clear this section ?',
                 'params'=>[
@@ -263,6 +263,42 @@ Yii::$app->session->set('isSupervisor',false);*/
             'title' => 'Clear '.$model->Action_ID.' section'
 
         ]): '' ?>
+
+
+<?php if($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'}){ ?>
+
+
+    <div class=" px-1 mx-1" /><!-- clearance Readiness -->
+
+        <span class="text">Ready to Clear ?</span>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            id="YesOption"
+            value="Yes"
+          />
+          <label class="form-check-label" for="inlineRadio1">Yes</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="inlineRadioOptions"
+            id="NoOption"
+            value="No"
+          />
+          <label class="form-check-label" for="inlineRadio2">No</label>
+        </div>
+
+    </div><!-- End clearance Readiness -->
+
+<?php } ?>
+
+
+
 
     </div>
 </div>
@@ -336,6 +372,8 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <!--Library Clearance Lines -->
 
+<?php if($model->Action_ID == 'Library'){ ?>
+
             <div class="card" id="Library">
                 <div class="card-header">
                     <div class="card-title">
@@ -393,12 +431,14 @@ Yii::$app->session->set('isSupervisor',false);*/
                 </div>
             </div>
 
+<?php } ?>
+
 
             <!--End Library Lines -->
 
 
             <!--Next Lab_Clearance_Lines-->
-
+<?php if($model->Action_ID == 'Lab'){ ?>
             <div class="card" id="Lab">
                 <div class="card-header">
                     <div class="card-title">
@@ -427,7 +467,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td><b>Exit_no</b></td>
                                     <td><b>Lab_Item</b></td>
                                     <td><b>Returned</b></td>
-                                    <td><b>Number</b></td>
+                                    <td><b>Item Worth</b></td>
 
                                 </tr>
                                 </thead>
@@ -458,9 +498,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                 </div>
             </div>
 
-            <!--ICT cLEARANCE Form-->
+<?php } ?>
 
-            <div class="card" id="ICT_Clearance_Lines">
+            <!--ICT cLEARANCE Form-->
+<?php if($model->Action_ID == 'ICT'){ ?>
+           <div class="card" id="ICT_Clearance_Lines">
                 <div class="card-header">
                     <div class="card-title">
                         ICT Clearance
@@ -518,21 +560,28 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                 </div>
             </div>
+<?php } ?>
 
 
             <!--Assigned_store_Clearance-->
-
+<?php if($model->Action_ID == 'Store'){ ?>
             <div class="card" id="Store_CLearance_Form">
                 <div class="card-header">
                     <div class="card-title">
                         Store Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['store/create',
+
+
+
+                        <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'})? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['store/create',
                         'Form_No' => $model->Form_No,
                         'Exit_no' => $model->Exit_No,
                         'Employee_no' => $model->Employee_No
-                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    ],['class' => 'add-line btn btn-sm btn-info']):'' ?>
+
+
+
                     </div>
                 </div>
 
@@ -575,18 +624,18 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                 </div>
             </div>
-
+<?php } ?>
 
             <!--Assigned Assets Clearance-->
 
-
+<?php if($model->Action_ID == 'Assets'){ ?>
             <div class="card" id="Assigned_Assets_Clearance">
                 <div class="card-header">
                     <div class="card-title">
-                        Assigned Assets Clearance Form
+                        Health and Safety Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?php Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['asset/create',
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['asset/create',
                         
                         'Exit_no' => $model->Exit_No,
                         'Employee_no' => $model->Employee_No
@@ -604,12 +653,12 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <thead>
                                 <tr>
                                     <td><b>Employee_no</b></td>
-                                    <td><b>Misc_Article_Code</b></td>
+                                    <!-- <td><b>Misc_Article_Code</b></td> -->
                                     <td><b>Description</b></td>
-                                    <td><b>Asset_Number</b></td>
-                                    <td><b>Condition</b></td>
-                                    <td><b>Returned</b></td>
-                                    <td><b>Value_on_Return</b></td>
+                                   <!--  <td><b>Asset_Number</b></td> -->
+                                    <!-- <td><b>Condition</b></td> -->
+                                    <!-- <td><b>Returned</b></td> -->
+                                    <td><b>Value</b></td>
 
                                 </tr>
                                 </thead>
@@ -623,11 +672,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <tr>
 
                                         <td data-key="<?= $whobj->Key ?>" data-name="Employee_No" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ><?= !empty($whobj->Employee_No)?$whobj->Employee_No:'Not Set' ?></td>
-                                        <td data-key="<?= $whobj->Key ?>" data-name="Misc_Article_Code" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this)"><?= !empty($whobj->Misc_Article_Code)?$whobj->Misc_Article_Code:'Not Set' ?></td>
+                                       <!--  <td data-key="<?= $whobj->Key ?>" data-name="Misc_Article_Code" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this)"><?= !empty($whobj->Misc_Article_Code)?$whobj->Misc_Article_Code:'Not Set' ?></td> -->
                                         <td data-key="<?= $whobj->Key ?>" data-name="Description" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this)"><?= !empty($whobj->Description)?$whobj->Description:'Not Set' ?></td>
-                                        <td data-key="<?= $whobj->Key ?>" data-name="Asset_Number" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this)"><?= !empty($whobj->Asset_Number)?$whobj->Asset_Number:'Not Set' ?></td>
-                                        <td data-key="<?= $whobj->Key ?>" data-name="Condition" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addDropDown(this,'condition')"><?= !empty($whobj->Condition)?$whobj->Condition:'Not Set' ?></td>
-                                        <td data-key="<?= $whobj->Key ?>" data-name="Returned" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addDropDown(this, 'returned')"><?= !empty($whobj->Returned)?$whobj->Returned:'Not Set' ?></td>
+                                        <!-- <td data-key="<?= $whobj->Key ?>" data-name="Asset_Number" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this)"><?= !empty($whobj->Asset_Number)?$whobj->Asset_Number:'Not Set' ?></td> -->
+                                        <!-- <td data-key="<?= $whobj->Key ?>" data-name="Condition" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addDropDown(this,'condition')"><?= !empty($whobj->Condition)?$whobj->Condition:'Not Set' ?></td> -->
+                                       <!--  <td data-key="<?= $whobj->Key ?>" data-name="Returned" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addDropDown(this, 'returned')"><?= !empty($whobj->Returned)?$whobj->Returned:'Not Set' ?></td> -->
                                         <td data-key="<?= $whobj->Key ?>" data-name="Value_on_Return" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="AssignedAssetsClearance" ondblclick="addInput(this, 'number')"><?= !empty($whobj->Value_on_Return)?$whobj->Value_on_Return:'Not Set' ?></td>
 
                                     </tr>
@@ -639,11 +688,12 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                 </div>
             </div>
+<?php } ?>
 
 
             <!-- Security Clearance -->
 
-
+<?php if($model->Action_ID == 'Security'){ ?>
             <div class="card" id="Security">
                 <div class="card-header">
                     <div class="card-title">
@@ -697,12 +747,13 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                 </div>
             </div>
+<?php } ?>
 
 
 
             <!-- Training Clearance -->
 
-
+<?php if($model->Action_ID == 'Training'){ ?>
             <div class="card" id="Training">
                 <div class="card-header">
                     <div class="card-title">
@@ -756,12 +807,13 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                 </div>
             </div>
+<?php } ?>
 
 
 
             <!-- Payroll Clearance -->
 
-
+<?php if($model->Action_ID == 'Payroll'){ ?>
             <div class="card" id="Payroll">
                 <div class="card-header">
                     <div class="card-title">
@@ -815,12 +867,13 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                 </div>
             </div>
+<?php } ?>
 
             <!-- Peronal Clearance -->
 
 
 
-
+<?php if($model->Action_ID == 'Personal_Account'){ ?>
             <div class="card" id="Personal">
                 <div class="card-header">
                     <div class="card-title">
@@ -873,6 +926,65 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                 </div>
             </div>
+<?php } ?>
+
+
+<?php if($model->Action_ID == 'Archives'){ ?>
+            <div class="card" id="Personal">
+                <div class="card-header">
+                    <div class="card-title">
+                        Archives Clearance Form
+                    </div>
+                    <div class="card-tools">
+                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['archive/create',
+                        'Form_No' => $model->Form_No,
+                        'Exit_no' => $model->Exit_No,
+                        'Employee_no' => $model->Employee_No
+                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <?php
+
+                    if(is_array($model->archives)){ //show Lines ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <td><b>Employee_no</b></td>
+                                    <td><b>Item_Description</b></td>
+                                    <td><b>Item_Worth</b></td>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                // print '<pre>'; print_r($model->getObjectives()); exit;
+                                foreach($model->archives as $ArchObj):
+                                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['archive/update','No'=> $ArchObj->Line_No],['class' => 'update-ArchObjective btn btn-outline-info btn-xs']);
+                                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['archive/delete','Key'=> $ArchObj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                                    ?>
+                                    <tr>
+
+                                        <td data-key="<?= $ArchObj->Key ?>" data-name="Employee_no" data-no="<?= $ArchObj->Line_No ?>" data-filter-field="Line_No" data-service="ArchivesClearance" ><?= !empty($ArchObj->Employee_no)?$ArchObj->Employee_no:'Not Set' ?></td>
+                                        <td data-key="<?= $ArchObj->Key ?>" data-name="Item_Description" data-no="<?= $ArchObj->Line_No ?>" data-filter-field="Line_No" data-service="ArchivesClearance" ondblclick="addInput(this)"><?= !empty($ArchObj->Item_Description)?$ArchObj->Item_Description:'Not Set' ?></td>
+                                        <td data-key="<?= $ArchObj->Key ?>" data-name="Item_Worth" data-no="<?= $ArchObj->Line_No ?>" data-filter-field="Line_No" data-service="ArchivesClearance" ondblclick="addInput(this)"><?= !empty($ArchObj->Item_Worth)?$ArchObj->Item_Worth:'Not Set' ?></td>
+                                       
+
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
+                </div>
+            </div>
+<?php } ?>
+
+
 
 
 
@@ -1114,6 +1226,28 @@ $script = <<<JS
 
 
             });
+
+
+
+
+
+    // Class to toggle : add-line , clear-section
+
+            $('.add-line, .clear-section').hide();
+            $('input[name="inlineRadioOptions"]').on('click', function(e){
+                selectedOption = e.target.value;
+                // alert(selectedOption);
+
+                if(selectedOption == 'Yes'){
+                    //Display Add and Clear Buttons
+                        $('.clear-section').show();
+                        $('.add-line').hide();
+                }else{
+                        $('.add-line').show();
+                         $('.clear-section').hide();
+                }
+            });
+
     
         
     });//end jquery

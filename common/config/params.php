@@ -311,6 +311,7 @@ return [
         'TrainingClearanceForm' => 'TrainingClearanceForm', // 52038
         'PayrollClearanceForm' => 'PayrollClearanceForm', //52039
         'PersonalAccountClearance' => 'PersonalAccountClearance', //52040
+        'ArchivesClearance' => 'ArchivesClearance', //52041
 
 
         'EmployeeExitManagement' => 'EmployeeExitManagement', //50233 - CodeUnit--------------

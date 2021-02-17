@@ -369,7 +369,7 @@ class ExitFormController extends Controller
             'exitNo' => $exitNo,
             'formNo' => $formNo,
             'sendEmail' => 1,
-            'approvalURL' => Html::encode(Yii::$app->urlManager->createAbsoluteUrl(['exit-form/view', 'No' => $exitNo]))
+            'approvalURL' => Html::encode(Yii::$app->urlManager->createAbsoluteUrl(['exit-form/view', 'No' => $formNo]))
         ];
 
         if($stage == 'Library')
@@ -380,7 +380,7 @@ class ExitFormController extends Controller
         {
             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToStoreForClearance');
         }
-        elseif($stage == 'Archive')
+        elseif($stage == 'Archives')
         {
             $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToArchiveForClearance');
         }
@@ -388,7 +388,7 @@ class ExitFormController extends Controller
         {
              $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToLabForClearance');
         }
-        elseif($stage == 'Asset')
+        elseif($stage == 'Assets')
         {
              $result = Yii::$app->navhelper->CodeUnit($service, $data, 'IanSendToAssetForClearance');
         }
