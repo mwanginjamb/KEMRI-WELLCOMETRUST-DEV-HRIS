@@ -357,6 +357,14 @@ class ExitFormController extends Controller
 
         //Yii::$app->recruitment->printrr($model);
 
+        $model->Ict_Unpaid = number_format($model->Ict_Unpaid);
+        $model->Library_Unpaid = number_format($model->Library_Unpaid);
+        $model->Lab_Unpaid = number_format($model->Lab_Unpaid);
+        $model->Security_Uncleared_Item = number_format($model->Security_Uncleared_Item);
+        $model->Payroll_Uncleared_Items = number_format($model->Payroll_Uncleared_Items);
+        $model->Personal_Account_Uncleared = number_format($model->Personal_Account_Uncleared);
+        $model->Archives_Uncleared_Items = number_format($model->Archives_Uncleared_Items);
+
         return $this->render('view',[
             'model' => $model,
         ]);

@@ -360,6 +360,33 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                             </div>
                         </div>
+
+                        <hr />
+                        <div class="text lead text-center">Dues</div>
+
+
+
+                        <div class=" row col-md-12">
+                            <div class="col-md-6">
+
+                                <?= $form->field($model, 'Ict_Unpaid')->textInput(['readonly'=> true]) ?>
+                                <?= $form->field($model, 'Lab_Unpaid')->textInput(['readonly' => true]) ?>
+                                <?= $form->field($model, 'Payroll_Uncleared_Items')->textInput(['readonly'=> true]) ?>
+                                <?= $form->field($model, 'Archives_Uncleared_Items')->hiddenInput(['readonly'=> true])->label(false) ?>
+                               
+
+                            </div>
+                            <div class="col-md-6">
+                                <?= $form->field($model, 'Library_Unpaid')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Security_Uncleared_Item')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                                <?= $form->field($model, 'Personal_Account_Uncleared')->textInput(['readonly'=> true,'disabled'=> true]) ?>
+                               
+
+                            </div>
+                        </div>
+
+
+
                     </div>
 
 
@@ -372,7 +399,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <!--Library Clearance Lines -->
 
-<?php if($model->Action_ID == 'Library'){ ?>
+<?php if($model->Action_ID == 'Library' || $model->CheckStatus('Library')){ ?>
 
             <div class="card" id="Library">
                 <div class="card-header">
@@ -438,7 +465,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
             <!--Next Lab_Clearance_Lines-->
-<?php if($model->Action_ID == 'Lab'){ ?>
+<?php if($model->Action_ID == 'Lab' || $model->CheckStatus('Lab')){ ?>
             <div class="card" id="Lab">
                 <div class="card-header">
                     <div class="card-title">
@@ -501,7 +528,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 <?php } ?>
 
             <!--ICT cLEARANCE Form-->
-<?php if($model->Action_ID == 'ICT'){ ?>
+<?php if($model->Action_ID == 'ICT' || $model->CheckStatus('ICT')){ ?>
            <div class="card" id="ICT_Clearance_Lines">
                 <div class="card-header">
                     <div class="card-title">
@@ -564,7 +591,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
             <!--Assigned_store_Clearance-->
-<?php if($model->Action_ID == 'Store'){ ?>
+<?php if($model->Action_ID == 'Store' || $model->CheckStatus('Store')){ ?>
             <div class="card" id="Store_CLearance_Form">
                 <div class="card-header">
                     <div class="card-title">
@@ -628,7 +655,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <!--Assigned Assets Clearance-->
 
-<?php if($model->Action_ID == 'Assets'){ ?>
+<?php if($model->Action_ID == 'Assets' || $model->CheckStatus('Assets')){ ?>
             <div class="card" id="Assigned_Assets_Clearance">
                 <div class="card-header">
                     <div class="card-title">
@@ -693,7 +720,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <!-- Security Clearance -->
 
-<?php if($model->Action_ID == 'Security'){ ?>
+<?php if($model->Action_ID == 'Security' || $model->CheckStatus('Security')){ ?>
             <div class="card" id="Security">
                 <div class="card-header">
                     <div class="card-title">
@@ -753,7 +780,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <!-- Training Clearance -->
 
-<?php if($model->Action_ID == 'Training'){ ?>
+<?php if($model->Action_ID == 'Training' || $model->CheckStatus('Training')){ ?>
             <div class="card" id="Training">
                 <div class="card-header">
                     <div class="card-title">
@@ -813,7 +840,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <!-- Payroll Clearance -->
 
-<?php if($model->Action_ID == 'Payroll'){ ?>
+<?php if($model->Action_ID == 'Payroll' || $model->CheckStatus('Payroll')){ ?>
             <div class="card" id="Payroll">
                 <div class="card-header">
                     <div class="card-title">
@@ -873,7 +900,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
 
-<?php if($model->Action_ID == 'Personal_Account'){ ?>
+<?php if($model->Action_ID == 'Personal_Account' || $model->CheckStatus('Personal_Account')){ ?>
             <div class="card" id="Personal">
                 <div class="card-header">
                     <div class="card-title">
@@ -929,7 +956,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 <?php } ?>
 
 
-<?php if($model->Action_ID == 'Archives'){ ?>
+<?php if($model->Action_ID == 'Archives' || $model->CheckStatus('Archives')){ ?>
             <div class="card" id="Personal">
                 <div class="card-header">
                     <div class="card-title">

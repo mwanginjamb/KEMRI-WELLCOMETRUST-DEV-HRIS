@@ -42,7 +42,17 @@ public $isNewRecord;
     public function rules()
     {
         return [
-                [['Reasons_For_Not_Serving_Notice','Date_of_Exit'], 'required'],
+                ['Date_of_Exit', 'required'],
+
+                ['Reasons_For_Not_Serving_Notice', 'required', 'when' => function($model) {
+                        return $model->Notice_Fully_Served == 'No';
+                    }, 'whenClient' => "function (attribute, value) {
+                        return $('#employeeexit-notice_fully_served').val() == 'No';
+                    }"
+                ],
+               
+
+
         ];
     }
 

@@ -33,6 +33,14 @@ public $ICT_Clearance_Lines;
 public $Store_CLearance_Form;
 public $Assigned_Assets_Clearance;
 
+public $Ict_Unpaid;
+public $Library_Unpaid;
+public $Lab_Unpaid;
+public $Security_Uncleared_Item;
+public $Payroll_Uncleared_Items;
+public $Personal_Account_Uncleared;
+public $Archives_Uncleared_Items;
+
 
 
     public function rules()
@@ -45,11 +53,20 @@ public $Assigned_Assets_Clearance;
     public function attributeLabels()
     {
         return [
-            'Global_Dimension_1_Code' => 'Department Code',
-            'Global_Dimension_2_Code' => 'Project Code',
-            'Global_Dimension_3_Code' => 'Department Code',
-            'Global_Dimension_4_Code' => 'Project Code',
-            'Global_Dimension_5_Code' => 'CustomerGroup Code'
+            'Global_Dimension_1_Code' => 'Division',
+            'Global_Dimension_2_Code' => 'Department',
+            'Global_Dimension_3_Code' => 'Section',
+            'Global_Dimension_4_Code' => 'Unit',
+            'Global_Dimension_5_Code' => 'Location',
+            'Ict_Unpaid' => 'ICT Dues',
+            'Library_Unpaid' => 'Library Dues',
+            'Lab_Unpaid' => 'Lab Dues',
+            'Security_Uncleared_Item' => 'Security Dues',
+            'Payroll_Uncleared_Items' => 'Payroll Dues',
+            'Personal_Account_Uncleared' => 'Personal Dues',
+            'Archives_Uncleared_Items' => 'Archives Dues',
+
+
         ];
     }
 
