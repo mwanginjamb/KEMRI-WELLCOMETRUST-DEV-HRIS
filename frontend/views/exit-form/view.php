@@ -572,10 +572,10 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     ?>
                                     <tr>
 
-                                        <td data-key="<?= $benobj->Key ?>" data-name="Employee_no" data-no="<?= $benobj->Line_No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addInput(this)"><?= !empty($benobj->Employee_no)?$benobj->Employee_no:'Not Set' ?></td>
-                                        <td data-key="<?= $benobj->Key ?>" data-name="Exit_no" data-no="<?= $benobj->Line_No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addDropDown(this,'type')"><?= !empty($benobj->Exit_no)?$benobj->Exit_no:'Not Set' ?></td>
-                                        <td data-key="<?= $benobj->Key ?>" data-name="Item_Description" data-no="<?= $benobj->Line_No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addDropDown(this,'relatives')"><?= !empty($benobj->Item_Description)?$benobj->Item_Description:'Not Set' ?></td>
-                                        <td data-key="<?= $benobj->Key ?>" data-name="Item_Worth" data-no="<?= $benobj->Line_No ?>" data-filter-field="No" data-service="ICTClearanceLines" ondblclick="addInput(this)"><?= !empty($benobj->Item_Worth)?$benobj->Item_Worth:'Not Set' ?></td>
+                                        <td data-key="<?= $benobj->Key ?>" data-name="Employee_no" data-no="<?= $benobj->Line_No ?>" data-filter-field="Line_No" data-service="ICTClearanceLines" ondblclick="addInput(this)"><?= !empty($benobj->Employee_no)?$benobj->Employee_no:'Not Set' ?></td>
+                                        <td data-key="<?= $benobj->Key ?>" data-name="Exit_no" data-no="<?= $benobj->Line_No ?>" data-filter-field="Line_No" data-service="ICTClearanceLines" ondblclick="addDropDown(this,'type')"><?= !empty($benobj->Exit_no)?$benobj->Exit_no:'Not Set' ?></td>
+                                        <td data-key="<?= $benobj->Key ?>" data-name="Item_Description" data-no="<?= $benobj->Line_No ?>" data-filter-field="Line_No" data-service="ICTClearanceLines" ondblclick="addInput(this)"><?= !empty($benobj->Item_Description)?$benobj->Item_Description:'Not Set' ?></td>
+                                        <td data-key="<?= $benobj->Key ?>" data-name="Item_Worth" data-no="<?= $benobj->Line_No ?>" data-filter-field="Line_No" data-service="ICTClearanceLines" ondblclick="addInput(this)"><?= !empty($benobj->Item_Worth)?$benobj->Item_Worth:'Not Set' ?></td>
 
 
                                     </tr>

@@ -223,6 +223,21 @@ return [
         'ProbationKPIs' => 'ProbationKPIs', //60002
 
 
+        /*Performance Improvement Program  - PIP*/
+
+        'PIPCard' => 'PIPCard', // 60075
+        'PIPAppraiseeList' => 'PIPAppraiseeList', //60076
+        'PIPSupervisorList' => 'PIPSupervisorList', //60077
+        'PIPAgreementList' => 'PIPAgreementList', //60079
+        'PIPOverviewList' => 'PIPOverviewList', //60078
+        'PIPClosedAppraisals' => 'PIPClosedAppraisals', //60080
+
+
+
+
+
+
+
         /*Short Term Probation*/
 
         'StObjectiveSettingList' => 'StObjectiveSettingList', // 60055

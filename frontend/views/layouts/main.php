@@ -370,11 +370,11 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
 
 
-                         <!-- Salary Advance -->
+                         <!--/ Salary Advance -->
 
 
                         <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl('salaryadvance')?'menu-open':'' ?>">
-                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('salaryadvance')?'active':'' ?>">
+                            <a href="#" title="Salary Advance Module" class="nav-link <?= Yii::$app->recruitment->currentCtrl('salaryadvance')?'active':'' ?>">
                                 <i class="nav-icon fa fa-money-check"></i>
                                 <p>
                                     Salary Advance
@@ -445,7 +445,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
 
                         <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl('overtime')?'menu-open':'' ?>">
-                            <a href="#" title="Performance Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('overtime')?'active':'' ?>">
+                            <a href="#" title="Overtime Management" class="nav-link <?= Yii::$app->recruitment->currentCtrl('overtime')?'active':'' ?>">
                                 <i class="nav-icon fa fa-clock"></i>
                                 <p>
                                     Overtime Management
@@ -665,7 +665,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                         </p>
                                     </a>
 
-                                    <ul class="nav nav-treeview"><!--Mid Year Appraisals Menu-->
+                                    <ul class="nav nav-treeview"><!--End Year Appraisals Menu-->
 
 
                                         <li class="nav-item">
@@ -692,13 +692,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                                             </a>
                                         </li>
 
-<!-- 
-                                        <li class="nav-item">
-                                            <a href="<?= $absoluteUrl ?>appraisal/eypeer2list" class="nav-link <?= Yii::$app->recruitment->currentaction('appraisal','eypeer2list')?'active':'' ?>">
-                                                <i class="fa fa-check-square nav-icon"></i>
-                                                <p>E-Y Appraisals (Peer2) </p>
-                                            </a>
-                                        </li> -->
+                                       
 
                                         <?php if(!Yii::$app->user->isGuest && Yii::$app->user->identity->isSupervisor()):  ?>
                                             <li class="nav-item">
@@ -914,6 +908,70 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
 
                         <!-- Short Term Probation -->
+
+                        <!-- PIP -->
+
+
+
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl('pip')?'menu-open':'' ?>">
+                            <a href="#" title="Performance Improvement Program" class="nav-link <?= Yii::$app->recruitment->currentCtrl('pip')?'active':'' ?>">
+                                <i class="nav-icon fa fa-balance-scale"></i>
+                                <p>
+                                    PIP Appraisal
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>pip" class="nav-link <?= Yii::$app->recruitment->currentaction('pip','index')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Appraisee List</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>pip/superlist" class="nav-link <?= Yii::$app->recruitment->currentaction('pip','superlist')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Supervisor List</p>
+                                    </a>
+                                </li>
+
+
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>pip/ovlist" class="nav-link <?= Yii::$app->recruitment->currentaction('pip','ovlist')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Overview List</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>pip/agreementlist" class="nav-link <?= Yii::$app->recruitment->currentaction('pip','agreementlist')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Agreementlist List</p>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>pip/closedlist" class="nav-link <?= Yii::$app->recruitment->currentaction('pip','closedlist')?'active':'' ?>">
+                                        <i class="fa fa-check-square nav-icon"></i>
+                                        <p> Closed PIP List</p>
+                                    </a>
+                                </li>
+
+                               
+
+
+                            </ul>
+
+                        </li>
+
+
+
+                        <!-- /PIP -->
 
 
 
