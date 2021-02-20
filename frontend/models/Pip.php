@@ -36,6 +36,13 @@ public $Overview_Manager_Name;
 public $Overview_Manager_UserID;
 public $Is_Perfomance_Improvement;
 
+public $Overall_Score;
+public $Overview_Rejection_Comments;
+public $Supervisor_Overall_Comments;
+public $Over_View_Manager_Comments;
+
+public $PIP_Recomended_Action;
+
     public function rules()
     {
         return [

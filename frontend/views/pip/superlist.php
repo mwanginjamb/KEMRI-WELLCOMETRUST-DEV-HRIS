@@ -12,7 +12,7 @@
 
 $this->title = 'HRMIS - New Employee Probation List';
 $this->params['breadcrumbs'][] = ['label' => 'Performance Management', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Probation Appraisal List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'PIP Supervisor Appraisal List', 'url' => ['index']];
 ?>
 
 
@@ -62,7 +62,7 @@ $script = <<<JS
           $('#appraisal').DataTable({
            
             //serverSide: true,  
-            ajax: absolute+'probation/getsupervisorprobations',
+            ajax: absolute+'pip/getsupervisorprobations',
             paging: true,
             columns: [
                 { title: 'Appraisal No' ,data: 'Appraisal_No'},

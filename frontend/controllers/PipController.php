@@ -9,7 +9,7 @@
 namespace frontend\controllers;
 use frontend\models\Employeeappraisalkra;
 use frontend\models\Experience;
-use frontend\models\Probation;
+use frontend\models\Pip;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
@@ -194,7 +194,7 @@ class PipController extends Controller
 
     public function actionView($Employee_No, $Appraisal_No){
         $service = Yii::$app->params['ServiceName']['PIPCard'];
-        $model = new Probation();
+        $model = new Pip();
 
         $filter = [
             'Appraisal_No' => $Appraisal_No,
@@ -278,10 +278,10 @@ class PipController extends Controller
     public function actionGetprobations(){
         $service = Yii::$app->params['ServiceName']['PIPAppraiseeList'];
         $filter = [
-            'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
+           'Employee_No' => Yii::$app->user->identity->{'Employee No_'},
         ];
         $appraisals = \Yii::$app->navhelper->getData($service,$filter);
-        //ksort($appraisals);
+        // Yii::$app->recruitment->printrr($appraisals);
         $result = [];
 
         if(is_array($appraisals)){
@@ -634,18 +634,18 @@ class PipController extends Controller
             'appraisalNo' => $appraisalNo,
             'employeeNo' => $employeeNo,
             'sendEmail' => 1,
-            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['probation/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['pip/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
         ];
 
         $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendGoalSettingForApproval');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Probation Appraisal Submitted Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            Yii::$app->session->setFlash('success', 'PIP Appraisal Submitted Successfully.', true);
+            return $this->redirect(['index']);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Submitting Probation Appraisal : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            Yii::$app->session->setFlash('error', 'Error : '. $result);
+            return $this->redirect(['index']);
 
         }
 
@@ -663,18 +663,18 @@ class PipController extends Controller
             'appraisalNo' => $appraisalNo,
             'employeeNo' => $employeeNo,
             'sendEmail' => 1,
-            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['probation/superproblist'])
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['pip/agreementlist'])
         ];
 
         $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisalToAgreementLevel');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Probation Appraisal Send to Agreement Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['agreementlist']);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Sending to Agreement : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            Yii::$app->session->setFlash('error', 'Error : '. $result);
+            return $this->redirect(['agreementlist']);
 
         }
 
@@ -826,18 +826,18 @@ class PipController extends Controller
             'appraisalNo' => $appraisalNo,
             'employeeNo' => $employeeNo,
             'sendEmail' => 1,
-            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['probation/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['pip/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
         ];
 
         $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisalForApproval');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Probation Appraisal Submitted Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            Yii::$app->session->setFlash('success', 'PIP Appraisal Submitted Successfully.', true);
+            return $this->redirect(['index']);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Submitting Probation Appraisal : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            Yii::$app->session->setFlash('error', 'Error  : '. $result);
+            return $this->redirect(['index']);
 
         }
 
@@ -854,19 +854,19 @@ class PipController extends Controller
             'appraisalNo' => $appraisalNo,
             'employeeNo' => $employeeNo,
             'sendEmail' => 1,
-            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['probation/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ]),
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['pip/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ]),
             'rejectionComments' => Yii::$app->request->post('comment'),
         ];
 
         $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisaBackToAppraisee');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Probation Sent Back to Appraisee with Comments Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            Yii::$app->session->setFlash('success', 'PIP Sent Back to Appraisee with Comments Successfully.', true);
+            return $this->redirect(['superlist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error  : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['superlist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
 
         }
 
@@ -885,19 +885,19 @@ class PipController extends Controller
             'appraisalNo' => $appraisalNo,
             'employeeNo' => $employeeNo,
             'sendEmail' => 1,
-            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['probation/view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]),
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['pip/view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]),
             'rejectionComments' => Yii::$app->request->post('comment'),
         ];
 
         $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisaBackToLineManager');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Probation Sent Back to Line Manager with Comments Successfully.', true);
-            return $this->redirect(['ovproblist']);
+            Yii::$app->session->setFlash('success', 'PIP Sent Back to Line Manager with Comments Successfully.', true);
+            return $this->redirect(['ovlist']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error  : '. $result);
-            return $this->redirect(['ovproblist']);
+            return $this->redirect(['ovlist']);
 
         }
 
@@ -912,18 +912,18 @@ class PipController extends Controller
             'appraisalNo' => $appraisalNo,
             'employeeNo' => $employeeNo,
             'sendEmail' => 1,
-            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['probation/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['pip/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
         ];
 
         $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisalToOverview');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Probation Appraisal Submitted Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            Yii::$app->session->setFlash('success', 'PIP Appraisal Submitted Successfully.', true);
+            return $this->redirect(['superlist']);
         }else{
 
-            Yii::$app->session->setFlash('error', 'Error Submitting Probation Appraisal : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            Yii::$app->session->setFlash('error', 'Error : '. $result);
+            return $this->redirect(['superlist']);
 
         }
 
@@ -963,18 +963,18 @@ class PipController extends Controller
             'appraisalNo' => $appraisalNo,
             'employeeNo' => $employeeNo,
             'sendEmail' => 1,
-            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['probation/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
+            'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['pip/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
         ];
 
         $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanApproveEYAppraisal');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Probation Approved Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            Yii::$app->session->setFlash('success', 'PIP Approved Successfully.', true);
+            return $this->redirect(['ovlist']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['ovlist']);
 
         }
 
@@ -1029,6 +1029,35 @@ class PipController extends Controller
             Yii::$app->navhelper->loadmodel($request[0],$model);
             $model->Key = $request[0]->Key;
             $model->Over_View_Manager_Comments = Yii::$app->request->post('Over_View_Manager_Comments');
+        }
+
+
+        $result = Yii::$app->navhelper->updateData($service,$model);
+
+        Yii::$app->response->format = \yii\web\response::FORMAT_JSON;
+
+        return $result;
+
+    }
+
+
+    /*Set Supervisor Comment*/
+
+    public function actionSetSuperComment()
+    {
+        $model = new Pip();
+         
+        $service = Yii::$app->params['ServiceName']['PIPCard'];
+
+        $filter = [
+            'Appraisal_No' => Yii::$app->request->post('Appraisal_No')
+        ];
+        $request = Yii::$app->navhelper->getData($service, $filter);
+
+        if(is_array($request)){
+            Yii::$app->navhelper->loadmodel($request[0],$model);
+            $model->Key = $request[0]->Key;
+            $model->Supervisor_Overall_Comments = Yii::$app->request->post('Supervisor_Overall_Comments');
         }
 
 

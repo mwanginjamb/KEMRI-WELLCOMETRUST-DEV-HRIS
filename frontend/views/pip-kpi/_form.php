@@ -23,7 +23,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                 <?php
 
 
-                $disabled = (Yii::$app->session->get('Probation_Recomended_Action') == 'Extend_Probation' && !Yii::$app->session->get('Is_Short_Term')  )? true: false;
+                $disabled = (Yii::$app->session->get('PIP_Recomended_Action') == 'Extend_PIP')? true: false;
 
 
                     $form = ActiveForm::begin(); ?>
@@ -53,37 +53,37 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
                                      <?=
-                                     (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?
-                                     $form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...',$disabled])
+                                     (Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?
+                                     $form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...'])
                                      :
                                      $form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...','disabled' => true,'readonly' => true]) ?>
 
                                     
 
 
-                                     <?= (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')? 
+                                     <?= (Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')? 
 
-                                     $form->field($model, 'Employee_Comments')->textInput(['type' => 'text'])
+                                        $form->field($model, 'Employee_Comments')->textArea(['type' => 'text','maxlength' => 200])
                                      :
-                                     $form->field($model, 'Employee_Comments')->textInput(['type' => 'text','disabled' => true,'readonly' => true]) 
+                                        $form->field($model, 'Employee_Comments')->textArea(['type' => 'text','disabled' => true,'readonly' => true]) 
                                       ?>
 
 
 
 
-                                      <?= (Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Supervisor_Level')?$form->field($model, 'Appraiser_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...']):'' ?>
+                                      <?= (Yii::$app->session->get('Appraisal_Status') == 'Supervisor_Level')?$form->field($model, 'Appraiser_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...']):'' ?>
 
 
 
-                                     <?= (Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Supervisor_Level')? $form->field($model, 'Supervisor_Comments')->textInput(['type' => 'text']): '' ?>
+                                     <?= (Yii::$app->session->get('Appraisal_Status') == 'Supervisor_Level')? $form->field($model, 'Supervisor_Comments')->textArea(['type' => 'text','maxlength' => 200]): '' ?>
 
-                                     <?= (Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Agreement_Level')?$form->field($model, 'Agree')->dropDownList([
+                                     <?= (Yii::$app->session->get('Appraisal_Status') == 'Agreement_Level')?$form->field($model, 'Agree')->dropDownList([
                                         true => 'I agree', false => 'I disagree'
                                      ]): '' ?>
 
-                                      <?= (Yii::$app->session->get('Goal_Setting_Status' == 'Closed') && Yii::$app->session->get('Appraisal_Status') == 'Agreement_Level') ? $form->field($model, 'Disagreement_Comments')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Your Comment']):'' ?>
+                                      <?= (Yii::$app->session->get('Appraisal_Status') == 'Agreement_Level')? $form->field($model, 'Disagreement_Comments')->textArea(['maxlength' => 250, 'row' => 2,'placeholder' => 'Your Comment']):'' ?>
 
-                                      <?= (Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Overview_Manager' )? $form->field($model, 'Overview_Manager_Comments')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Over View Manager Comment']):'' ?>
+                                      <?= (Yii::$app->session->get('Appraisal_Status') == 'Overview_Manager' )? $form->field($model, 'Overview_Manager_Comments')->textArea(['maxlength' => 250, 'row' => 2,'placeholder' => 'Over View Manager Comment']):'' ?>
 
 
 <!-- If Probation_Recomended_Action is Extend_Probation_Period -->

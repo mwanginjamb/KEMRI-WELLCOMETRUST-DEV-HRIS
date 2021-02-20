@@ -9,7 +9,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-$this->title = 'Probation Appraisal - '.$model->Appraisal_No;
+$this->title = 'PIP Appraisal - '.$model->Appraisal_No;
 $this->params['breadcrumbs'][] = ['label' => 'Performance Management', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Appraisal View', 'url' => ['view','Employee_No'=> $model->Employee_No,'Appraisal_No' => $model->Appraisal_No]];
 
@@ -19,7 +19,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 /** Status Sessions */
 
 Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
-// Yii::$app->session->set('Probation_Recomended_Action',$model->Probation_Recomended_Action);
+Yii::$app->session->set('PIP_Recomended_Action',$model->PIP_Recomended_Action);
 //Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 
 // print (Yii::$app->session->get('Probation_Recomended_Action')); exit;
@@ -47,13 +47,13 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
     <div class="col-md-12">
         <div class="card-info">
             <div class="card-header">
-                <h3>Probation Appraisal Card </h3>
+                <h3>PIP Appraisal Card </h3>
             </div>
             
             <div class="card-body info-box">
 
                 <div class="row">
-                    <?php if(($model->Goal_Setting_Status == 'New' && $model->isAppraisee()) || $model->Appraisal_Status == 'Agreement_Level'): ?>
+                    <?php if(($model->Goal_Setting_Status == 'New' && $model->isAppraisee()) ): ?>
 
                                 <div class="col-md-4">
 
@@ -61,7 +61,7 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
                                             'confirm' => 'Are you sure you want to submit this probation appraisal to supervisor ?',
                                             'method' => 'post',
                                         ],
-                                        'title' => 'Submit KRAs to Line Manager.'
+                                        'title' => 'Submit PIP Appraisal to Line Manager.'
 
                                     ]) ?>
                                 </div>
@@ -81,6 +81,13 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
 
                             ]) ?>
                         </div>
+
+
+
+                        
+
+
+
                         <div class="col-md-4">&nbsp;</div>
                         <div class="col-md-4">
 
@@ -128,18 +135,18 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
 
                     <!-- Send Probation to Line Mgr -->
 
-                    <?php if($model->Appraisal_Status == 'Appraisee_Level' && $model->isAppraisee()): ?>
+                    <?php if( ($model->Appraisal_Status == 'Appraisee_Level' || $model->Appraisal_Status == 'Agreement_Level') && $model->isAppraisee()): ?>
 
                         <div class="col-md-4">
 
-                            <?= Html::a('<i class="fas fa-forward"></i> Submit ',['submitprobationtolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
+                            <?= Html::a('<i class="fas fa-forward"></i>Ln. Manager',['submitprobationtolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
                                 [
 
                                 'class' => 'mx-1 btn btn-app submitforapproval','data' => [
-                                'confirm' => 'Are you sure you want to Submit Probation Appraisal to Line Manager ?',
+                                'confirm' => 'Are you sure you want to Submit PIP Appraisal to Line Manager ?',
                                 'method' => 'post',
                             ],
-                                'title' => 'Submit Probation to Line Manager.'
+                                'title' => 'Submit PIP to Line Manager.'
                             ]) ?>
 
                         </div>
@@ -158,14 +165,14 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
                                     'class' => 'btn btn-app bg-danger rejectappraiseesubmition',
                                     'rel' => $_GET['Appraisal_No'],
                                     'rev' => $_GET['Employee_No'],
-                                    'title' => 'Submit Probation  Back to Appraisee'
+                                    'title' => 'Submit PIP Back to Appraisee'
 
                             ]) ?>
 
 
                             <!-- Send Probation to Overview -->
 
-                            <?= Html::a('<i class="fas fa-forward"></i> Submit ',['submitprobationtooverview','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
+                            <?php Html::a('<i class="fas fa-forward"></i> To Overview ',['submitprobationtooverview','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
                                 [
 
                                 'class' => 'mx-1 btn btn-app submitforapproval','data' => [
@@ -174,6 +181,20 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
                             ],
                                 'title' => 'Submit Probation to Overview Manager.'
                             ]) ?>
+
+
+                            <!-- Send to Agreement -->
+
+
+
+                            <?= Html::a('<i class="fas fa-handshake"></i> To Agreement',['agreementlevel','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],['class' => 'mx-1 btn btn-app submitforapproval','data' => [
+                                'confirm' => 'Are you sure you want to send this appraisal to Agreement Level ?',
+                                'method' => 'post',
+                            ],
+                                'title' => 'Send to Agreement.'
+
+                            ]) ?>
+                        
 
 
                            
@@ -319,17 +340,12 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
                            <?= $form->field($model, 'Supervisor_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                            <?php $form->field($model, 'Overall_Score')->textInput(['readonly'=> true]) ?>
                             <?= $form->field($model, 'Overview_Manager_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
+                             
+                          
                            
 
                            <p class="parent"><span>+</span>
-
-                        
-                              
-                              
-                               
-                              
-                              
-
 
                                 <input type="hidden" id="Key" value="<?= $model->Key ?>">
                                 
@@ -344,7 +360,31 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
 
           
                   <div class="row">
+
+
                         <div class="col-md-6">
+
+                           
+
+
+                         <div class="card">
+
+                            <div class="card-header">
+                                                <div class="card-title">
+                                                    Line Manager Comments
+                                                </div>
+                                            </div>
+                            <div class="card-body">
+                                                 <?= ($model->Appraisal_Status == 'Supervisor_Level') ?$form->field($model, 'Supervisor_Overall_Comments')->textArea(['rows' => 2, 'maxlength'=> '140']): '' ?>
+                                                  <span class="text-success" id="confirmation-super">Comment Saved Successfully.</span>
+
+                                                    
+
+                                                    <?= ($model->Appraisal_Status !== 'Supervisor_Level') ?$form->field($model, 'Supervisor_Overall_Comments')->textArea(['rows' => 2, 'readonly' => true, 'disabled' =>  true]): '' ?>
+                            </div>
+                        </div>
+
+
                              <?php if($model->Appraisal_Status == 'Supervisor_Level' || $model->Appraisal_Status == 'Overview_Manager' || $model->Appraisal_Status == 'Closed'): ?>
                                         <div class="card">
 
@@ -354,17 +394,17 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
                                                 </div>
                                             </div>
                                             <div class="card-body">
-                                                 <?= ($model->Appraisal_Status == 'Supervisor_Level') ?$form->field($model, 'Probation_Recomended_Action')->dropDownList(
+                                                 <?= ($model->Appraisal_Status == 'Supervisor_Level') ?$form->field($model, 'PIP_Recomended_Action')->dropDownList(
                                                     [
                                                         '_blank_' => '_blank_',
-                                                        'Confirm' => 'Confirm',
-                                                        'Extend_Probation' => 'Extend_Probation',
-                                                        'Terminate_Employee' => 'Terminate_Employee'
+                                                        'Extend_PIP' => 'Extend_PIP',
+                                                        'End_PIP' => 'End_PIP',
+                                
                                                     ],['prompt' => 'Select ...']
                                                    ): '' ?>
 
 
-                                                    <?= ($model->Appraisal_Status == 'Overview_Manager' || $model->Appraisal_Status == 'Appraisee_Level' || $model->Appraisal_Status == 'Closed') ?$form->field($model, 'Probation_Recomended_Action')->textInput(['readonly' => true]): '' ?>
+                                                    <?= ($model->Appraisal_Status == 'Overview_Manager' || $model->Appraisal_Status == 'Appraisee_Level' || $model->Appraisal_Status == 'Closed') ?$form->field($model, 'PIP_Recomended_Action')->textInput(['readonly' => true]): '' ?>
                                             </div>
                                         </div>
                             <?php endif; ?>
@@ -466,7 +506,7 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
                                                     <td><b>Appraiser Rating</b></td>
                                                     <td><b>Supervisor Comments</b></td>
                                                     
-                                                    <?php if($model->Probation_Recomended_Action == 'Extend_Probation'): ?>
+                                                    <?php if($model->PIP_Recomended_Action == 'Extend_PIP'): ?>
                                                         <td><b>Extension Self Rating</b></td>
                                                         <td><b>Extension Appraiser Rating</b></td>
                                                         <td><b>Extension Employee Comments</b></td>
@@ -483,8 +523,8 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
 
                                                     foreach($model->getKpi($obj->Line_No) as $kpi):
 
-                             $updateLink = Html::a('<i class="fa fa-edit"></i>',['probation-kpi/update','Line_No'=> $kpi->Line_No,'Employee_No'=>$model->Employee_No,'Appraisal_No' => $model->Appraisal_No,'KRA_Line_No' => $obj->Line_No],['class' => 'mx-1 update-objective btn btn-xs btn-outline-info', 'title' => 'Update Key Result Area']);
-                             $deleteLink = ($model->Goal_Setting_Status == 'New')?Html::a('<i class="fa fa-trash"></i>',['probation-kpi/delete','Key'=> $kpi->Key ],['class'=>'mx-1 delete btn btn-danger btn-xs', 'title' => 'Delete Key Performance Indicator/ Objective']):'';
+                             $updateLink = Html::a('<i class="fa fa-edit"></i>',['pip-kpi/update','Line_No'=> $kpi->Line_No,'Employee_No'=>$model->Employee_No,'Appraisal_No' => $model->Appraisal_No,'KRA_Line_No' => $obj->Line_No],['class' => 'mx-1 update-objective btn btn-xs btn-outline-info', 'title' => 'Update Key Result Area']);
+                             $deleteLink = ($model->Goal_Setting_Status == 'New')?Html::a('<i class="fa fa-trash"></i>',['pip-kpi/delete','Key'=> $kpi->Key ],['class'=>'mx-1 delete btn btn-danger btn-xs', 'title' => 'Delete Key Performance Indicator/ Objective']):'';
 
 
                                                       ?>
@@ -497,7 +537,14 @@ Yii::$app->session->set('Appraisal_Status',$model->Appraisal_Status);
                                                 <td><?= !empty($kpi->Appraiser_Rating)?$kpi->Appraiser_Rating:'Not Set' ?></td>
                                                 <td><?= !empty($kpi->Supervisor_Comments)?$kpi->Supervisor_Comments:'Not Set' ?></td>
                                                 
-                                                
+                                                <?php if($model->PIP_Recomended_Action == 'Extend_PIP'): ?>
+
+                                                <td><?= !empty($kpi->Appraisee_Self_Rating_Ex)?$kpi->Appraisee_Self_Rating_Ex:'N/A' ?></td>
+                                                <td><?= !empty($kpi->Appraiser_Rating_Ex)?$kpi->Appraiser_Rating_Ex:'N/A' ?></td>
+                                                <td><?= !empty($kpi->Employee_Comments_Ex)?$kpi->Employee_Comments_Ex:'N/A' ?></td>
+                                                <td><?= !empty($kpi->End_Year_Supervisor_Comments_E)?$kpi->End_Year_Supervisor_Comments_E:'N/A' ?></td>
+
+                                                <?php endif; ?>
 
                                 
 
@@ -901,6 +948,53 @@ $script = <<<JS
             
         }     
      });
+
+
+
+     /*Commit Supervisor Coments*/
+
+
+
+
+      /*Commit Supervisor Manager Comment*/
+
+      $('#confirmation-super').hide();
+     $('#pip-supervisor_overall_comments').change(function(e){
+        const Supervisor_Overall_Comments = e.target.value;
+        const Appraisal_No = $('#pip-appraisal_no').val();
+        if(Appraisal_No.length){
+            
+            const url = $('input[name=url]').val()+'pip/set-super-comment';
+            $.post(url,{'Supervisor_Overall_Comments': Supervisor_Overall_Comments,'Appraisal_No': Appraisal_No}).done(function(msg){
+                   //populate empty form fields with new data
+                   
+                  
+                   $('#pip-key').val(msg.Key);
+                  
+
+                    console.log(typeof msg);
+                    console.table(msg);
+                    if((typeof msg) === 'string') { // A string is an error
+                        const parent = document.querySelector('.field-pip-supervisor_overall_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = msg;
+                      
+                        
+                    }else{ // An object represents correct details
+                        const parent = document.querySelector('.field-pip-supervisor_overall_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = ''; 
+                        $('#confirmation-super').show();
+                        
+                        
+                    }
+                    
+                },'json');
+            
+        }     
+     });
+
+
 
 
 
