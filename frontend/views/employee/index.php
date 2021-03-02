@@ -302,10 +302,10 @@ if(Yii::$app->session->hasFlash('success')){
                         <div class="col-md-6">
                             <?= $form->field($model, 'Payment_Methods')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                             <?= $form->field($model, 'Currency')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'KRA_Number')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'NHIF_Number')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'NSSF_Number')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
-                            <?= $form->field($model, 'Employee_Posting_Group')->checkbox(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'KRA_Number')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'NHIF_Number')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'NSSF_Number')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                            <?= $form->field($model, 'Employee_Posting_Group')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
                         </div>
                         <div class="col-md-6">

@@ -89,7 +89,7 @@ $script = <<<JS
         
        //Hidding some 
        var table = $('#appraisal').DataTable();
-       //table.columns([0,6]).visible(false);
+       table.columns([0,3,5,6]).visible(false);
     
     /*End Data tables*/
         $('#appraisal').on('click','tr', function(){

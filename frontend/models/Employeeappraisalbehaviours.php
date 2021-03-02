@@ -34,18 +34,19 @@ public $Key;
 public $isNewRecord;
 
 public $Level;
+public $Weight;
 
     public function rules()
     {
         return [
-
+                ['Weight', 'required']
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'Agreed_Rating' => 'Weight'
+            
         ];
     }
 }

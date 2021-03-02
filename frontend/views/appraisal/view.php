@@ -20,6 +20,8 @@ Yii::$app->session->set('EY_Appraisal_Status',$model->EY_Appraisal_Status);
 Yii::$app->session->set('isSupervisor',false);
 Yii::$app->session->set('isOverview', $model->isOverView());
 Yii::$app->session->set('isAppraisee', $model->isAppraisee());
+
+$absoluteUrl = \yii\helpers\Url::home(true);
 ?>
 
     <div class="row">
@@ -100,8 +102,7 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
                     <?php if($model->Goal_Setting_Status == 'Overview_Manager' && $model->isOverview()): ?>
                         <div class="col-md-4">
 
-                            <?= Html::a('<i class="fas fa-backward"></i> To Line Mgr.',['backtolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
-                                [
+                            <?= Html::a('<i class="fas fa-backward"></i> To Line Mgr.',['backtolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No]                                [
                                     'class' => 'btn btn-app bg-danger rejectgoals',
                                     'rel' => $_GET['Appraisal_No'],
                                     'rev' => $_GET['Employee_No'],
@@ -236,7 +237,7 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
                                 <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
                                 <p class="parent"><span>+</span>
-                                    <?= $form->field($model, 'Employee_User_Id')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?= $form->field($model, 'Overview_Rejection_Comments')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                     <?= $form->field($model, 'Level_Grade')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                     <?= $form->field($model, 'Job_Title')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                     <?= $form->field($model, 'Appraisal_Period')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
@@ -257,16 +258,17 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
 
                                 <p class="parent"><span>+</span>
 
+                                    <?= $form->field($model, 'Supervisor_Rejection_Comments')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                     <?= $form->field($model, 'MY_Appraisal_Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                     <?= $form->field($model, 'EY_Appraisal_Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                    <?= $form->field($model, 'Supervisor_No')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                   
                                     <?= $form->field($model, 'Supervisor_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                    <?= $form->field($model, 'Supervisor_User_Id')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                    <?= $form->field($model, 'Overview_Manager')->hiddenInput(['readonly'=> true, 'disabled'=>true])->label(false) ?>
+                                    <?php $form->field($model, 'Supervisor_User_Id')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?php $form->field($model, 'Overview_Manager')->hiddenInput(['readonly'=> true, 'disabled'=>true])->label(false) ?>
 
 
                                     <?= $form->field($model, 'Overview_Manager_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
-                                    <?= $form->field($model, 'Overview_Manager_UserID')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                                    <?php $form->field($model, 'Overview_Manager_UserID')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
 
                                     <?= $form->field($model, 'Recomended_Action')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
@@ -280,6 +282,54 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
                             </div>
                         </div>
                     </div>
+
+
+                      <div class="row">
+
+                                 <div class="col-md-6">
+
+
+
+                                    <div class="card">
+
+                                                        <div class="card-header">
+                                                                <div class="card-title">
+                                                                    Line Manager Comments
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                 <?= ($model->EY_Appraisal_Status == 'Supervisor_Level') ?$form->field($model, 'Supervisor_Overall_Comments')->textArea(['rows' => 2, 'maxlength'=> '140']): '' ?>
+                                                                    <span class="text-success" id="confirmation-super">Comment Saved Successfully.</span>
+
+                                                                    <?= ($model->EY_Appraisal_Status !== 'Supervisor_Level') ?$form->field($model, 'Supervisor_Overall_Comments')->textArea(['rows' => 2, 'readonly' => true, 'disabled' =>  true]): '' ?>
+                                                            </div>
+                                    </div>
+
+
+
+                                 </div>
+                                  <div class="col-md-6">
+
+
+
+                                                <div class="card">
+
+                                                            <div class="card-header">
+                                                                <div class="card-title">
+                                                                    Overview Manager Comments
+                                                                </div>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                 <?= ($model->EY_Appraisal_Status == 'Overview_Manager') ?$form->field($model, 'Over_View_Manager_Comments')->textArea(['rows' => 2, 'maxlength'=> '140']): '' ?>
+                                                                    <span class="text-success" id="confirmation">Comment Saved Successfully.</span>
+
+                                                                    <?= ($model->EY_Appraisal_Status !== 'Overview_Manager') ?$form->field($model, 'Over_View_Manager_Comments')->textArea(['rows' => 2, 'readonly' => true, 'disabled' =>  true]): '' ?>
+                                                            </div>
+                                                </div>
+
+                                 </div>
+
+                      </div>
 
 
 
@@ -371,8 +421,13 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
                                                 <tbody>
                                                 <?php if(is_array($model->getKPI($k->Line_No))){
 
+                                                   
+
                                                     foreach($model->getKPI($k->Line_No) as $kpi): 
                                                             $mvkpitopip = Html::Checkbox('Move_To_PIP',$kpi->Move_To_PIP,['readonly' => true,'disabled' => true]);
+
+                                                             $appmyassessment = ($kpi->Mid_Year_Appraisee_Assesment)?'On Track':'Off Track';
+                                                             $supermyassessment = ($kpi->Mid_Year_Supervisor_Assesment)?'On Track':'Off Track';
                                                      ?>
                                                         <tr>
                                                             
@@ -380,9 +435,9 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
                                                             <td><?= $kpi->Objective ?></td>
                                                             <td><?= !empty($kpi->Due_Date)?$kpi->Due_Date:'Not Set' ?></td>
                                                             <td><?= !empty($kpi->Weight)?$kpi->Weight:'Not Set' ?></td>
-                                                            <td><?= !empty($kpi->Mid_Year_Appraisee_Assesment)?$kpi->Mid_Year_Appraisee_Assesment:'Not Set' ?></td>
+                                                            <td><?= !empty($kpi->Mid_Year_Appraisee_Assesment)?$appmyassessment:'Not Set' ?></td>
                                                            <!--  <td><?php !empty($kpi->Mid_Year_Appraisee_Comments)?$kpi->Mid_Year_Appraisee_Comments:'Not Set' ?></td> -->
-                                                            <td><?= !empty($kpi->Mid_Year_Supervisor_Assesment)?$kpi->Mid_Year_Supervisor_Assesment:'Not Set' ?></td>
+                                                            <td><?= !empty($kpi->Mid_Year_Supervisor_Assesment)?$supermyassessment:'Not Set' ?></td>
                                                             <!-- <td><?php !empty($kpi->Mid_Year_Supervisor_Comments)?$kpi->Mid_Year_Supervisor_Comments:'Not Set' ?></td> -->
                                                             <td><?= !empty($kpi->Appraisee_Self_Rating)?$kpi->Appraisee_Self_Rating:'Not Set' ?></td>
                                                             <td><?= !empty($kpi->Employee_Comments)?$kpi->Employee_Comments:'Not Set' ?></td>
@@ -396,8 +451,13 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
                                                                 <?= (
                                                                     $model->Goal_Setting_Status == 'New' ||
                                                                     $model->MY_Appraisal_Status == 'Appraisee_Level' ||
-                                                                    $model->EY_Appraisal_Status == 'Appraisee_Level'
-                                                            )?Html::a('<i class="fas fa-edit"></i> ',['employeeappraisalkpi/update','Appraisal_No'=> $kpi->Appraisal_No,'Employee_No' => $kpi->Employee_No,'KRA_Line_No' => $kpi->KRA_Line_No,'Line_No' => $kpi->Line_No],['class' => 'btn btn-xs btn-primary add-objective', 'title' => 'Update Objective /KPI']):'' ?>
+                                                                    $model->EY_Appraisal_Status == 'Agreement_Level'
+                                                            )?
+                                                           
+
+                                                              Html::a('<i class="fas fa-edit">Update</i> ',['employeeappraisalkpi/update','Appraisal_No'=> $kpi->Appraisal_No,'Employee_No' => $kpi->Employee_No,'KRA_Line_No' => $kpi->KRA_Line_No,'Line_No' => $kpi->Line_No],['class' => 'btn btn-xs btn-primary add-objective', 'title' => 'Update Objective /KPI']):'' ?>
+
+
                                                                 <?= ($model->Goal_Setting_Status == 'New')? Html::a('<i class="fa fa-trash"></i>',['employeeappraisalkpi/delete','Key' => $kpi->Key],['class'=> 'btn btn-xs btn-danger delete-objective','title' => 'Delete Objective']):'' ?>
 
                                                             </td>
@@ -580,7 +640,7 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
 
             <?php //if($model->EY_Appraisal_Status !== 'Agreement_Level'){ ?>
 
-            <?php if($model->MY_Appraisal_Status == 'Closed' && ($model->EY_Appraisal_Status == 'Agreement_Level' || $model->EY_Appraisal_Status == 'Overview_Manager')){ ?>
+            <?php if(1==1){ ?>
 
 
 
@@ -621,7 +681,7 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
                                     <tr class="parent">
                                         <td><span>+</span></td>
                                        <!--  <td><?php $fda->Line_No ?></td> -->
-                                        <td><?php $fda->Employee_No ?></td>
+                                        <td><?= $fda->Employee_No ?></td>
                                         <td><?= $fda->Appraisal_No ?></td>
                                         <td><?= $fda->Weakness ?></td>
 
@@ -743,7 +803,7 @@ Yii::$app->session->set('isAppraisee', $model->isAppraisee());
     </div>
 
 
-
+ <input type="hidden" name="url" value="<?= $absoluteUrl ?>">
 <?php
 
 $script = <<<JS
@@ -1017,6 +1077,87 @@ $script = <<<JS
 
 
 
+/*Commit Overview Manager Comment*/
+     
+     $('#confirmation').hide();
+     $('#appraisalcard-over_view_manager_comments').change(function(e){
+        const Comments = e.target.value;
+        const Appraisal_No = $('#appraisalcard-appraisal_no').val();
+        if(Appraisal_No.length){
+            
+            const url = $('input[name=url]').val()+'appraisal/setfield?field=Over_View_Manager_Comments';
+            $.post(url,{'Over_View_Manager_Comments': Comments,'Appraisal_No': Appraisal_No}).done(function(msg){
+                   //populate empty form fields with new data
+                   
+                  
+                   $('#appraisalcard-key').val(msg.Key);
+                  
+
+                    console.log(typeof msg);
+                    console.table(msg);
+                    if((typeof msg) === 'string') { // A string is an error
+                        const parent = document.querySelector('.field-appraisalcard-over_view_manager_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = msg;
+                      
+                        
+                    }else{ // An object represents correct details
+                        const parent = document.querySelector('.field-appraisalcard-over_view_manager_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = ''; 
+                        $('#confirmation').show();
+                        
+                        
+                    }
+                    
+                },'json');
+            
+        }     
+     });
+
+
+
+
+
+       /*Commit Line Manager Comment*/
+     
+     $('#confirmation-super').hide();
+     $('#appraisalcard-supervisor_overall_comments').change(function(e){
+
+        const Comments = e.target.value;
+        const Appraisal_No = $('#appraisalcard-appraisal_no').val();
+
+       
+        if(Appraisal_No.length){
+
+      
+            const url = $('input[name=url]').val()+'appraisal/setfield?field=Supervisor_Overall_Comments';
+            $.post(url,{'Supervisor_Overall_Comments': Comments,'Appraisal_No': Appraisal_No}).done(function(msg){
+                   //populate empty form fields with new data
+                   
+                  
+                   $('#appraisalcard-key').val(msg.Key);
+                  
+                    console.table(msg);
+                    if((typeof msg) === 'string') { // A string is an error
+                        const parent = document.querySelector('.field-appraisalcard-supervisor_overall_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = msg;
+                      
+                        
+                    }else{ // An object represents correct details
+                        const parent = document.querySelector('.field-appraisalcard-supervisor_overall_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = ''; 
+                        $('#confirmation-super').show();
+                        
+                        
+                    }
+                    
+                },'json');
+            
+        }     
+     });
 
 
 

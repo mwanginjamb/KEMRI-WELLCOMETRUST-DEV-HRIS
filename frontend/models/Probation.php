@@ -32,6 +32,7 @@ public $Overview_Manager_Name;
 public $Overview_Manager_UserID;
 public $Probation_Recomended_Action;
 public $Over_View_Manager_Comments;
+public $Supervisor_Overall_Comments;
 
 public $Overall_Score;
 

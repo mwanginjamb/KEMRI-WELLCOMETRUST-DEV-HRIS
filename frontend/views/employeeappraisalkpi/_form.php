@@ -57,7 +57,8 @@ use yii\widgets\ActiveForm;
 
                                      <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?$form->field($model, 'Weight')->textInput(['type' => 'number']):'' ?>
 
-                                       <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?$form->field($model, 'Due_Date')->textInput(['type' => 'date','required' => true]):'' ?>
+                                       <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?
+                                       $form->field($model, 'Due_Date')->textInput(['type' => 'date','required' => true,'min' => date('Y-m-d')]):'' ?>
 
 
 
@@ -77,18 +78,13 @@ use yii\widgets\ActiveForm;
 
 
                                      <?=
-                                     (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && 
+                                     ( 
 
-                                        (Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level' ||
-                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level')
-
+                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level'
+    
                                     )?
                                      $form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...',$disabled])
-                                     :
-                                     (
-                                        Yii::$app->session->get('EY_Appraisal_Status') == 'Appraisee_Level' || 
-                                        Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level'
-                                    )?$form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...']):'' ?>
+                                     :$form->field($model, 'Appraisee_Self_Rating')->textInput(['readonly' => true]) ?>
 
                                     
 
@@ -115,7 +111,7 @@ use yii\widgets\ActiveForm;
                                     )?$form->field($model, 'Appraiser_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...']):'' ?>
 
 
-                                       <?= (
+                                       <?php (
                                         Yii::$app->session->get('isSupervisor') &&
                                         Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level')?$form->field($model, 'Move_To_PIP')->dropDownList([
                                         true => 'Yes', false => 'No'

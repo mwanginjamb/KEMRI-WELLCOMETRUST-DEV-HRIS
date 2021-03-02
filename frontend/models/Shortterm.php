@@ -39,6 +39,9 @@ public $Probation_End_date;
 public $Overview_Rejection_Comments;
 public $Supervisor_Rejection_Comments;
 
+public $Over_View_Manager_Comments;
+public $Supervisor_Overall_Comments;
+
     public function rules()
     {
         return [
@@ -49,7 +52,8 @@ public $Supervisor_Rejection_Comments;
     public function attributeLabels()
     {
         return [
-
+            'Over_View_Manager_Comments' => 'Overview Manager General Comments',
+            'Supervisor_Overall_Comments' => 'Line Mgr. General Comments',
 
 
         ];

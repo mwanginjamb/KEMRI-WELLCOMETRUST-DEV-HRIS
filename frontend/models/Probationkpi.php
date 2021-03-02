@@ -31,6 +31,10 @@ public $End_Year_Supervisor_Comments_E;
 public $KRA_Line_No;
 public $Overview_Manager_Comments;
 public $Line_No;
+public $Target;
+public $Target_Status;
+public $Non_Achievement_Reasons;
+
 public $Key;
 public $isNewRecord;
 
@@ -50,7 +54,8 @@ public $isNewRecord;
             'New_Emp_Supervisor_Comment' => 'Supervisor Comment',
             'New_Emp_Hr_Rating' => 'HR Rating',
             'New_Emp_Hr_Comments' => 'HR Comments',
-            'End_Year_Supervisor_Comments_E' => 'Supervisor Extension Comments'
+            'End_Year_Supervisor_Comments_E' => 'Supervisor Extension Comments',
+            'Target' => 'Target (Your Intended Achievement)'
         ];
     }
 

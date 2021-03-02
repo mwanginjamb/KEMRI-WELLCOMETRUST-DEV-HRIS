@@ -36,7 +36,7 @@ class AppraisalController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','vacancies','view','create','update','delete'],
+                'only' => ['index','vacancies','view','create','update','delete','myappraiseelist','eyagreementlist','eyappraiseelist'],
                 'rules' => [
                     [
                         'actions' => ['vacancies'],
@@ -44,7 +44,7 @@ class AppraisalController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['index','vacancies','view','create','update','delete'],
+                        'actions' => ['index','vacancies','view','create','update','delete','myappraiseelist','eyagreementlist','eyappraiseelist'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -78,7 +78,8 @@ class AppraisalController extends Controller
                     'geteysupervisorclosedlist',
                     'probation-status-list',
                     'short-term-status',
-                    'long-term-status'
+                    'long-term-status',
+                    'setfield',
 
                     ],
                 'formatParam' => '_format',
@@ -983,6 +984,29 @@ class AppraisalController extends Controller
         ]);
     }
 
+    public function actionSetfield($field){
+        $model = new  Appraisalcard();
+        $service = Yii::$app->params['ServiceName']['AppraisalCard'];
+
+        $filter = [
+            'Appraisal_No' => Yii::$app->request->post('Appraisal_No'),
+        ];
+        $result = Yii::$app->navhelper->getData($service, $filter);
+      
+        if(is_array($result)){
+            Yii::$app->navhelper->loadmodel($result[0],$model);
+            $model->Key = $result[0]->Key;
+            $model->$field = Yii::$app->request->post($field);
+
+        }
+
+
+        $result = Yii::$app->navhelper->updateData($service,$model);
+         // Yii::$app->recruitment->printrr( $result);
+        return $result;
+
+    }
+
     public function actionViewsubmitted($Appraisal_No,$Employee_No){
         $service = Yii::$app->params['ServiceName']['AppraisalCard'];
         $model = new Appraisalcard();
@@ -1287,7 +1311,7 @@ class AppraisalController extends Controller
             'approvalURL' => Yii::$app->urlManager->createAbsoluteUrl(['appraisal/view', 'Appraisal_No' =>$appraisalNo, 'Employee_No' =>$employeeNo ])
         ];
 
-        $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisaBackToLineManager');
+        $result = Yii::$app->navhelper->CodeUnit($service,$data,'IanSendEYAppraisalForApproval');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'End Year Perfomance Appraisal Agreement Submitted to Line Manager Successfully.', true);
@@ -1401,11 +1425,11 @@ class AppraisalController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'End Year Perfomance Appraisal Submitted Successfully.', true);
-            return $this->redirect(['myappraiseelist']);
+            return $this->redirect(['eyappraiseelist']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Submitting End Year Performance Appraisal : '. $result);
-            return $this->redirect(['myappraiseelist']);
+            return $this->redirect(['eyappraiseelist']);
 
         }
 
@@ -1591,11 +1615,11 @@ class AppraisalController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'End Year Appraisal Sent Agreement Level  Successfully.', true);
-            return $this->redirect(['mysupervisorlist']);
+            return $this->redirect(['eysupervisorlist']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error  : '. $result);
-            return $this->redirect(['mysupervisorlist']);
+            return $this->redirect(['eysupervisorlist']);
 
         }
 

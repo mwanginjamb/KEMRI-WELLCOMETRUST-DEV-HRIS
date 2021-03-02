@@ -98,6 +98,8 @@ class Employee extends Model
     public $Global_Dimension_6_Code;
     public $Grant_Approver;
 
+    public $_x002B_;
+
     public function rules()
     {
         return [

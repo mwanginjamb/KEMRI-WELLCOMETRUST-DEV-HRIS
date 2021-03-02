@@ -257,6 +257,8 @@ class ProbationController extends Controller
     }
 
 
+
+
     public function actionApprovalRequest($app){
         $service = Yii::$app->params['ServiceName']['Portal_Workflows'];
         $data = ['applicationNo' => $app];
@@ -665,11 +667,11 @@ class ProbationController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Probation Appraisal Submitted Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Submitting Probation Appraisal : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['index']);
 
         }
 
@@ -720,11 +722,11 @@ class ProbationController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Probation Appraisal Submitted to Overview Manager Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['superglist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Submitting Probation Appraisal to Overview Manager : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['superglist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
 
         }
 
@@ -748,11 +750,11 @@ class ProbationController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Appraisal Goals Approved Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['ovglist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error   : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['ovglist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
 
         }
 
@@ -801,11 +803,11 @@ class ProbationController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Probation Appraisal Sent Back to Appraisee Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['superglist']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending Probation Back to Appraisee  : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['superglist']);
 
         }
 
@@ -831,11 +833,11 @@ class ProbationController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Probation Sent Back Line Manager with comments Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['ovglist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Line Manager : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['ovglist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
 
         }
 
@@ -857,11 +859,11 @@ class ProbationController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Probation Appraisal Submitted Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['approvedglist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Submitting Probation Appraisal : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['approvedglist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
 
         }
 
@@ -886,11 +888,11 @@ class ProbationController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Probation Sent Back to Appraisee with Comments Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['superproblist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error  : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['superproblist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
 
         }
 
@@ -943,11 +945,11 @@ class ProbationController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Probation Appraisal Submitted Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['superproblist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Submitting Probation Appraisal : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['superproblist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
 
         }
 
@@ -994,11 +996,11 @@ class ProbationController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Probation Approved Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['ovproblist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['ovproblist','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
 
         }
 

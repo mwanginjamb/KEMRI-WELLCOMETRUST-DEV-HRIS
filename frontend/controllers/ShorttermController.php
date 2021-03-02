@@ -61,7 +61,8 @@ class ShorttermController extends Controller
                     'overviewprobationlist',
                     'getagreementlist',
                     'closedappraisallist',
-                    'get-linemanagerobjlist'
+                    'get-linemanagerobjlist',
+                    'setfield',
 
                 ],
                 'formatParam' => '_format',
@@ -256,6 +257,31 @@ class ShorttermController extends Controller
             'appraisal_status' => $appraisal_status,
             'action' => $action
         ]);
+    }
+
+    /*Commits any field to a specific service*/
+
+    public function actionSetfield($field){
+        $model = new Shortterm();
+        $service = Yii::$app->params['ServiceName']['ProbationCard'];
+
+        $filter = [
+            'Appraisal_No' => Yii::$app->request->post('Appraisal_No'),
+        ];
+        $result = Yii::$app->navhelper->getData($service, $filter);
+        // Yii::$app->recruitment->printrr($line);
+        if(is_array($result)){
+            Yii::$app->navhelper->loadmodel($result[0],$model);
+            $model->Key = $result[0]->Key;
+            $model->$field = Yii::$app->request->post($field);
+
+        }
+
+
+        $result = Yii::$app->navhelper->updateData($service,$model);
+
+        return $result;
+
     }
 
 
@@ -668,11 +694,11 @@ class ShorttermController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', ' Appraisal Submitted Successfully.', true);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Submitting Appraisal : '. $result);
-            return $this->redirect(['view','Appraisal_No' => $appraisalNo,'Employee_No' => $employeeNo]);
+            return $this->redirect(['index']);
 
         }
 

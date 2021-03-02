@@ -370,6 +370,23 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                                                     <?= ($model->Appraisal_Status == 'Overview_Manager' || $model->Appraisal_Status == 'Appraisee_Level' || $model->Appraisal_Status == 'Closed') ?$form->field($model, 'Probation_Recomended_Action')->textInput(['readonly' => true]): '' ?>
                                             </div>
                                         </div>
+
+
+                                        <div class="card">
+
+                                        <div class="card-header">
+                                                <div class="card-title">
+                                                    Line Manager Comments
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                 <?= ($model->Appraisal_Status == 'Supervisor_Level') ?$form->field($model, 'Supervisor_Overall_Comments')->textArea(['rows' => 2, 'maxlength'=> '140']): '' ?>
+                                                    <span class="text-success" id="confirmation-super">Comment Saved Successfully.</span>
+
+                                                    <?= ($model->Appraisal_Status !== 'Supervisor_Level') ?$form->field($model, 'Supervisor_Overall_Comments')->textArea(['rows' => 2, 'readonly' => true, 'disabled' =>  true]): '' ?>
+                                            </div>
+                            </div>
+
                             <?php endif; ?>
                         </div>
                         <div class="col-md-6">
@@ -395,15 +412,6 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 
                         </div>
                   </div>
-
-              
-                    
-                   
-
-              
-
-
-
 
                <?php ActiveForm::end(); ?>
 
@@ -469,12 +477,7 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                                                     <td><b>Appraiser Rating</b></td>
                                                     <td><b>Supervisor Comments</b></td>
                                                     
-                                                    <?php if($model->Probation_Recomended_Action == 'Extend_Probation'): ?>
-                                                        <td><b>Extension Self Rating</b></td>
-                                                        <td><b>Extension Appraiser Rating</b></td>
-                                                        <td><b>Extension Employee Comments</b></td>
-                                                        <td><b>Extension Supervisor Comments</b></td>
-                                                    <?php endif; ?>
+                                                   
 
                                                     <th><b>Action</b></th>
 
@@ -502,14 +505,6 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                                                 
                                                 
 
-                                <?php if($model->Probation_Recomended_Action == 'Extend_Probation'): ?>
-
-                                                <td><?= !empty($kpi->Appraisee_Self_Rating_Ex)?$kpi->Appraisee_Self_Rating_Ex:'N/A' ?></td>
-                                                <td><?= !empty($kpi->Appraiser_Rating_Ex)?$kpi->Appraiser_Rating_Ex:'N/A' ?></td>
-                                                <td><?= !empty($kpi->Employee_Comments_Ex)?$kpi->Employee_Comments_Ex:'N/A' ?></td>
-                                                <td><?= !empty($kpi->End_Year_Supervisor_Comments_E)?$kpi->End_Year_Supervisor_Comments_E:'N/A' ?></td>
-
-                                 <?php endif; ?>
 
                                                 <td><?= $updateLink.$deleteLink ?></td>
 
@@ -1080,6 +1075,48 @@ $script = <<<JS
                 
                 
             });
+
+
+            /*Commit Line Manager Comment*/
+     
+     $('#confirmation-super').hide();
+     $('#probation-supervisor_overall_comments').change(function(e){
+
+        const Comments = e.target.value;
+        const Appraisal_No = $('#probation-appraisal_no').val();
+
+       
+        if(Appraisal_No.length){
+
+      
+            const url = $('input[name=url]').val()+'shortterm/setfield?field=Supervisor_Overall_Comments';
+            $.post(url,{'Supervisor_Overall_Comments': Comments,'Appraisal_No': Appraisal_No}).done(function(msg){
+                   //populate empty form fields with new data
+                   
+                  
+                   $('#probation-key').val(msg.Key);
+                  
+                    console.table(msg);
+                    if((typeof msg) === 'string') { // A string is an error
+                        const parent = document.querySelector('.field-probation-supervisor_overall_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = msg;
+                      
+                        
+                    }else{ // An object represents correct details
+                        const parent = document.querySelector('.field-probation-supervisor_overall_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = ''; 
+                        $('#confirmation-super').show();
+                        
+                        
+                    }
+                    
+                },'json');
+            
+        }     
+     });
+
 
 
         

@@ -45,6 +45,11 @@ public $Overall_Score;
 public $Is_Long_Term;
 public $Recomended_Action;
 
+public $Overview_Rejection_Comments;
+public $Supervisor_Rejection_Comments;
+
+
+
     public function rules()
     {
         return [

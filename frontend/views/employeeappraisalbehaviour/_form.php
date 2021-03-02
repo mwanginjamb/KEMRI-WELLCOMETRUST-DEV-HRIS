@@ -38,6 +38,14 @@ use yii\widgets\ActiveForm;
                             $form->field($model, 'Behaviour_Name')->textInput(['maxlength' => 150]):
                             $form->field($model, 'Behaviour_Name')->textInput(['maxlength' => 150,'disabled' => true, 'readonly' => true]) ?>
 
+
+
+
+                            <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?
+                            $form->field($model, 'Weight')->textInput(['type' => 'number','required' => true]):
+                            $form->field($model, 'Weight')->textInput(['type' => 'number','disabled' => true, 'readonly' => true]) ?>
+
+
                             <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New' )?$form->field($model, 'Applicable')->checkbox(['value' => true,['enclosedByLabel' => true]]):'' ?>
 
                             
@@ -75,7 +83,7 @@ use yii\widgets\ActiveForm;
                             <?= (Yii::$app->session->get('EY_Appraisal_Status') == 'Peer_2_Level')?$form->field($model, 'Peer_2_Remark')->textarea(['rows' => 3, 'maxlength' => 250]):'' ?>
 
 
-                            <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?$form->field($model, 'Agreed_Rating')->textInput(['type' => 'number','required' => true]):'' ?>
+                            <?= (Yii::$app->session->get('EY_Appraisal_Status') == 'Agreement_Level')?$form->field($model, 'Agreed_Rating')->textInput(['type' => 'number','required' => true]):'' ?>
                             <?= (
                                 Yii::$app->user->identity->isSupervisor() && (
                                 Yii::$app->session->get('EY_Appraisal_Status') == 'Supervisor_Level' ||

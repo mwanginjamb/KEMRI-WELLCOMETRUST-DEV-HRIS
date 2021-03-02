@@ -28,7 +28,7 @@ class EmployeeController extends Controller
                 'only' => ['index'],
                 'rules' => [
                     [
-                        'actions' => [],
+                        'actions' => ['view'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],

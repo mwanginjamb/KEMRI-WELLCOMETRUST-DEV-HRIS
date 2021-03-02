@@ -52,11 +52,30 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                      <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?$form->field($model, 'Weight')->textInput(['type' => 'number']):'' ?>
 
 
+                                      <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?
+                                      $form->field($model, 'Target')->textArea(['rows' => 2, 'maxlength' => 250,'required' => true]):
+                                      $form->field($model, 'Target')->textArea(['rows' => 2, 'maxlength' => 250, 'readonly' => true, 'disabled' => true]) ?>
+
+
                                      <?=
                                      (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?
                                      $form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...',$disabled])
                                      :
                                      $form->field($model, 'Appraisee_Self_Rating')->dropDownList($ratings,['prompt' => 'Select Rating...','disabled' => true,'readonly' => true]) ?>
+
+
+                                     <?=
+                                     (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?
+                                     $form->field($model, 'Target_Status')->dropDownList(['Achieved' => 'Achieved','Not_Achieved' => ' Not Achieved'],['prompt' => 'Select ...',$disabled])
+                                     :
+                                     $form->field($model, 'Target_Status')->dropDownList(['Achieved' => 'Achieved','Not_Achieved' => 'Not Achieved'],['prompt' => 'Select ...','disabled' => true,'readonly' => true]) ?>
+
+
+                                     <?=
+                                     (!$disabled && Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?
+                                     $form->field($model, 'Non_Achievement_Reasons')->textArea(['rows' => 2, 'maxlength' => 250])
+                                     :
+                                     $form->field($model, 'Non_Achievement_Reasons')->textArea(['rows' => 2, 'maxlength' => 250,'disabled' => true,'readonly' => true]) ?>
 
                                     
 
@@ -86,23 +105,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                       <?= (Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Overview_Manager' )? $form->field($model, 'Overview_Manager_Comments')->textArea(['max-length' => 250, 'row' => 4,'placeholder' => 'Over View Manager Comment']):'' ?>
 
 
-<!-- If Probation_Recomended_Action is Extend_Probation_Period -->
 
-<?php if( Yii::$app->session->has('Probation_Recomended_Action') && Yii::$app->session->get('Probation_Recomended_Action') == 'Extend_Probation'): ?>
-                                       <?= (Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')? $form->field($model, 'Appraisee_Self_Rating_Ex')->dropDownList($ratings,['prompt' => 'Select ...']):'' ?>
-
-                                       <?= (Yii::$app->session->get('Appraisal_Status') == 'Supervisor_Level')? $form->field($model, 'Appraiser_Rating_Ex')->dropDownList($ratings,['prompt' => 'Select ...']):'' ?>
-
-                                       
-
-                                     
-
-                                       <?= (Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?$form->field($model, 'Employee_Comments_Ex')->textArea(['type' => 'number']):'' ?>
-
-                                        <?= (Yii::$app->session->get('Appraisal_Status') == 'Supervisor_Level')?$form->field($model, 'End_Year_Supervisor_Comments_E')->textArea(['max-length' => 250, 'row' => 2]):'' ?>
-
-
-<?php endif; ?>
 
 
 
@@ -264,6 +267,21 @@ $script = <<<JS
             document.getElementById('submit').removeAttribute("disabled");
         
         }
+
+        $('#probationkpi-non_achievement_reasons').hide();
+        $('label[for="probationkpi-non_achievement_reasons"]').hide();
+
+        $('#probationkpi-target_status').change(function(e) {
+           
+            const selected = e.target.value;
+            if(selected === 'Not_Achieved'){
+                $('#probationkpi-non_achievement_reasons').show();
+                 $('label[for="probationkpi-non_achievement_reasons"]').show();
+            }else{
+                $('#probationkpi-non_achievement_reasons').hide();
+                 $('label[for="probationkpi-non_achievement_reasons"]').hide();
+            }
+        });
 
 
 

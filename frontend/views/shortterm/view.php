@@ -335,6 +335,8 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
                            <?= $form->field($model, 'Employee_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
                            <p class="parent"><span>+</span>
+                                <?= $form->field($model, 'Overview_Rejection_Comments')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+
                                <?= $form->field($model, 'Job_Title')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
 
                                <?= $form->field($model, 'Goal_Setting_Status')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
@@ -354,7 +356,7 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
 
                            <p class="parent"><span>+</span>
 
-                               <?php $form->field($model, 'Supervisor_User_Id')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
+                               <?= $form->field($model, 'Supervisor_Rejection_Comments')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                <?php $form->field($model, 'Overview_Manager')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                <?= $form->field($model, 'Overview_Manager_Name')->textInput(['readonly'=> true, 'disabled'=>true]) ?>
                                
@@ -370,6 +372,53 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
 
                        </div>
                    </div>
+               </div>
+
+               <div class="row">
+
+                 <div class="col-md-6">
+
+
+
+                         <div class="card">
+
+                                        <div class="card-header">
+                                                <div class="card-title">
+                                                    Line Manager Comments
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                 <?= ($model->Appraisal_Status == 'Supervisor_Level') ?$form->field($model, 'Supervisor_Overall_Comments')->textArea(['rows' => 2, 'maxlength'=> '140']): '' ?>
+                                                    <span class="text-success" id="confirmation-super">Comment Saved Successfully.</span>
+
+                                                    <?= ($model->Appraisal_Status !== 'Supervisor_Level') ?$form->field($model, 'Supervisor_Overall_Comments')->textArea(['rows' => 2, 'readonly' => true, 'disabled' =>  true]): '' ?>
+                                            </div>
+                            </div>
+
+
+
+                 </div>
+                  <div class="col-md-6">
+
+
+
+                                <div class="card">
+
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    Overview Manager Comments
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                 <?= ($model->Appraisal_Status == 'Overview_Manager') ?$form->field($model, 'Over_View_Manager_Comments')->textArea(['rows' => 2, 'maxlength'=> '140']): '' ?>
+                                                    <span class="text-success" id="confirmation">Comment Saved Successfully.</span>
+
+                                                    <?= ($model->Appraisal_Status !== 'Overview_Manager') ?$form->field($model, 'Over_View_Manager_Comments')->textArea(['rows' => 2, 'readonly' => true, 'disabled' =>  true]): '' ?>
+                                            </div>
+                                        </div>
+
+                 </div>
+
                </div>
 
 
@@ -389,7 +438,7 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
             <div class="card-header">
                 <div class="card-title">Employee Appraisal KRAs (Key Result Areas)   </div>
                 <div class="card-tools">
-                    <?= ($model->Goal_Setting_Status == 'New')?Html::a('<i class="fa fa-plus-square"></i> Add K.R.A',['objective/create','Employee_No'=>$model->Employee_No,'Appraisal_No' => $model->Appraisal_No],['class' => 'add-objective btn btn-sm btn-outline-info']):'' ?>
+                    <?= ($model->Goal_Setting_Status == 'New' || $model->Probation_Recomended_Action == 'Extend_Probation_Period')?Html::a('<i class="fa fa-plus-square"></i> Add K.R.A',['objective/create','Employee_No'=>$model->Employee_No,'Appraisal_No' => $model->Appraisal_No],['class' => 'add-objective btn btn-sm btn-outline-info']):'' ?>
                 </div>
             </div>
 
@@ -439,12 +488,7 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
                                                     <td><b>Appraiser Rating</b></td>
                                                     <td><b>Supervisor Comments</b></td>
                                                     <td><b>Overview Manager Comments</b></td>
-                                                    <?php if($model->Probation_Recomended_Action == 'Extend_Probation_Period'): ?>
-                                                        <td><b>Extension Self Rating</b></td>
-                                                        <td><b>Extension Appraiser Rating</b></td>
-                                                        <td><b>Extension Employee Comments</b></td>
-                                                        <td><b>Extension Supervisor Comments</b></td>
-                                                    <?php endif; ?>
+                                                    
 
                                                     <th><b>Action</b></th>
 
@@ -503,7 +547,7 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
                 <div class="card-title">Employee Appraisal Competence</div>
 
                 <div class="card-tools">
-                    <?= Html::a('<i class="fa fa-plus"></i> Add Competence',['competence/create','Appraisal_Code'=> $model->Appraisal_No,''],['class' => 'mx-1 update-objective btn btn-xs btn-outline-info', 'title' => 'Create Record ?']); ?>
+                    <?= Html::a('<i class="fa fa-plus"></i> Add Competence',['competence/create','Appraisal_Code'=> $model->Appraisal_No],['class' => 'mx-1 update-objective btn btn-xs btn-outline-info', 'title' => 'Create Record ?']); ?>
                 </div>
             </div>
             <div class="card-body">
@@ -1103,6 +1147,93 @@ $script = <<<JS
         
         
     });
+
+
+
+    // COMMENT COMMITMENT
+
+
+      /*Commit Overview Manager Comment*/
+     
+     $('#confirmation').hide();
+     $('#shortterm-over_view_manager_comments').change(function(e){
+        const Comments = e.target.value;
+        const Appraisal_No = $('#shortterm-appraisal_no').val();
+        if(Appraisal_No.length){
+            
+            const url = $('input[name=url]').val()+'shortterm/setfield?field=Over_View_Manager_Comments';
+            $.post(url,{'Over_View_Manager_Comments': Comments,'Appraisal_No': Appraisal_No}).done(function(msg){
+                   //populate empty form fields with new data
+                   
+                  
+                   $('#shortterm-key').val(msg.Key);
+                  
+
+                    console.log(typeof msg);
+                    console.table(msg);
+                    if((typeof msg) === 'string') { // A string is an error
+                        const parent = document.querySelector('.field-shortterm-over_view_manager_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = msg;
+                      
+                        
+                    }else{ // An object represents correct details
+                        const parent = document.querySelector('.field-shortterm-over_view_manager_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = ''; 
+                        $('#confirmation').show();
+                        
+                        
+                    }
+                    
+                },'json');
+            
+        }     
+     });
+
+
+
+
+
+       /*Commit Line Manager Comment*/
+     
+     $('#confirmation-super').hide();
+     $('#shortterm-supervisor_overall_comments').change(function(e){
+
+        const Comments = e.target.value;
+        const Appraisal_No = $('#shortterm-appraisal_no').val();
+
+       
+        if(Appraisal_No.length){
+
+      
+            const url = $('input[name=url]').val()+'shortterm/setfield?field=Supervisor_Overall_Comments';
+            $.post(url,{'Supervisor_Overall_Comments': Comments,'Appraisal_No': Appraisal_No}).done(function(msg){
+                   //populate empty form fields with new data
+                   
+                  
+                   $('#shortterm-key').val(msg.Key);
+                  
+                    console.table(msg);
+                    if((typeof msg) === 'string') { // A string is an error
+                        const parent = document.querySelector('.field-shortterm-supervisor_overall_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = msg;
+                      
+                        
+                    }else{ // An object represents correct details
+                        const parent = document.querySelector('.field-shortterm-supervisor_overall_comments');
+                        const helpbBlock = parent.children[2];
+                        helpbBlock.innerText = ''; 
+                        $('#confirmation-super').show();
+                        
+                        
+                    }
+                    
+                },'json');
+            
+        }     
+     });
 
 
 
