@@ -474,7 +474,23 @@ return [
         //'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         //'application/octet-stream',
         'application/pdf'
-    ]
+    ],
+    'ActiveModules' => [
+        'Recruitment' => 0,
+        'ApprovalManagement' => 1,
+        'LeaveManagement' => 1,
+        'ChangeManagement' => 1,
+        'SalaryAdvance' => 1,
+        'OvertimeManagement' => 1,
+        'HR-Reports' => 1,
+        'LongTermAppraisal' => 1,
+        'ProbationAppraisal' => 1,
+        'ShortTermAppraisal' => 1,
+        'PIPAppraisal' => 1,
+        'ContractRenewal' => 1,
+        'EmployeeExit' => 1,
+
+    ],
 
 
 ];
