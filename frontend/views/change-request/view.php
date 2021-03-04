@@ -21,9 +21,9 @@ Yii::$app->session->set('isSupervisor',false);*/
 ?>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-4">
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send To Store',['send-to-store'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Status == 'New')?Html::a('<i class="fas fa-paper-plane"></i> Send Approval Req',['send-for-approval'],['class' => 'btn btn-app submitforapproval',
             'data' => [
                 'confirm' => 'Are you sure you want to send this document for approval?',
                 'params'=>[
@@ -32,49 +32,22 @@ Yii::$app->session->set('isSupervisor',false);*/
                 ],
                 'method' => 'get',
         ],
-            'title' => 'Send Request for Approval'
+            'title' => 'Submit Request Approval'
 
-        ])?>
+        ]):'' ?>
 
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send To Lab',['send-to-lab'],['class' => 'btn btn-app submitforapproval',
+
+        <?= ($model->Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
             'data' => [
-                'confirm' => 'Are you sure you want to send this document for approval?',
-                'params'=>[
-                    'No'=> $model->No,
-                    'employeeNo' => Yii::$app->user->identity->{'Employee No_'},
-                ],
-                'method' => 'get',
+            'confirm' => 'Are you sure you want to cancel imprest approval request?',
+            'params'=>[
+                'No'=> $model->No,
             ],
-            'title' => 'Send Request for Approval'
+            'method' => 'get',
+        ],
+            'title' => 'Cancel Approval Request'
 
-        ])?>
-
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send To Library',['send-to-library'],['class' => 'btn btn-app submitforapproval',
-            'data' => [
-                'confirm' => 'Are you sure you want to send this document for approval?',
-                'params'=>[
-                    'No'=> $model->No,
-                    'employeeNo' => Yii::$app->user->identity->{'Employee No_'},
-                ],
-                'method' => 'get',
-            ],
-            'title' => 'Send Request for Approval'
-
-        ])?>
-
-        <?= Html::a('<i class="fas fa-paper-plane"></i> Send To Archives',['send-to-archives'],['class' => 'btn btn-app submitforapproval',
-            'data' => [
-                'confirm' => 'Are you sure you want to send this document for approval?',
-                'params'=>[
-                    'No'=> $model->No,
-                    'employeeNo' => Yii::$app->user->identity->{'Employee No_'},
-                ],
-                'method' => 'get',
-            ],
-            'title' => 'Send Request for Approval'
-
-        ])?>
-
+        ]):'' ?>
     </div>
 </div>
 
@@ -220,7 +193,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             <div class="card" id="Next_Of_Kin">
                 <div class="card-header">
                     <div class="card-title">
-                        Employee Next of Keen    <?= Html::a('Add',['relative/create','No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                        Employee Next of Keen    <?= Html::a('Add',['relative/create','Change_No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -538,7 +511,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             <div class="card" id="Employee_Emergency_Contacts_C">
                 <div class="card-header">
                     <div class="card-title">
-                       Emergency Contact Change    <?= Html::a('Add',['emergency-contact/create','No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                       Emergency Contact Change    <?= Html::a('Add',['emergency/create','Change_No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -593,7 +566,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             <div class="card" id="Misc_artical_information_ch">
                 <div class="card-header">
                     <div class="card-title">
-                       Miscelleneous Change    <?= Html::a('Add',['misc/create','No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                       Miscelleneous Change    <?= Html::a('Add',['misc/create','Change_No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -610,7 +583,8 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td><b>Description</b></td>
                                     <td><b>From_Date</b></td>
                                     <td><b>To_Date</b></td>
-                                    <td><b>Serial_No</b></td>
+                                    <td><b>Serial</b></td>
+                                    <td><b>Action</b></td>
                                     <td><b>Asset_Number</b></td>
 
 
@@ -620,8 +594,8 @@ Yii::$app->session->set('isSupervisor',false);*/
                                 <?php
                 // print '<pre>'; print_r($model->getObjectives()); exit;
                 foreach($model->misc as $miscobj):
-                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['emergency/update','No'=> $miscobj->Line_No],['class' => 'update-miscobjective btn btn-outline-info btn-xs']);
-                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['emergency/delete','Key'=> $miscobj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
+                    $updateLink = Html::a('<i class="fa fa-edit"></i>',['misc/update','No'=> $miscobj->Line_No],['class' => 'update-miscobjective btn btn-outline-info btn-xs']);
+                    $deleteLink = Html::a('<i class="fa fa-trash"></i>',['misc/delete','Key'=> $miscobj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']);
                     ?>
                                     <tr>
 
@@ -629,8 +603,12 @@ Yii::$app->session->set('isSupervisor',false);*/
                                         <td data-key="<?= $miscobj->Key ?>" data-name="Description" data-no="<?= $miscobj->Line_No ?>" data-filter-field="Line_No" data-service="Miscinformation" ondblclick="addDropDown(this,'relatives')"><?= !empty($miscobj->Description)?$miscobj->Description:'Not Set' ?></td>
                                         <td data-key="<?= $miscobj->Key ?>" data-name="From_Date" data-no="<?= $miscobj->Line_No ?>" data-filter-field="Line_No" data-service="Miscinformation" ondblclick="addInput(this, 'date')"><?= !empty($miscobj->From_Date)?$miscobj->From_Date:'Not Set' ?></td>
                                         <td data-key="<?= $miscobj->Key ?>" data-name="To_Date" data-no="<?= $miscobj->Line_No ?>" data-filter-field="Line_No" data-service="Miscinformation" ondblclick="addInput(this, 'date')"><?= !empty($miscobj->To_Date)?$miscobj->To_Date:'Not Set' ?></td>
-                                        <td data-key="<?= $miscobj->Key ?>" data-name="Serial_No" data-no="<?= $miscobj->Line_No ?>" data-filter-field="Line_No" data-service="Miscinformation" ondblclick="addDropDown(this,'action')"><?= !empty($miscobj->Serial_No)?$miscobj->Serial_No:'Not Set' ?></td>
-                                        <td data-key="<?= $miscobj->Key ?>" data-name="Asset_Number" data-no="<?= $miscobj->Line_No ?>" data-filter-field="Line_No" data-service="Miscinformation" ondblclick="addInput(this)"><?= !empty($miscobj->Asset_Number)?$emobj->Asset_Number:'Not Set' ?></td>
+                                        
+                                        <td data-key="<?= $miscobj->Key ?>" data-name="Serial_No" data-no="<?= $miscobj->Line_No ?>" data-filter-field="Line_No" data-service="Miscinformation" ondblclick="addInput(this)"><?= !empty($miscobj->Serial_No)?$miscobj->Serial_No:'Not Set' ?></td>
+
+                                         <td data-key="<?= $miscobj->Key ?>" data-name="Action" data-no="<?= $miscobj->Line_No ?>" data-filter-field="Line_No" data-service="Miscinformation" ondblclick="addDropDown(this,'action')"><?= !empty($miscobj->Action)?$miscobj->Action:'Not Set' ?></td>
+
+                                        <td data-key="<?= $miscobj->Key ?>" data-name="Asset_Number" data-no="<?= $miscobj->Line_No ?>" data-filter-field="Line_No" data-service="Miscinformation" ondblclick="addInput(this)"><?= !empty($miscobj->Asset_Number)?$miscobj->Asset_Number:'Not Set' ?></td>
 
 
                                     </tr>
