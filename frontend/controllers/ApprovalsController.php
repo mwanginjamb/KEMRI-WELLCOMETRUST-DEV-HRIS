@@ -318,6 +318,10 @@ class ApprovalsController extends Controller
                     {
                         $detailsLink = Html::a('View Details',['exit/view','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
+                     elseif($app->Document_Type == 'Leave_Plan')
+                    {
+                        $detailsLink = Html::a('View Details',['leaveplan/view','Plan_No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                    }
                     else{ //Employee_Exit
                         $detailsLink = '';
 

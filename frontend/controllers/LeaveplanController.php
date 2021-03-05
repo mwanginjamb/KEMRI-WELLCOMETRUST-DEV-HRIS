@@ -80,10 +80,11 @@ class LeaveplanController extends Controller
 
         $model = new Leaveplan();
         $service = Yii::$app->params['ServiceName']['LeavePlanCard'];
+        $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
 
         /*Do initial request */
         if(!isset(Yii::$app->request->post()['Leaveplan'])){
-            $request = Yii::$app->navhelper->postData($service,[]);
+            $request = Yii::$app->navhelper->postData($service, $model);
             if(!is_string($request) )
             {
                 Yii::$app->navhelper->loadmodel($request,$model);
