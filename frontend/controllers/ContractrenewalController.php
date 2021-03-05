@@ -365,6 +365,32 @@ class ContractrenewalController extends Controller
         }
     }
 
+    /*Cancel Renewal*/
+
+    public function actionCancelRenewal()
+    {
+         $service = Yii::$app->params['ServiceName']['PortalFactory'];
+
+        $data = [
+            'changeNo' => Yii::$app->request->get('changeNo'),
+        ];
+
+
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectContractRenewal');
+
+        if(!is_string($result)){
+            Yii::$app->session->setFlash('success', 'Contract Renewal Cancelled Successfully.', true);
+            return $this->redirect(['index']);
+        }else{
+
+            Yii::$app->session->setFlash('error', 'Error  : '. $result);
+            return $this->redirect(['index']);
+
+        }
+    }
+
+
+
 
 
 }

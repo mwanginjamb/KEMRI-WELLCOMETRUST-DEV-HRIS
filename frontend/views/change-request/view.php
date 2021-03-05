@@ -258,7 +258,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             <div class="card" id="Employee_Beneficiaries_Change">
                 <div class="card-header">
                     <div class="card-title">
-                        Beneficiaries    <?= Html::a('Add',['beneficiary/create','No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                        Beneficiaries    <?= Html::a('Add',['beneficiaries/create','Change_No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 

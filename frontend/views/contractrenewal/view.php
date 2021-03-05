@@ -32,6 +32,19 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
         ]):'' ?>
 
 
+         <?= ($model->Approval_Status == 'New')?Html::a('<i class="fas fa-times"></i> Dont Renew',['cancel-renewal'],['class' => 'btn btn-app submitforapproval',
+            'data' => [
+                'confirm' => 'Are you sure you want to cancel contract renewal?',
+                'params'=>[
+                    'changeNo' => $model->No,
+                ],
+                'method' => 'get',
+            ],
+            'title' => 'Cancel Contract Renewal.'
+
+        ]):'' ?>
+
+
         <?= ($model->Approval_Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
             'data' => [
             'confirm' => 'Are you sure you want to cancel document approval request?',
