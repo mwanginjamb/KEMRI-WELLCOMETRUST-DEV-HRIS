@@ -20,6 +20,7 @@ public $Contract_Start_Date;
 public $Contract_Period;
 public $Contract_End_Date;
 public $Notice_Period;
+public $Employee_Title;
 public $Job_Title;
 public $Line_Manager;
 public $Manager_Name;
@@ -32,8 +33,9 @@ public $Status;
 public $Change_No;
 public $Line_No;
 public $Employee_No;
-public $isNewRecord;
 public $Job_Code;
+public $isNewRecord;
+
 
     public function rules()
     {

@@ -31,7 +31,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <?= $form->field($model, 'Grant_Start_Date')->textInput(['type' => 'date']) ?>
                                     <?= $form->field($model, 'Grant_End_Date')->textInput(['type' => 'date']) ?>
                                     <?= $form->field($model, 'Percentage')->textInput(['type' => 'number']) ?>
-                                    <?= $form->field($model, 'Grant_Status')->dropDownList([
+                                    <?php $form->field($model, 'Grant_Status')->dropDownList([
                                         '_blank_' => '_blank_',
                                         'Active' => 'Active',
                                         'Expired' => 'Expired',
