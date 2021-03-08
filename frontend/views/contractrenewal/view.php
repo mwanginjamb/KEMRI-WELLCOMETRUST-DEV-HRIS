@@ -40,12 +40,12 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
                 ],
                 'method' => 'get',
             ],
-            'title' => 'Cancel Contract Renewal.'
+            'title' => 'Do not Renew this Contract.'
 
         ]):'' ?>
 
 
-        <?= ($model->Approval_Status == 'Pending_Approval')?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
+        <?= ($model->Approval_Status == 'Pending_Approval' && !Yii::$app->request->get('Approval'))?Html::a('<i class="fas fa-times"></i> Cancel Approval Req.',['cancel-request'],['class' => 'btn btn-app submitforapproval',
             'data' => [
             'confirm' => 'Are you sure you want to cancel document approval request?',
             'params'=>[
@@ -198,7 +198,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
                                            <!--  <td><?php !empty($obj->New_Salary) ? $obj->New_Salary : 'Not Set' ?></td> -->
                                             <td><?= !empty($obj->Status) ? $obj->Status : 'Not Set' ?></td>
 
-                                            <?php if($obj->Status == 'New'): ?>
+                                            <?php if($model->Approval_Status == 'New'): ?>
                                                 <td><?= $updateLink . '|' . $donorDetails ?></td>
                                             <?php endif; ?>
                                         </tr>
@@ -239,7 +239,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
                                                             <td><?= !empty($d->Grant_End_Date)?$d->Grant_End_Date:'' ?></td>
                                                             <td><?= !empty($d->Percentage)?$d->Percentage:'' ?></td>
                                                             <td><?= !empty($d->Grant_Status)?$d->Grant_Status:'' ?></td>
-                                                            <td><?= $donorUpdate ?></td>
+                                                            <td><?=($model->Approval_Status == 'New')? $donorUpdate:'' ?></td>
 
                                                         </tr>
 

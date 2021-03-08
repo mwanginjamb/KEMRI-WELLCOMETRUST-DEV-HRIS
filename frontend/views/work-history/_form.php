@@ -7,6 +7,7 @@
  */
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+$absoluteUrl = \yii\helpers\Url::home(true);
 ?>
 
 <div class="row">
@@ -27,37 +28,22 @@ use yii\widgets\ActiveForm;
                                 <tbody>
 
                              <div class="col-md-6">
-
-                                     <?= $form->field($model, 'Relationship')->dropDownList(
-                                        $relations,
-                                        ['prompt' => 'Select ...']
-                                    ) ?>
-
-                                    <?= $form->field($model, 'ID_Birth_Certificate_No')->textInput() ?>
-                                    <?= $form->field($model, 'Phone_No')->textInput() ?>
-                                    <?= $form->field($model, 'Email_Address')->textInput(['type' => 'email']) ?>
-                                    <?= $form->field($model, 'Date_of_Birth')->textInput(['type' => 'date']) ?>
-                                                                       
+                                     <?= $form->field($model, 'Work_Done')->textInput(['required' => true]); ?>
+                                     <?= $form->field($model, 'Institution_Company')->textInput(['maxlength' => 150]) ?>
+                                     <?= $form->field($model, 'From_Date')->textInput(['type' => 'date']) ?>
+                                     <?= $form->field($model, 'Reason_For_Leaving')->textInput(['maxlength' => 150]) ?>
+                                   
+                                   
 
                             </div>
                              <div class="col-md-6">
-                                      <?= $form->field($model, 'Type')->dropDownList(
-                                        ['Adult' => 'Adult','Minor'=> 'Minor'],
-                                        ['prompt' => 'Select ...']
-                                    ) ?>
-                                     <?= $form->field($model, 'Full_Names')->textInput(['required' => true ]) ?>
-
-                                     <?= $form->field($model, 'Gender')->dropDownList( 
-                                        ['_blank_' => '_blank_','Male'=> 'Male','Female' => 'Female','Unknown' => 'Unknown'],
-                                        ['prompt' => 'Select ...']) ?>
-
-                                    <?= $form->field($model, 'Comments')->textArea(['rows' => 2 ]) ?>
-
-                                    <?= $form->field($model, 'New_Allocation')->textInput(['type' => 'number' ,'required' => true ]) ?>
-                                                                  
+                                    <?= $form->field($model, 'Key_Experience')->textInput(['maxlength' => 150]) ?>
+                                    <?= $form->field($model, 'Salary_on_Leaving')->textInput(['maxlength' => 150]) ?>
+                                    <?= $form->field($model, 'To_Date')->textInput(['type' => 'date']) ?>
+                                   
 
                                     <?= $form->field($model, 'Action')->dropDownList(
-                                        ['Retain' => 'Retain','Remove' => 'Remove','New_Addition' => 'New_Addition'],
+                                        ['Existing' => 'Existing','New_Addition' => 'New_Addition'],
                                         ['prompt' => 'Select ...']
                                     ) ?>
                             </div>
@@ -70,6 +56,7 @@ use yii\widgets\ActiveForm;
 
 
                 </div>
+
 
                 <div class="row">
 
@@ -84,7 +71,7 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 </div>
-
+<input type="hidden" name="url" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
  //Submit Rejection form and get results in json    
@@ -99,6 +86,28 @@ $script = <<<JS
         
                 },'json');
         });
+
+
+
+
+         $('#professionalchange-body_code').change(function(e){
+         e.preventDefault();
+          const Body_Code = e.target.value;
+          const Change_No = $('#professionalchange-change_no').val();
+          // Check if leave required an attachment or not
+            const Vurl = $('input[name=url]').val()+'professionalchange/commit';
+            $.get(Vurl,{"Body_Code": Body_Code, "Change_No": Change_No }).done(function(msg){
+                console.log(msg);
+
+                if(typeof msg == 'object') {
+                    $('#professionalchange-key').val(msg.Key);
+                }
+                
+            });
+         
+     });
+
+
 JS;
 
 $this->registerJs($script);

@@ -41,7 +41,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
 
-                                    <?= $form->field($model, 'Pointer')->dropDownList([],['prompt' => 'Select ....']) ?>
+                                    <?= $form->field($model, 'Pointer')->dropDownList($pointers,['prompt' => 'Select ....']) ?>
                                     <?= $form->field($model, 'Job_Code')->dropDownList($jobs,['prompt' => 'Select ...']) ?>
 
 

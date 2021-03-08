@@ -117,6 +117,7 @@ class ContractrenewallineController extends Controller
                 'contracts' => $this->getContracts(),
                 'grades' => $this->getPayrollscales(),
                 'jobs' => $this->getJobs(),
+                'pointers' => $this->getPointers($model->Grade),
             ]);
         }
 
@@ -170,6 +171,7 @@ class ContractrenewallineController extends Controller
                 'contracts' => $this->getContracts(),
                 'grades' => $this->getPayrollscales(),
                 'jobs' => $this->getJobs(),
+                'pointers' => $this->getPointers($model->Grade)
             ]);
         }
 
@@ -339,6 +341,15 @@ class ContractrenewallineController extends Controller
         $result = Yii::$app->navhelper->getData($service, []);
 
          return Yii::$app->navhelper->refactorArray($result,'Scale','Sequence');
+    }
+
+    public function getPointers($scale)
+    {
+        $service = Yii::$app->params['ServiceName']['PayrollScalePointers'];
+        $filter = ['Scale' => $scale];
+        $result = Yii::$app->navhelper->getData($service, $filter);
+
+        return Yii::$app->navhelper->refactorArray($result,'Pointer','Pointer');
     }
 
     public function actionPointerDd($scale)

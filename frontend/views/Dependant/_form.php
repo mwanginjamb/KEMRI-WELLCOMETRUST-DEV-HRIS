@@ -20,7 +20,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
 
                                     <div class="col-md-12">
-                                            <?= $form->field($model, 'Change_No')->hiddenInput(['readonly' => true]) ?>
+                                            <?= $form->field($model, 'Change_No')->hiddenInput(['readonly' => true])->label(false) ?>
                                             <?= $form->field($model, 'Full_Name')->textInput(['maxlength' => 150]) ?>
                                             <?= $form->field($model, 'ID_Birth_Certificate_No')->textInput(['maxlength' => 100]) ?>
                                             <?= $form->field($model, 'Is_Student')->checkbox() ?>

@@ -11,10 +11,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\AgendaDocument */
 
-$this->title = 'New Change Request';
-$this->params['breadcrumbs'][] = ['label' => 'Leave Plan', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'New Request', 'url' => ['create']];
-//$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Add Change Request Record';
+$this->params['breadcrumbs'][] = ['label' => '', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 
 $model->isNewRecord = true;
 ?>
@@ -24,7 +23,7 @@ $model->isNewRecord = true;
 
     <?= $this->render('_form', [
         'model' => $model,
-
+        //'qualifications' => $qualifications         
     ]) ?>
 
 </div>

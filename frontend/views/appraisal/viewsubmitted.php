@@ -452,7 +452,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <th>Employee No</th>-->
                                     <th>KRA</th>
                                     <th>Overall Rating</th>
-                                    <th>Move To PIP</th>
+                                   <!--  <th>Move To PIP</th> -->
                                     <th>Maximum Weight</th>
                                     <th>Total Weigtht</th>
                                     <th>Action</th>
@@ -471,7 +471,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <td><?/*= $k->Employee_No */?></td>-->
                                         <td><?= $k->KRA ?></td>
                                         <td><?= !empty($k->Overall_Rating)?$k->Overall_Rating: 'Not Set' ?></td>
-                                        <td><?= $mvtopip ?></td>
+                                        <!-- <td><?php $mvtopip ?></td> -->
                                         <td><?= !empty($k->Maximum_Weight)?$k->Maximum_Weight: 'Not Set' ?></td>
                                         <td><?= !empty($k->Total_Weigth)?$k->Total_Weigth: 'Not Set' ?></td>
                                         <td><?=(($model->Goal_Setting_Status == 'New'))?Html::a('<i class="fa fa-edit"></i>',['appraisalkra/update','Line_No'=> $k->Line_No,'Appraisal_No' => $k->Appraisal_No,'Employee_No' => $k->Employee_No ],['class' => ' evalkra btn btn-info btn-xs']):''?></td>
@@ -533,6 +533,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                                 <?= (
                                                                     $model->Goal_Setting_Status == 'New' ||
                                                                     $model->MY_Appraisal_Status == 'Supervisor_Level' ||
+                                                                     $model->EY_Appraisal_Status == 'Supervisor_Level' ||
                                                                     $model->EY_Appraisal_Status == 'Agreement_Level'
 
                                                             )?Html::a('<i class="fas fa-edit"></i> ',['employeeappraisalkpi/update','Appraisal_No'=> $kpi->Appraisal_No,'Employee_No' => $kpi->Employee_No,'KRA_Line_No' => $kpi->KRA_Line_No,'Line_No' => $kpi->Line_No],['class' => 'btn btn-xs btn-primary add-objective', 'title' => 'Update Objective /KPI']):'' ?>

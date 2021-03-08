@@ -169,7 +169,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td data-key="<?= $obj->Key ?>" data-name="Is_Student" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="EmployeeDepandants" ondblclick="addInput(this)"><?= !empty($obj->Is_Student)?$obj->Is_Student:'Not Set' ?></td>
                                     <td data-key="<?= $obj->Key ?>" data-name="Date_of_Birth" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="EmployeeDepandants" ondblclick="addInput(this,'date')"><?= !empty($obj->Date_of_Birth)?$obj->Date_of_Birth:'Not Set' ?></td>
                                     <td><?= !empty($obj->Age)?$obj->Age:'Not Set' ?></td>
-                                    <td data-key="<?= $obj->Key ?>" data-name="Relationship" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="EmployeeDepandants" ondblclick="addInput(this)"><?= !empty($obj->Relationship)?$obj->Relationship:'Not Set' ?></td>
+                                    <td data-key="<?= $obj->Key ?>" data-name="Relationship" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="EmployeeDepandants" ondblclick="addDropDown(this,'relatives')"><?= !empty($obj->Relationship)?$obj->Relationship:'Not Set' ?></td>
                                     <td data-key="<?= $obj->Key ?>" data-name="Gender" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="EmployeeDepandants" ondblclick="addDropDown(this,'gender')"><?= !empty($obj->Gender)?$obj->Gender:'Not Set' ?></td>
                                     <td data-key="<?= $obj->Key ?>" data-name="Action" data-no="<?= $obj->Line_No ?>" data-model="Dependants" data-service="EmployeeDepandants" ondblclick="addDropDown(this,'action')"><?= !empty($obj->Action)?$obj->Action:'Not Set' ?></td>
                                     <!--<td><?/*= $deleteLink */?></td>-->
@@ -331,7 +331,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             <div class="card" id="Employee_Work_History_Change">
                 <div class="card-header">
                     <div class="card-title">
-                        Work History    <?= Html::a('Add',['work-history/create','No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                        Work History    <?= Html::a('Add',['work-history/create','Change_No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -351,7 +351,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td><b>Key_Experience</b></td>
                                     <td><b>Salary_on_Leaving</b></td>
                                     <td><b>Reason_For_Leaving</b></td>
-                                    <td><b>Comments</b></td>
+                                    <!-- <td><b>Comments</b></td> -->
 
                                     <td><b>Action</b></td>
 
@@ -374,7 +374,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                         <td data-key="<?= $whobj->Key ?>" data-name="Key_Experience" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeWorkHistoryChange" ondblclick="addInput(this)"><?= !empty($whobj->Key_Experience)?$whobj->Key_Experience:'Not Set' ?></td>
                                         <td data-key="<?= $whobj->Key ?>" data-name="Salary_on_Leaving" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeWorkHistoryChange" ondblclick="addInput(this)"><?= !empty($whobj->Salary_on_Leaving)?$whobj->Salary_on_Leaving:'Not Set' ?></td>
                                         <td data-key="<?= $whobj->Key ?>" data-name="Reason_For_Leaving" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeWorkHistoryChange" ondblclick="addInput(this)"><?= !empty($whobj->Reason_For_Leaving)?$whobj->Reason_For_Leaving:'Not Set' ?></td>
-                                        <td data-key="<?= $whobj->Key ?>" data-name="Comments" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeWorkHistoryChange" ondblclick="addInput(this)" ><?= !empty($whobj->Comments)?$whobj->Comments:'Not Set' ?></td>
+                                        <!-- <td data-key="<?= $whobj->Key ?>" data-name="Comments" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeWorkHistoryChange" ondblclick="addInput(this)" ><?= !empty($whobj->Comments)?$whobj->Comments:'Not Set' ?></td> -->
                                         <td data-key="<?= $whobj->Key ?>" data-name="Action" data-no="<?= $whobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeWorkHistoryChange" ondblclick="addDropDown(this,'action')" ><?= !empty($whobj->Action)?$whobj->Action:'Not Set' ?></td>
 
 
@@ -394,7 +394,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             <div class="card" id="Employee_Proffesional_Bodies_C">
                 <div class="card-header">
                     <div class="card-title">
-                        Professional Bodies Affiliation    <?= Html::a('Add',['professional/create','No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                        Professional Bodies Affiliation    <?= Html::a('Add',['professionalchange/create','Change_No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -451,7 +451,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             <div class="card" id="Employee_Qualifications_Change">
                 <div class="card-header">
                     <div class="card-title">
-                        Qualifications Change Request    <?= Html::a('Add',['qualificationchange/create','No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
+                        Qualifications Change Request    <?= Html::a('Add',['qualificationchange/create','Change_No' => $model->No],['class' => 'add-line btn btn-sm btn-info']) ?>
                     </div>
                 </div>
 
@@ -469,7 +469,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                     <td><b>From_Date</b></td>
                                     <td><b>To_Date</b></td>
                                     <td><b>Institution_Company</b></td>
-                                    <td><b>Comment</b></td>
+                                    <!-- <td><b>Comment</b></td> -->
                                     <td><b>Action</b></td>
 
 
@@ -489,7 +489,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                                         <td data-key="<?= $qobj->Key ?>" data-name="From_Date" data-no="<?= $qobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeQualificationsChange" ondblclick="addInput(this, 'date')"><?= !empty($qobj->From_Date)?$qobj->From_Date:'Not Set' ?></td>
                                         <td data-key="<?= $qobj->Key ?>" data-name="To_Date" data-no="<?= $qobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeQualificationsChange" ondblclick="addInput(this, 'date')"><?= !empty($qobj->To_Date)?$qobj->To_Date:'Not Set' ?></td>
                                         <td data-key="<?= $qobj->Key ?>" data-name="Institution_Company" data-no="<?= $qobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeQualificationsChange" ondblclick="addInput(this)"><?= !empty($qobj->Institution_Company)?$qobj->Institution_Company:'Not Set' ?></td>
-                                        <td data-key="<?= $qobj->Key ?>" data-name="Comment" data-no="<?= $qobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeQualificationsChange" ondblclick="addInput(this)"><?= !empty($qobj->Comment)?$qobj->Comment:'Not Set' ?></td>
+                                        <!-- <td data-key="<?= $qobj->Key ?>" data-name="Comment" data-no="<?= $qobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeQualificationsChange" ondblclick="addInput(this)"><?= !empty($qobj->Comment)?$qobj->Comment:'Not Set' ?></td> -->
                                         <td data-key="<?= $qobj->Key ?>" data-name="Action" data-no="<?= $qobj->Line_No ?>" data-filter-field="Line_No" data-service="EmployeeQualificationsChange" ondblclick="addDropDown(this,'action')"><?= !empty($qobj->Action)?$qobj->Action:'Not Set' ?></td>
 
 

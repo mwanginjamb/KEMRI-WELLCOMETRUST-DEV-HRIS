@@ -204,8 +204,9 @@ class ApprovalsController extends Controller
         $service = Yii::$app->params['ServiceName']['RequestsTo_ApprovePortal'];
 
         $filter = [
-            //'Employee_No' => Yii::$app->user->identity->{'Employee_No'},
+           
             'Approver_No' => Yii::$app->user->identity->{'Employee No_'},
+            'Status' => 'Open'
         ];
         $approvals = \Yii::$app->navhelper->getData($service,$filter);
 
@@ -216,6 +217,7 @@ class ApprovalsController extends Controller
         $result = [];
 
         $leaveWorkflows = ['Leave_Application','Leave_Reinstatement','Leave_Reimbursement'];
+        $Rejectlink = "";
 
         if(!is_object($approvals)){
             foreach($approvals as $app){
@@ -233,19 +235,33 @@ class ApprovalsController extends Controller
                             'name' => $app->Table_ID
                         ]): "";
                     }
-                    elseif(stripos($app->Details, 'Recall') !== FALSE)
+                    elseif($app->Document_Type == 'Leave_Recall')
                     {
                         $Approvelink = ($app->Status == 'Open')? Html::a('Approve Leave Recall',['approve-recall','app'=> $app->Document_No ],['class'=>'btn btn-success btn-xs','data' => [
                             'confirm' => 'Are you sure you want to Approve this request?',
                             'method' => 'post',
                         ]]):'';
+
+                         $Rejectlink = ($app->Status == 'Open')? Html::a('Reject Request',['reject-request', 'docType' => 'Leave_Recall' ],['class'=>'btn btn-warning reject btn-xs',
+                            'rel' => $app->Document_No,
+                            'rev' => $app->Record_ID_to_Approve,
+                            'name' => $app->Table_ID
+                        ]): "";
                     }
-                    elseif(stripos($app->Details, 'Plan') !== FALSE)
+                    elseif($app->Document_Type == 'Leave_Plan')
                     {
                         $Approvelink = ($app->Status == 'Open')? Html::a('Approve Leave Plan',['approve-leave-plan','app'=> $app->Document_No ],['class'=>'btn btn-success btn-xs','data' => [
                             'confirm' => 'Are you sure you want to Approve this request?',
                             'method' => 'post',
                         ]]):'';
+
+
+                        $Rejectlink = ($app->Status == 'Open')? Html::a('Reject Request',['reject-request', 'docType' => 'Leave_Plan' ],['class'=>'btn btn-warning reject btn-xs',
+                            'rel' => $app->Document_No,
+                            'rev' => $app->Record_ID_to_Approve,
+                            'name' => $app->Table_ID
+                        ]): "";
+
                     }elseif($app->Document_Type == 'Requisition_Header') // Purchase Requisition
                     {
                         $Approvelink = ($app->Status == 'Open')? Html::a('Approve Request',['approve-request','app'=> $app->Document_No, 'empNo' => $app->Approver_No, 'docType' => 'Requisition_Header'  ],['class'=>'btn btn-success btn-xs','data' => [
@@ -296,19 +312,19 @@ class ApprovalsController extends Controller
 
 
                     if($app->Document_Type == 'Staff_Board_Allowance'){
-                        $detailsLink = Html::a('View Details',['fund-requisition/view','No'=> $app->Document_No ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                        $detailsLink = Html::a('View Details',['fund-requisition/view','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
                     elseif ($app->Document_Type == 'Imprest')
                     {
-                        $detailsLink = Html::a('Request Details',['imprest/view','No'=> $app->Document_No ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                        $detailsLink = Html::a('Request Details',['imprest/view','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
                     elseif($app->Document_Type == 'Leave_Reimbursement')
                     {
-                        $detailsLink = Html::a('View Details',['leave-reimburse/view','No'=> $app->Document_No ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                        $detailsLink = Html::a('View Details',['leave-reimburse/view','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
                      elseif($app->Document_Type == 'Leave_Application')
                     {
-                        $detailsLink = Html::a('View Details',['leave/view','No'=> $app->Document_No ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                        $detailsLink = Html::a('View Details',['leave/view','No'=> $app->Document_No,'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
                     elseif($app->Document_Type == 'Contract_Renewal')
                     {
@@ -322,6 +338,10 @@ class ApprovalsController extends Controller
                     {
                         $detailsLink = Html::a('View Details',['leaveplan/view','Plan_No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
                     }
+                      elseif($app->Document_Type == 'Leave_Recall')
+                    {
+                        $detailsLink = Html::a('View Details',['leaverecall/view','No'=> $app->Document_No, 'Approval' => true ],['class'=>'btn btn-outline-info btn-xs','target' => '_blank']);
+                    }
                     else{ //Employee_Exit
                         $detailsLink = '';
 
@@ -333,7 +353,7 @@ class ApprovalsController extends Controller
 
                 $result['data'][] = [
                     'Key' => $app->Key,
-                    // 'ToApprove' => $app->ToApprove,
+                    'Entry_No' => $app->Entry_No,
                     'Details' => $app->Details,
                     'Comment' => $app->Comment,
                     'Sender_ID' => $app->Sender_Name,

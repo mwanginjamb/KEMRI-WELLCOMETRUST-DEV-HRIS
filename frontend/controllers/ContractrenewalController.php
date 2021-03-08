@@ -379,7 +379,7 @@ class ContractrenewalController extends Controller
         $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanRejectContractRenewal');
 
         if(!is_string($result)){
-            Yii::$app->session->setFlash('success', 'Contract Renewal Cancelled Successfully.', true);
+            Yii::$app->session->setFlash('success', 'Contract non-renewal initiated Successfully.', true);
             return $this->redirect(['index']);
         }else{
 

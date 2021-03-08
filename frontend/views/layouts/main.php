@@ -1012,6 +1012,31 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
 
 
+                        <!-- power Bi -->
+
+                        <li class="nav-item has-treeview <?= Yii::$app->recruitment->currentCtrl('powerbi')?'menu-open':'' ?>">
+                            <a href="#" class="nav-link <?= Yii::$app->recruitment->currentCtrl('powerbi')?'active':'' ?>" title="Power BI Reports">
+                                <i class="nav-icon fa fa-chart-bar" ></i>
+                                <p>
+                                    Power Bi Reports
+                                    <i class="fas fa-angle-left right"></i>
+                                    <!--<span class="badge badge-info right">6</span>-->
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="<?= $absoluteUrl ?>exit" class="nav-link <?= Yii::$app->recruitment->currentaction('powerbi','index')?'active':'' ?>">
+                                        <i class="fa fa-chart-line nav-icon"></i>
+                                        <p>Bi Reports </p>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+
 
 
 

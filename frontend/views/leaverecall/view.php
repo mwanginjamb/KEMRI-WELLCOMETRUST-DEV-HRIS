@@ -48,6 +48,10 @@ Yii::$app->session->set('isSupervisor',false);*/
             'title' => 'Cancel Leave Approval Request'
 
         ]):'' ?>
+
+        
+
+
     </div>
 </div>
 

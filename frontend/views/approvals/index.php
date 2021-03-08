@@ -112,16 +112,17 @@ $script = <<<JS
             ajax: absolute +'approvals/getapprovals',
             paging: true,
             columns: [
-                //{ title: 'ToApprove' ,data: 'ToApprove'},
-                { title: 'Details' ,data: 'Details'},
+                { title: 'Entry_No' ,data: 'Entry_No'},
                 { title: 'Comment' ,data: 'Comment'},
                 { title: 'Sender ID' ,data: 'Sender_ID'},
                 { title: 'Document Type' ,data: 'Document_Type'},
                 { title: 'Status' ,data: 'Status'},
                 { title: 'Document No' ,data: 'Document_No'},
+                { title: 'Details' ,data: 'Details'},
+
                 { title: 'Approve' ,data: 'Approvelink'},
                 { title: 'Reject' ,data: 'Rejectlink'},
-                { title: 'Details' ,data: 'details'},
+                { title: 'Action' ,data: 'details'},
                 
                
             ] ,                              
@@ -129,13 +130,13 @@ $script = <<<JS
                 "zeroRecords": "No Requests to Approve for now."
             },
             
-            order : [[ 6, "desc" ]]
+            order : [[ 0, "desc" ]]
            
        });
         
        //Hidding some 
        var table = $('#approvals').DataTable();
-       table.columns([1,5]).visible(false);
+       table.columns([5,2,0]).visible(false);
     
     /*End Data tables*/
     

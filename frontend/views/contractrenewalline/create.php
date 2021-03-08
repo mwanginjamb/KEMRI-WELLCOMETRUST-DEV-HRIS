@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'contracts' => $contracts,
             'grades' => $grades,
             'jobs' => $jobs,
+            'pointers' => $pointers
         ]) ?>
     </div>
 </div>

@@ -10,8 +10,8 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->title = 'Imprest - '.$model->No;
-$this->params['breadcrumbs'][] = ['label' => 'imprests', 'url' => ['/salaryadvance']];
-$this->params['breadcrumbs'][] = ['label' => 'Imprest Card', 'url' => ['view','No'=> $model->No]];
+$this->params['breadcrumbs'][] = ['label' => 'Salary Advance', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'S. Advance Card', 'url' => ['view','No'=> $model->No]];
 /** Status Sessions */
 
 

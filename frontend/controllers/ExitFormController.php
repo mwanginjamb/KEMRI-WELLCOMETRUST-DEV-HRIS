@@ -483,6 +483,10 @@ class ExitFormController extends Controller
 
         $result = Yii::$app->navhelper->getData($service, $filter);
 
+        usort($result, function ($a, $b) {return $a->Sequence > $b->Sequence;});
+        /*print '<pre>';
+        print_r( $result ); exit;*/
+
         return $this->render('clearance_status',[
             'model' => $result,
         ]);

@@ -102,7 +102,8 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                     <?php if($model->Goal_Setting_Status == 'Overview_Manager' && $model->isOverview()): ?>
                         <div class="col-md-4">
 
-                            <?= Html::a('<i class="fas fa-backward"></i> To Line Mgr.',['backtolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No]                                [
+                            <?= Html::a('<i class="fas fa-backward"></i> To Line Mgr.',['backtolinemgr','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
+                                [
                                     'class' => 'btn btn-app bg-danger rejectgoals',
                                     'rel' => $_GET['Appraisal_No'],
                                     'rev' => $_GET['Employee_No'],
@@ -362,7 +363,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <th>Employee No</th>-->
                                     <th>KRA</th>
                                     <th>Overall Rating</th>
-                                    <th>Move To PIP</th>
+                                    <!-- <th>Move To PIP</th> -->
                                     <th>Maximum Weight</th>
                                     <th>Total Weigtht</th>
                                     <th>Action</th>
@@ -381,7 +382,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <td><?/*= $k->Employee_No */?></td>-->
                                         <td><?= $k->KRA ?></td>
                                         <td><?= !empty($k->Overall_Rating)?$k->Overall_Rating: 'Not Set' ?></td>
-                                        <td><?= $mvtopip ?></td>
+                                        <!-- <td><?php $mvtopip ?></td> -->
                                         <td><?= !empty($k->Maximum_Weight)?$k->Maximum_Weight: 'Not Set' ?></td>
                                         <td><?= !empty($k->Total_Weigth)?$k->Total_Weigth: 'Not Set' ?></td>
                                         <td><?=(($model->Goal_Setting_Status == 'New'))?Html::a('<i class="fa fa-edit"></i>',['appraisalkra/update','Line_No'=> $k->Line_No,'Appraisal_No' => $k->Appraisal_No,'Employee_No' => $k->Employee_No ],['class' => ' evalkra btn btn-info btn-xs']):''?></td>
@@ -408,7 +409,7 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                     <td><b>End Year Supervisor Comments</b></td>
                                                     <td><b>Agree</b></td>
                                                     <td><b>Disagreement Comments</b></td>
-                                                    <td><b>Move To PIP</b></td>
+                                                    <!-- <td><b>Move To PIP</b></td> -->
 
 
                                                     <th> <?= (
@@ -423,11 +424,14 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 
                                                    
 
-                                                    foreach($model->getKPI($k->Line_No) as $kpi): 
+                                                    foreach($model->getKPI($k->Line_No) as $kpi):
+
+
+
                                                             $mvkpitopip = Html::Checkbox('Move_To_PIP',$kpi->Move_To_PIP,['readonly' => true,'disabled' => true]);
 
-                                                             $appmyassessment = ($kpi->Mid_Year_Appraisee_Assesment)?'On Track':'Off Track';
-                                                             $supermyassessment = ($kpi->Mid_Year_Supervisor_Assesment)?'On Track':'Off Track';
+                                                             $appmyassessment = !empty($kpi->Mid_Year_Appraisee_Assesment)?'On Track':'Off Track';
+                                                             $supermyassessment = !empty($kpi->Mid_Year_Supervisor_Assesment)?'On Track':'Off Track';
                                                      ?>
                                                         <tr>
                                                             
@@ -445,17 +449,18 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                                             <td><?= !empty($kpi->End_Year_Supervisor_Comments)?$kpi->End_Year_Supervisor_Comments:'Not Set' ?></td>
                                                             <td><?= !empty($kpi->Agree)?$kpi->Agree:'Not Set' ?></td>
                                                             <td><?= !empty($kpi->Disagreement_Comments)?$kpi->Disagreement_Comments:'Not Set' ?></td>
-                                                            <td><?= $mvkpitopip ?></td>
+                                                            <!-- <td><?php $mvkpitopip ?></td> -->
 
                                                             <td>
                                                                 <?= (
                                                                     $model->Goal_Setting_Status == 'New' ||
                                                                     $model->MY_Appraisal_Status == 'Appraisee_Level' ||
+                                                                    $model->EY_Appraisal_Status == 'Appraisee_Level' ||
                                                                     $model->EY_Appraisal_Status == 'Agreement_Level'
                                                             )?
                                                            
 
-                                                              Html::a('<i class="fas fa-edit">Update</i> ',['employeeappraisalkpi/update','Appraisal_No'=> $kpi->Appraisal_No,'Employee_No' => $kpi->Employee_No,'KRA_Line_No' => $kpi->KRA_Line_No,'Line_No' => $kpi->Line_No],['class' => 'btn btn-xs btn-primary add-objective', 'title' => 'Update Objective /KPI']):'' ?>
+                                                              Html::a('<i class="fas fa-edit"></i> ',['employeeappraisalkpi/update','Appraisal_No'=> $kpi->Appraisal_No,'Employee_No' => $kpi->Employee_No,'KRA_Line_No' => $kpi->KRA_Line_No,'Line_No' => $kpi->Line_No],['class' => 'btn btn-xs btn-primary add-objective', 'title' => 'Update Objective /KPI']):'' ?>
 
 
                                                                 <?= ($model->Goal_Setting_Status == 'New')? Html::a('<i class="fa fa-trash"></i>',['employeeappraisalkpi/delete','Key' => $kpi->Key],['class'=> 'btn btn-xs btn-danger delete-objective','title' => 'Delete Objective']):'' ?>

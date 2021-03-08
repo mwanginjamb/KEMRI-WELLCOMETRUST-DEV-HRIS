@@ -535,11 +535,14 @@ Yii::$app->session->set('isSupervisor',false);*/
                         ICT Clearance
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['ict/create',
+
+                        <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'} || $model->Action_ID == 'ICT')? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['ict/create',
                             'Form_No' => $model->Form_No,
                             'Exit_no' => $model->Exit_No,
                             'Employee_no' => $model->Employee_No
-                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    ],['class' => 'add-line btn btn-sm btn-info']):''
+
+                     ?>
                     </div>
                 </div>
 
@@ -601,7 +604,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
 
-                        <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'})? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['store/create',
+                    <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'} || $model->Action_ID == 'Store')? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['store/create',
                         'Form_No' => $model->Form_No,
                         'Exit_no' => $model->Exit_No,
                         'Employee_no' => $model->Employee_No
@@ -662,11 +665,12 @@ Yii::$app->session->set('isSupervisor',false);*/
                         Health and Safety Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['asset/create',
+
+                        <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'} || $model->Action_ID == 'Assets')? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['asset/create',
                         
                         'Exit_no' => $model->Exit_No,
                         'Employee_no' => $model->Employee_No
-                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    ],['class' => 'add-line btn btn-sm btn-info']):'' ?>
                     </div>
                 </div>
 
@@ -727,11 +731,15 @@ Yii::$app->session->set('isSupervisor',false);*/
                         Security Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['security/create',
+
+                        <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'} || $model->Action_ID == 'Security' )? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['security/create',
                         'Form_No' => $model->Form_No,
                         'Exit_no' => $model->Exit_No,
                         'Employee_no' => $model->Employee_No
-                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    ],['class' => 'add-line btn btn-sm btn-info']):''
+
+
+                     ?>
                     </div>
                 </div>
 
@@ -787,11 +795,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                         Training Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['training/create',
+                        <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'} || $model->Action_ID == 'Training' )? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['training/create',
                         'Form_No' => $model->Form_No,
                         'Exit_no' => $model->Exit_No,
                         'Employee_no' => $model->Employee_No
-                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    ],['class' => 'add-line btn btn-sm btn-info']):'' ?>
                     </div>
                 </div>
 
@@ -847,11 +855,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                         Payroll Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['payroll/create',
+                        <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'} || $model->Action_ID == 'Payroll')? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['payroll/create',
                         'Form_No' => $model->Form_No,
                         'Exit_no' => $model->Exit_No,
                         'Employee_no' => $model->Employee_No
-                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    ],['class' => 'add-line btn btn-sm btn-info']):'' ?>
                     </div>
                 </div>
 
@@ -907,11 +915,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                         Personal Account Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['personal/create',
+                        <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'} || $model->Action_ID == 'Personal_Account')? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['personal/create',
                         'Form_No' => $model->Form_No,
                         'Exit_no' => $model->Exit_No,
                         'Employee_no' => $model->Employee_No
-                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    ],['class' => 'add-line btn btn-sm btn-info']): '' ?>
                     </div>
                 </div>
 
@@ -963,11 +971,11 @@ Yii::$app->session->set('isSupervisor',false);*/
                         Archives Clearance Form
                     </div>
                     <div class="card-tools">
-                        <?= Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['archive/create',
+                        <?= ($model->ClearingEmployee->Clearing_Employee == Yii::$app->user->identity->{'Employee No_'} || $model->Action_ID == 'Archives')? Html::a('<i class="fas fa-plus-square mr-2"></i>Add',['archive/create',
                         'Form_No' => $model->Form_No,
                         'Exit_no' => $model->Exit_No,
                         'Employee_no' => $model->Employee_No
-                    ],['class' => 'add-line btn btn-sm btn-info']) ?>
+                    ],['class' => 'add-line btn btn-sm btn-info']):'' ?>
                     </div>
                 </div>
 

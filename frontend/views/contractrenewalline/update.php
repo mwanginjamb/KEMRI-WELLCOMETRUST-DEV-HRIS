@@ -24,6 +24,7 @@ $this->title = 'Update Line.';
             'contracts' => $contracts,
             'grades' => $grades,
             'jobs' => $jobs,
+            'pointers' => $pointers
         ]) ?>
     </div>
 </div>
