@@ -63,9 +63,10 @@ class FmsController extends Controller
 
     public function actionIndex(){
 
-        return $this->renderContent(
-            Yii::$app->recruitment->printrr($this->getGrants())
-        );
+         $service = Yii::$app->params['FMS-ServiceName']['FMSGrants'];
+          $data = Yii::$app->fms->getData($service, []);
+          //$result = Yii::$app->navhelper->refactorArray($data,'Rating','Rating_Description');
+          Yii::$app->recruitment->printrr($data);
 
     }
 

@@ -111,7 +111,8 @@ class PayslipController extends Controller
     public function getPayrollperiods(){
         $service = Yii::$app->params['ServiceName']['Payrollperiods'];
 
-        $periods = \Yii::$app->navhelper->getData($service);
+        $filter = ['Status' => 'Approved'];
+        $periods = \Yii::$app->navhelper->getData($service, $filter);
 
         if(is_array($periods)){
             krsort( $periods);//sort  keys in descending order

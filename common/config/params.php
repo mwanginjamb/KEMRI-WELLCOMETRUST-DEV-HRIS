@@ -38,7 +38,7 @@ return [
     'FMS-server' => 'keklf-fin05.kwtrp.org',
     'FMS-WebServicePort' => '6048',
     'FMS-ServerInstance' => 'TEST',
-    'FMS-CompanyName' => 'KEMRI%20Wellcome%20Trust',
+    'FMS-CompanyName' => 'KEMRI Wellcome Trust',
 
 
 
