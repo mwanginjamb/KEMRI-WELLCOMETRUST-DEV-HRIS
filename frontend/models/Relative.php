@@ -26,6 +26,7 @@ class Relative extends Model
     public $Gender;
     public $Action;
     public $Change_No;
+    public $Employee_No;
     public $Key;
     public $isNewRecord;
 
@@ -40,6 +41,7 @@ class Relative extends Model
     {
         return [
                 'Relative_x0027_s_Employee_No' => 'Relative\'s Employee No',
+                'Relative_Code' => 'Relationship',
         ];
     }
 }

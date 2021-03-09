@@ -1059,7 +1059,7 @@ class Navision extends Component
 
             return $client;
         } catch (\Exception $e) {
-            throw new yii\web\HttpException('503', 'Service Erro '.$e->getMessage());
+            throw new yii\web\HttpException('503', 'Service Error '.$e->getMessage());
         }
         return false;
     }

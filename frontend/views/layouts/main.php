@@ -1026,7 +1026,7 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
                             <ul class="nav nav-treeview">
 
                                 <li class="nav-item">
-                                    <a href="<?= $absoluteUrl ?>exit" class="nav-link <?= Yii::$app->recruitment->currentaction('powerbi','index')?'active':'' ?>">
+                                    <a href="<?= $absoluteUrl ?>powerbi" class="nav-link <?= Yii::$app->recruitment->currentaction('powerbi','index')?'active':'' ?>">
                                         <i class="fa fa-chart-line nav-icon"></i>
                                         <p>Bi Reports </p>
                                     </a>

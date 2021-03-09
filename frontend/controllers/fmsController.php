@@ -9,7 +9,7 @@
 namespace frontend\controllers;
 use frontend\models\Employeeappraisalkra;
 use frontend\models\Experience;
-use frontend\models\Relative;
+use frontend\models\Misc;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
@@ -22,7 +22,7 @@ use yii\web\BadRequestHttpException;
 use yii\web\Response;
 use kartik\mpdf\Pdf;
 
-class RelativeController extends Controller
+class FmsController extends Controller
 {
     public function behaviors()
     {
@@ -63,23 +63,25 @@ class RelativeController extends Controller
 
     public function actionIndex(){
 
-        return $this->render('index');
+        return $this->renderContent(
+            Yii::$app->recruitment->printrr($this->getGrants())
+        );
 
     }
 
     public function actionCreate($Change_No){
 
-        $model = new Relative();
-        $service = Yii::$app->params['ServiceName']['EmployeeRelativesChange'];
+        $model = new Misc();
+        $service = Yii::$app->params['ServiceName']['Miscinformation'];
         $model->Action = 'New_Addition';
         $model->Change_No = $Change_No;
         $model->Employee_No = Yii::$app->user->identity->{'Employee No_'};
        
         $model->isNewRecord = true;
 
-        if(Yii::$app->request->post() && $model->load(Yii::$app->request->post()['Relative'],'')  && $model->validate() ){
+        if(Yii::$app->request->post() && $model->load(Yii::$app->request->post()['Misc'],'')  && $model->validate() ){
 
-            Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Relative'], $model); // my fall back in case yii model loader fails
+           
             $result = Yii::$app->navhelper->postData($service,$model);
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             if(is_object($result)){
@@ -97,14 +99,14 @@ class RelativeController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('create', [
                 'model' => $model,
-                'relations' => $this->getRelation()
+                'articles' => $this->getMiscArticles(),
                 
             ]);
         }
 
         return $this->render('create',[
             'model' => $model,
-            'relations' => $this->getRelation()
+            'articles' => $this->getMiscArticles(),
            
         ]);
     }
@@ -161,15 +163,6 @@ class RelativeController extends Controller
 
 
 
-    public function getPerformancelevels()
-    {
-        $service = Yii::$app->params['ServiceName']['PerformanceLevel'];
-
-        $result = Yii::$app->navhelper->getData($service, []);
-
-        return Yii::$app->navhelper->refactorArray($result,'Line_Nos','Perfomace_Level');
-    }
-
     public function actionDelete(){
         $service = Yii::$app->params['ServiceName']['EmployeeAppraisalKPI'];
         $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
@@ -207,21 +200,12 @@ class RelativeController extends Controller
 
 
 
-    public function getRatings()
+    public function getGrants()
     {
-          $service = Yii::$app->params['ServiceName']['AppraisalRating'];
-          $data = Yii::$app->navhelper->getData($service, []);
-          $result = Yii::$app->navhelper->refactorArray($data,'Rating','Rating_Description');
-          return $result;
-    }
-
-    public function getRelation()
-    {
-        $service = Yii::$app->params['ServiceName']['Relatives'];
-
-        $result = Yii::$app->navhelper->getData($service, []);
-
-        return Yii::$app->navhelper->refactorArray($result,'Code','Description');
+          $service = Yii::$app->params['FMS-ServiceName']['FMSGrants'];
+          $data = Yii::$app->fms->getData($service, []);
+          //$result = Yii::$app->navhelper->refactorArray($data,'Rating','Rating_Description');
+          return $data;
     }
 
 
@@ -229,23 +213,4 @@ class RelativeController extends Controller
 
 
 
-
-
-
-
-
-
-    public function loadtomodel($obj,$model){
-
-        if(!is_object($obj)){
-            return false;
-        }
-        $modeldata = (get_object_vars($obj)) ;
-        foreach($modeldata as $key => $val){
-            if(is_object($val)) continue;
-            $model->$key = $val;
-        }
-
-        return $model;
-    }
 }

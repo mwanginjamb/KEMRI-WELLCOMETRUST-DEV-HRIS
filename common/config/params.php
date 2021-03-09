@@ -18,8 +18,7 @@ return [
     'NavisionPassword'=> 'Admin@123', //'Pa55P0rt%',
 
 
-    'NavTestApprover' => 'Approver',
-    'NavTestApproverPassword' => '@Approver123',
+    
 
     'server'=>'keklf-hrm12',//'app-svr-dev.rbss.com',//Navision Server
     'WebServicePort'=>'7047',//Nav server Port
@@ -28,6 +27,22 @@ return [
     'DBCompanyName' => 'KEMRI$', //NAV DB PREFIX
     'ldPrefix'=>'KWTRP',//ACTIVE DIRECTORY prefix
     'adServer' => 'KEKLF-ADS03', //'KRB-SVR7.KRBHQS.GO.KE', //Active directory domain controller
+
+    //FMS CREDENTIALS
+
+    'FMSUsername'=> 'SVC-HRMISADMIN', 
+    'FMSPassword'=> 'Nbus53Y3`)jx>B4*', 
+
+    // FMS ERP Configs
+
+    'FMS-server' => 'keklf-fin05.kwtrp.org',
+    'FMS-WebServicePort' => '6048',
+    'FMS-ServerInstance' => 'TEST',
+    'FMS-CompanyName' => 'KEMRI%20Wellcome%20Trust',
+
+
+
+
 
     //sharepoint config
     'sharepointUrl' => '',//'https://ackads.sharepoint.com',
@@ -490,6 +505,10 @@ return [
         'ContractRenewal' => 1,
         'EmployeeExit' => 1,
 
+    ],
+
+    'FMS-ServiceName' => [
+        'FMSGrants' => 'FMSGrants'
     ],
 
 

@@ -54,6 +54,9 @@ return [
         'navhelper' => [
             'class' => 'common\Library\Navhelper',
         ],
+        'fms' => [
+            'class' => 'common\Library\FMShelper',
+        ],
         'recruitment' => [
             'class' => 'common\Library\Recruitment'
         ],

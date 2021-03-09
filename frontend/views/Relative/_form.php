@@ -32,7 +32,7 @@ use yii\widgets\ActiveForm;
                                     <?= $form->field($model, 'Middle_Name')->textInput(['maxlength' => 150]) ?>
                                     <?= $form->field($model, 'Last_Name')->textInput(['maxlength' => 150]) ?>
                                     <?= $form->field($model, 'Phone_No')->textInput(['maxlength' => 150]) ?>
-                                    <?= $form->field($model, 'Relative_x0027_s_Employee_No')->textInput(['maxlength' => 150]) ?>
+                                    <?= $form->field($model, 'Relative_Code')->dropDownList($relations,['prompt' => 'select ...']) ?>
 
                             </div>
                              <div class="col-md-6">

@@ -125,7 +125,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             </div><!--end details card-->
 
 
-             <?php if( (Yii::$app->request->get('Change') == 'Medical_Dependants')){ ?>
+             <?php if( (Yii::$app->request->get('Change') == 'Medical_Dependants' || $model->Nature_of_Change == 'Medical_Dependants')){ ?>
             <!--Medical Dependants -->
 
             <div class="card" id="Medical_Dependants">
@@ -187,7 +187,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <!--End Dependants Lines -->
 
-            <?php }elseif( (Yii::$app->request->get('Change') == 'Next_Of_Kin')){ ?>
+            <?php }elseif( (Yii::$app->request->get('Change') == 'Next_Of_Kin' || $model->Nature_of_Change == 'Next_Of_Kin')){ ?>
             <!--Next of Keen-->
 
             <div class="card" id="Next_Of_Kin">
@@ -206,7 +206,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <td><b>Relative Code</b></td>
+                                    <td><b>Relationship</b></td>
                                     <td><b>First Name</b></td>
                                     <td><b>Last Name</b></td>
                                     <td><b>Phone No.</b></td>
@@ -233,7 +233,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
                                         <td data-key="<?= $robj->Key ?>" data-name="Birth_Date" data-no="<?= $robj->Line_No ?>" data-model="Relative" data-service="EmployeeRelativesChange" ondblclick="addInput(this,'date')"><?= !empty($robj->Birth_Date)?$robj->Birth_Date:'Not Set' ?></td>
                                         <td data-key="<?= $robj->Key ?>" data-name="Age" data-no="<?= $robj->Line_No ?>" data-model="Relative" data-service="EmployeeRelativesChange"><?= !empty($robj->Age)?$robj->Age:'Not Set' ?></td>
-                                        <td data-key="<?= $robj->Key ?>" data-name="ID_Birth_Certificate_No" data-no="<?= $robj->Line_No ?>" data-model="Relative" data-service="EmployeeRelativesChange" ondblclick="addInput(this,'date')"><?= !empty($robj->ID_Birth_Certificate_No)?$robj->ID_Birth_Certificate_No:'Not Set' ?></td>
+                                        <td data-key="<?= $robj->Key ?>" data-name="ID_Birth_Certificate_No" data-no="<?= $robj->Line_No ?>" data-model="Relative" data-service="EmployeeRelativesChange" ondblclick="addInput(this)"><?= !empty($robj->ID_Birth_Certificate_No)?$robj->ID_Birth_Certificate_No:'Not Set' ?></td>
 
 
 
@@ -253,7 +253,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
             <!--Beneficiaries-->
 
-            <?php }elseif( (Yii::$app->request->get('Change') == 'Beneficiaries')){ ?>
+            <?php }elseif( (Yii::$app->request->get('Change') == 'Beneficiaries' || $model->Nature_of_Change == 'Beneficiaries')){ ?>
 
             <div class="card" id="Employee_Beneficiaries_Change">
                 <div class="card-header">
@@ -323,7 +323,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                 </div>
             </div>
 
-            <?php }elseif( (Yii::$app->request->get('Change') == 'Work_History') ){ ?>
+            <?php }elseif( (Yii::$app->request->get('Change') == 'Work_History' || $model->Nature_of_Change == 'Work_History') ){ ?>
 
             <!--Work History Change-->
 
@@ -388,7 +388,7 @@ Yii::$app->session->set('isSupervisor',false);*/
                 </div>
             </div>
 
-            <?php }elseif( (Yii::$app->request->get('Change') == 'Proffesional_Bodies') ){ ?>
+            <?php }elseif( (Yii::$app->request->get('Change') == 'Proffesional_Bodies' || $model->Nature_of_Change == 'Proffesional_Bodies' ) ){ ?>
             <!--Professional Bodies-->
 
             <div class="card" id="Employee_Proffesional_Bodies_C">
@@ -445,7 +445,7 @@ Yii::$app->session->set('isSupervisor',false);*/
             </div>
 
 
-            <?php }elseif( (Yii::$app->request->get('Change') == 'Qualifications') ){ ?>
+            <?php }elseif( (Yii::$app->request->get('Change') == 'Qualifications' || $model->Nature_of_Change == 'Qualifications' ) ){ ?>
             <!--Qualification Change-->
 
             <div class="card" id="Employee_Qualifications_Change">
@@ -505,7 +505,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
 
-            <?php }elseif( (Yii::$app->request->get('Change') == 'Emergency_Contacts') ){ ?>
+            <?php }elseif( (Yii::$app->request->get('Change') == 'Emergency_Contacts' || $model->Nature_of_Change == 'Emergency_Contacts') ){ ?>
             <!--Emergency Contact Change-->
 
             <div class="card" id="Employee_Emergency_Contacts_C">
@@ -561,7 +561,7 @@ Yii::$app->session->set('isSupervisor',false);*/
 
 
             <!---Miscelleneous change Req-->
-             <?php }elseif( (Yii::$app->request->get('Change') == 'Asset_Assignment') ){ ?>
+             <?php }elseif( (Yii::$app->request->get('Change') == 'Asset_Assignment' || $model->Nature_of_Change == 'Asset_Assignment' ) ){ ?>
 
             <div class="card" id="Misc_artical_information_ch">
                 <div class="card-header">

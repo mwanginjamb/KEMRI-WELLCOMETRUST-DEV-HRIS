@@ -522,7 +522,7 @@ class ChangeRequestController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendVehicleBookingRequisitionForApproval');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanSendEmployeeChangeRequestForApproval');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Sent to Supervisor Successfully.', true);
@@ -546,7 +546,7 @@ class ChangeRequestController extends Controller
         ];
 
 
-        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelVehicleBookingRequisitionApprovalRequest');
+        $result = Yii::$app->navhelper->PortalWorkFlows($service,$data,'IanCancelChangeRequestApprovalRequest');
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Cancelled Successfully.', true);
