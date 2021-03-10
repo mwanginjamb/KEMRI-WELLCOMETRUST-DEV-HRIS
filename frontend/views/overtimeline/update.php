@@ -21,12 +21,7 @@ $this->title = 'Update Line.';
     <div class="card-body">
         <?= $this->render('_form', [
             'model' => $model,
-            'items' => $items,
-            'locations' => $locations,
-            'students' => $students,
-            'animals' => $animals,
-            'shades' => $shades,
-            'institutions' => $institutions
+            
         ]) ?>
     </div>
 </div>

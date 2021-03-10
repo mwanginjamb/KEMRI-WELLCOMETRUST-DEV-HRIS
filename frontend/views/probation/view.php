@@ -86,7 +86,7 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
 
                             <?= Html::a('<i class="fas fa-backward"></i>Send Back',['backtoemp','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
                                 ['
-                                class' => 'btn btn-app bg-danger rejectgoalsettingbyoverview',
+                                class' => 'mx-1 btn btn-app bg-danger rejectgoalsettingbyoverview',
                                 'rel' => $_GET['Appraisal_No'],
                                 'rev' => $_GET['Employee_No'],
                                 'title' => 'Reject KRAs and Send them Back to Appraisee.'
@@ -115,7 +115,7 @@ Yii::$app->session->set('Goal_Setting_Status',$model->Goal_Setting_Status);
                             <?= Html::a('<i class="fas fa-forward"></i> Approve',['approvegoals','appraisalNo'=> $model->Appraisal_No,'employeeNo' => $model->Employee_No],
                                 [
 
-                                'class' => 'mx-1 btn btn-app submitforapproval','data' => [
+                                'class' => 'mx-2 btn btn-app submitforapproval','data' => [
                                 'confirm' => 'Are you sure you want to approve goals ?',
                                 'method' => 'post',
                             ],

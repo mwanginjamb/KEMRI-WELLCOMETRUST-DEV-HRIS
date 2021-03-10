@@ -32,7 +32,12 @@ class Navision extends Component
     }
     public function readEntries($credentials, $soapWsdl, $filter='')
     {
+
+
         $client = $this->createClient($credentials, $soapWsdl);
+
+
+
         try {
             $result = $client->ReadMultiple(['filter' => $filter, 'setSize' => 1000]);
             return $result;
@@ -1011,6 +1016,8 @@ class Navision extends Component
     private function createClient($credentials, $soapWsdl)
     {
 
+
+
         if (!defined('USERPWD'))
             define('USERPWD', "$credentials->UserName:$credentials->PassWord");
         try {
@@ -1047,15 +1054,15 @@ class Navision extends Component
 
             /*
 
-            UNCOMMENT THIS FOR NTLM AUTH */
-             //$client = new \SoapClient($soapWsdl, $options);
+            UNCOMMENT THIS FOR NAV PWD AUTH */
+           // $client = new \SoapClient($soapWsdl, $options);
+
             stream_wrapper_unregister('http');
             // we register the new HTTP wrapper //'\\common\\components\\NTLMStream'
             stream_wrapper_register('http', '\\common\\library\\NTLMStream') or die("Failed to register protocol");
 
 
             $client = new NTLMSoapClient($soapWsdl, $options);
-
 
             return $client;
         } catch (\Exception $e) {

@@ -120,9 +120,9 @@ class OvertimelineController extends Controller
 
 
     public function actionUpdate(){
-        $model = new Storerequisitionline() ;
+        $model = new Overtimeline() ;
         $model->isNewRecord = false;
-        $service = Yii::$app->params['ServiceName']['StoreRequisitionLine'];
+        $service = Yii::$app->params['ServiceName']['OvertimeLine'];
         $filter = [
             'Line_No' => Yii::$app->request->get('No'),
         ];
@@ -136,13 +136,9 @@ class OvertimelineController extends Controller
         }
 
 
-        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Storerequisitionline'],$model) ){
+        if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Overtimeline'],$model) ){
 
-            $filter = [
-                'Requisition_No' => $model->Requisition_No,
-            ];
-            $refresh = Yii::$app->navhelper->getData($service, $filter);
-            $model->Key = $refresh[0]->Key;
+                      
 
             //Yii::$app->recruitment->printrr($model);
 
@@ -162,15 +158,11 @@ class OvertimelineController extends Controller
         if(Yii::$app->request->isAjax){
             return $this->renderAjax('update', [
                 'model' => $model,
-                'locations' => $this->getLocations(),
-                'items' => $this->getItems(),
             ]);
         }
 
         return $this->render('update',[
             'model' => $model,
-            'locations' => $this->getLocations(),
-            'items' => $this->getItems(),
         ]);
     }
 
@@ -199,6 +191,7 @@ class OvertimelineController extends Controller
             Yii::$app->navhelper->loadmodel($line[0],$model);
             $model->Key = $line[0]->Key;
             $model->Start_Time = Yii::$app->request->post('Start_Time');
+            $model->Date = Yii::$app->request->post('Date');
 
         }
 

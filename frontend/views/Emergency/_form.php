@@ -62,20 +62,10 @@ use yii\widgets\ActiveForm;
                 </div>
 
 
-
-
-
-
-
-
-
-
-
-
                 <div class="row">
 
                     <div class="form-group">
-                        <?= Html::submitButton(($model->isNewRecord)?'Save Objective':'Update', ['class' => 'btn btn-success']) ?>
+                        <?= Html::submitButton(($model->isNewRecord)?'Save':'Update', ['class' => 'btn btn-success']) ?>
                     </div>
 
 

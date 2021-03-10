@@ -63,10 +63,24 @@ class FmsController extends Controller
 
     public function actionIndex(){
 
-         $service = Yii::$app->params['FMS-ServiceName']['FMSGrants'];
-          $data = Yii::$app->fms->getData($service, []);
-          //$result = Yii::$app->navhelper->refactorArray($data,'Rating','Rating_Description');
-          Yii::$app->recruitment->printrr($data);
+         $fmsGrants = $this->getGrants();
+
+          //Yii::$app->recruitment->printrr($fmsGrants);  
+
+          // print_r(!in_array('0XF-DMG01',$this->actionEssGrantCodes()));
+
+          // exit;
+        
+
+         foreach($fmsGrants as $grant)
+         {
+            if(!in_array($grant->No,$this->actionEssGrantCodes()))
+            {
+                 $this->postToEss($grant);
+                 sleep(5);
+            }
+           
+         }
 
     }
 
@@ -205,10 +219,60 @@ class FmsController extends Controller
     {
           $service = Yii::$app->params['FMS-ServiceName']['FMSGrants'];
           $data = Yii::$app->fms->getData($service, []);
-          //$result = Yii::$app->navhelper->refactorArray($data,'Rating','Rating_Description');
           return $data;
     }
 
+
+     public function actionEssGrants()
+    {
+          $service = Yii::$app->params['ServiceName']['GrantList'];
+          $data = Yii::$app->navhelper->getData($service, []);
+          // return $data;
+
+          Yii::$app->recruitment->printrr($data);
+    }
+
+    public function postToEss($grant)
+    {
+        // Yii::$app->recruitment->printrr($grant->Name);
+        $service = Yii::$app->params['ServiceName']['GrantList'];
+
+        $args = [
+            'Donor_Code' => !empty($grant->No)?$grant->No:'',
+            'Donor_Name' => !empty($grant->Name)?$grant->Name:'',
+            'Status' => ($grant->Blocked)? 'Inactive' : 'Active',
+            'Grant_Activity' => '',
+            'Grant_Type' => '',
+            'Grant_Start_Date' => !empty($grant->Grant_Start_Date)?$grant->Grant_Start_Date: date('Y-m-d'),
+            'Grant_End_Date' => !empty($grant->Grant_End_Date)?$grant->Grant_End_Date: date('Y-m-d'),
+        ];
+
+        // Post to ESS
+
+        $result = Yii::$app->navhelper->postData($service, $args);
+
+        print '<br>';
+        print_r($result);
+        exit(true);
+    }
+
+
+    public function actionEssGrantCodes()
+    {
+          $service = Yii::$app->params['ServiceName']['GrantList'];
+          $data = Yii::$app->navhelper->getData($service, []);
+          $codes = [];
+
+          foreach($data as $d)
+          {
+            
+            array_push($codes, $d->Donor_Code);
+          }
+
+          return $codes;
+
+         // Yii::$app->recruitment->printrr($codes);
+    }
 
 
 

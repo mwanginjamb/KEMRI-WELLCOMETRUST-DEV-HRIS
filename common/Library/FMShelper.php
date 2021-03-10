@@ -27,7 +27,8 @@ class FMShelper extends Component{
 
         $soapWsdl= $url->getUrl();
 
-       
+
+       // Yii::$app->recruitment->printrr(Yii::$app->navision->isUp($soapWsdl));
 
         $filter = [];
         if(sizeof($params)){
@@ -47,7 +48,9 @@ class FMShelper extends Component{
         
         //add the filter
         $results = Yii::$app->navision->readEntries($creds, $soapWsdl,$filter);
+
         // Yii::$app->recruitment->printrr($results);
+        
 
         //return array of object
         if(is_object($results->ReadMultiple_Result) && property_exists($results->ReadMultiple_Result, $service)){

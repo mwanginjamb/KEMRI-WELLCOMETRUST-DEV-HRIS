@@ -35,10 +35,10 @@ return [
 
     // FMS ERP Configs
 
-    'FMS-server' => 'keklf-fin05.kwtrp.org',
+    'FMS-server' => 'keklf-fin05',
     'FMS-WebServicePort' => '6048',
     'FMS-ServerInstance' => 'TEST',
-    'FMS-CompanyName' => 'KEMRI Wellcome Trust',
+    'FMS-CompanyName' => 'KEMRI%20Wellcome%20Trust',
 
 
 
@@ -248,11 +248,6 @@ return [
         'PIPClosedAppraisals' => 'PIPClosedAppraisals', //60080
 
 
-
-
-
-
-
         /*Short Term Probation*/
 
         'StObjectiveSettingList' => 'StObjectiveSettingList', // 60055
@@ -434,6 +429,12 @@ return [
         'PrescriptionIssueLines' => 'PrescriptionIssueLines', //66120
         'PrescriptionIssueCard' => 'PrescriptionIssueCard', // 66121
         'IssuedPrescriptionsList' => 'IssuedPrescriptionsList', //66122
+
+
+         /********************GRANTS SERVICE***************************************/
+
+         'GrantList' => 'GrantList', // 60054
+
         /********************CODE UNITS SERVICES***************************************/
         'PortalFactory' => 'PortalFactory', //Code Unit 50062
         'ImprestManagement' => 'ImprestManagement', // 50017

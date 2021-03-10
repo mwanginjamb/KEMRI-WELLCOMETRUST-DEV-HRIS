@@ -92,10 +92,11 @@ $script = <<<JS
                   
             const Line_No = $('#overtimeline-line_no').val();
             const Start_Time = $('#overtimeline-start_time').val();
+            const Date = $('#overtimeline-date').val();
             
             
             const url = $('input[name="absolute"]').val()+'overtimeline/setstarttime';
-            $.post(url,{'Start_Time': Start_Time,'Line_No': Line_No}).done(function(msg){
+            $.post(url,{'Start_Time': Start_Time,'Line_No': Line_No,'Date': Date}).done(function(msg){
                    //populate empty form fields with new data
                     console.log(typeof msg);
                     console.table(msg);

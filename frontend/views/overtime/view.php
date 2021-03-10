@@ -158,7 +158,9 @@ if(Yii::$app->session->hasFlash('success')){
                                 <tbody>
                                 <?php
                                foreach($model->lines as $obj):
-                                   $deleteLink = ($model->Status == 'Open')?Html::a('<i class="fa fa-trash"></i>',['overtimeline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs']):'';
+                                   $deleteLink = ($model->Status == 'Open')?Html::a('<i class="fa fa-trash"></i>',['overtimeline/delete','Key'=> $obj->Key ],['class'=>'delete btn btn-outline-danger btn-xs','title' => 'Delete Overtime Line.']):'';
+
+                                   $updateLink = ($model->Status == 'Open')?Html::a('<i class="fa fa-edit"></i>',['overtimeline/update','No'=> $obj->Line_No],['class' => 'add-line btn btn-info btn-xs mx-2','title' => 'update overtime line.']):'';
                                     ?>
                                     <tr>
 
@@ -167,7 +169,7 @@ if(Yii::$app->session->hasFlash('success')){
                                         <td data-validate="Hours_Worked" data-key="<?= $obj->Key ?>" data-name="End_Time" data-no="<?= $obj->Line_No ?>"  data-service="OvertimeLine" ondblclick="addInput(this,'time','Hours_Worked')"><?= !empty($obj->End_Time)?$obj->End_Time:'Not Set' ?></td>
                                         <td id="Hours_Worked"><?= !empty($obj->Hours_Worked)?$obj->Hours_Worked:'Not Set' ?></td>
                                         <td data-key="<?= $obj->Key ?>" data-name="Work_Done" data-no="<?= $obj->Line_No ?>"  data-service="OvertimeLine" ondblclick="addInput(this)"><?= !empty($obj->Work_Done)?$obj->Work_Done:'Not Set' ?></td>
-                                        <td class="text-center"><?= $deleteLink ?></td>
+                                        <td class="text-center"><?= $updateLink.$deleteLink ?></td>
 
                                     </tr>
                                 <?php endforeach; ?>
