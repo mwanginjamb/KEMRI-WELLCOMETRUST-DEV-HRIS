@@ -65,23 +65,36 @@ class FmsController extends Controller
 
          $fmsGrants = $this->getGrants();
 
-          //Yii::$app->recruitment->printrr($fmsGrants);  
+         // Yii::$app->recruitment->printrr($fmsGrants);  
 
           // print_r(!in_array('0XF-DMG01',$this->actionEssGrantCodes()));
 
           // exit;
         
-
+         $i = 0;
          foreach($fmsGrants as $grant)
          {
+            ++$i;
+
             if(!in_array($grant->No,$this->actionEssGrantCodes()))
             {
                  $this->postToEss($grant);
                  sleep(5);
             }
+
+            else{
+                $this->updateGrant($fmsGrants[$i]);
+                sleep(5);
+                print 'Updating: '.$grant->No;
+            }
            
          }
 
+    }
+
+    public function actionTest()
+    {
+        return 'Hallo Francis, what are you doing? ';
     }
 
     public function actionCreate($Change_No){
@@ -240,7 +253,7 @@ class FmsController extends Controller
         $args = [
             'Donor_Code' => !empty($grant->No)?$grant->No:'',
             'Donor_Name' => !empty($grant->Name)?$grant->Name:'',
-            'Status' => ($grant->Blocked)? 'Inactive' : 'Active',
+            'Status' => (isset($grant->Blocked) || $grant->Blocked)? 'Inactive' : 'Active',
             'Grant_Activity' => '',
             'Grant_Type' => '',
             'Grant_Start_Date' => !empty($grant->Grant_Start_Date)?$grant->Grant_Start_Date: date('Y-m-d'),
@@ -254,6 +267,43 @@ class FmsController extends Controller
         print '<br>';
         print_r($result);
         exit(true);
+    }
+
+    public function updateGrant($grant)
+    {
+        // Yii::$app->recruitment->printrr($grant->Name);
+        $service = Yii::$app->params['ServiceName']['GrantList'];
+
+        $args = [
+            'Donor_Code' => $grant->No ,
+        ];
+
+        $result = Yii::$app->navhelper->getData($service, $args);
+
+       
+
+
+        if(is_array($result))
+        {
+             $data = [
+                    
+                    
+                    'Key' => $result[0]->Key
+                ];
+
+
+                // Post to ESS
+
+                $res = Yii::$app->navhelper->updateData($service, $data);
+
+
+                print '<br>';
+                print_r($res);
+                exit(true);
+        }
+        
+
+       
     }
 
 

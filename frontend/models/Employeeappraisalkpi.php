@@ -35,6 +35,10 @@ class Employeeappraisalkpi extends Model
     public $Key;
     public $isNewRecord;
 
+    public $Target;
+    public $Target_Status;
+    public $Non_Achievement_Reasons;
+
     public function rules()
     {
         return [

@@ -22,12 +22,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                     $form = ActiveForm::begin(); ?>
                 <div class="row">
 
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                     <?= $form->field($model, 'Key')->hiddenInput(['readonly' => true])->label(false) ?>
                                     <?= $form->field($model, 'Grant_Code')->dropDownList($donors, ['prompt' => 'Select Contract Code...']) ?>
-                                     <?= $form->field($model, 'Grant_Name')->textInput(['readonly' => true,'disabled' => true]) ?>
-                                    <?= $form->field($model, 'Grant_Activity')->textInput(['readonly' => true,'disabled' => true]) ?>
-                                    <?= $form->field($model, 'Grant_Type')->textInput(['readonly' => true,'disabled' => true]) ?>
+                                    
                                     <?= $form->field($model, 'Grant_Start_Date')->textInput(['type' => 'date']) ?>
                                     <?= $form->field($model, 'Grant_End_Date')->textInput(['type' => 'date']) ?>
                                     <?= $form->field($model, 'Percentage')->textInput(['type' => 'number']) ?>
@@ -44,6 +42,12 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                                     <?= $form->field($model, 'Line_No')->hiddenInput(['readonly' => true, 'disabled' => true])->label(false) ?>
                                    
                             </div>
+
+                             <div class="col-md-6">
+                                <?= $form->field($model, 'Grant_Name')->textInput(['readonly' => true,'disabled' => true]) ?>
+                                <?= $form->field($model, 'Grant_Activity')->textInput(['readonly' => true,'disabled' => true]) ?>
+                                <?= $form->field($model, 'Grant_Type')->textInput(['readonly' => true,'disabled' => true]) ?>
+                             </div>
                 </div>
 
                 <div class="row">
@@ -62,6 +66,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
 <input type="hidden" name="absolute" value="<?= $absoluteUrl ?>">
 <?php
 $script = <<<JS
+
+
+$('#donorline-grant_code').select2();
+
  //Submit Rejection form and get results in json    
         $('form').on('submit', function(e){
             e.preventDefault()

@@ -10,7 +10,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->title = 'Leave - '.$model->Application_No;
-$this->params['breadcrumbs'][] = ['label' => 'imprests', 'url' => ['/salaryadvance']];
+$this->params['breadcrumbs'][] = ['label' => 'Leave List', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'Leave Card', 'url' => ['view','No'=> $model->Application_No]];
 /** Status Sessions */
 
@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Leave Card', 'url' => ['view','No'
 /* Yii::$app->session->set('MY_Appraisal_Status',$model->MY_Appraisal_Status);
 Yii::$app->session->set('EY_Appraisal_Status',$model->EY_Appraisal_Status);
 Yii::$app->session->set('isSupervisor',false);*/
+$Attachmentmodel = new \frontend\models\Leaveattachment()
 ?>
 
 <div class="row">
@@ -149,6 +150,12 @@ Yii::$app->session->set('isSupervisor',false);*/
                     <?php ActiveForm::end(); ?>
 
 
+            <?php if($Attachmentmodel->getPath($model->Application_No)){   ?>
+
+                <iframe src="data:application/pdf;base64,<?= $Attachmentmodel->readAttachment($model->Application_No); ?>" height="950px" width="100%"></iframe>
+
+
+            <?php }  ?>
 
                 </div>
             </div><!--end details card-->

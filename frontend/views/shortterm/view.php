@@ -500,6 +500,10 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
 
                                                     foreach($model->getKpi($obj->Line_No) as $kpi):
 
+                                                        if(empty($kpi->Objective)){
+                                                            continue;
+                                                        }
+
                              $updateLink = Html::a('<i class="fa fa-edit"></i>',['probation-kpi/update','Line_No'=> $kpi->Line_No,'Employee_No'=>$model->Employee_No,'Appraisal_No' => $model->Appraisal_No,'KRA_Line_No' => $obj->Line_No],['class' => 'mx-1 update-objective btn btn-xs btn-outline-info', 'title' => 'Update Key Result Area']);
                              $deleteLink = Html::a('<i class="fa fa-trash"></i>',['probation-kpi/delete','Key'=> $kpi->Key ],['class'=>'mx-1 delete btn btn-danger btn-xs', 'title' => 'Delete Key Result Area']);
 
@@ -688,7 +692,7 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
 
         <?= Html::beginForm(['probation/backtoemp'],'post',['id'=>'reject-form']) ?>
 
-        <?= Html::textarea('comment','',['placeholder'=>'Rejection Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
+        <?= Html::textarea('comment','',['placeholder'=>'Please Enter a Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
 
         <?= Html::input('hidden','Appraisal_No','',['class'=> 'form-control']); ?>
         <?= Html::input('hidden','Employee_No','',['class'=> 'form-control']); ?>
@@ -708,7 +712,7 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
 
         <?= Html::beginForm(['probation/backtolinemgr'],'post',['id'=>'backtolinemgr-form']) ?>
 
-        <?= Html::textarea('comment','',['placeholder'=>'Rejection Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
+        <?= Html::textarea('comment','',['placeholder'=>'Please Enter a Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
 
         <?= Html::input('hidden','Appraisal_No','',['class'=> 'form-control']); ?>
         <?= Html::input('hidden','Employee_No','',['class'=> 'form-control']); ?>
@@ -728,7 +732,7 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
 
         <?= Html::beginForm(['probation/probationbacktoappraisee'],'post',['id'=>'rejectappraiseesubmition-form']) ?>
 
-        <?= Html::textarea('comment','',['placeholder'=>'Rejection Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
+        <?= Html::textarea('comment','',['placeholder'=>'Please Enter a Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
 
         <?= Html::input('hidden','Appraisal_No','',['class'=> 'form-control']); ?>
         <?= Html::input('hidden','Employee_No','',['class'=> 'form-control']); ?>
@@ -743,7 +747,7 @@ Yii::$app->session->set('Is_Short_Term',$model->Is_Short_Term);
 
         <?= Html::beginForm(['shortterm/sendbacktosupervisor'],'post',['id'=>'sendbacktosupervisor-form']) ?>
 
-        <?= Html::textarea('comment','',['placeholder'=>'Rejection Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
+        <?= Html::textarea('comment','',['placeholder'=>'Please Enter a Comment','row'=> 4,'class'=>'form-control','required'=>true])?>
 
         <?= Html::input('hidden','Appraisal_No',$_GET['Appraisal_No'],['class'=> 'form-control']); ?>
         <?= Html::input('hidden','Employee_No',$_GET['Employee_No'],['class'=> 'form-control']); ?>

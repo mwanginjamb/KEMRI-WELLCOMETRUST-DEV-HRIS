@@ -176,9 +176,30 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
 
                                     if(!empty($obj->Contract_Code)) {
                                         $updateLink = Html::a('<i class="fa fa-edit"></i>', ['contractrenewalline/update', 'No' => $obj->Line_No], ['class' => 'update-objective btn btn-outline-info btn-xs']);
-                                       // $deleteLink = Html::a('<i class="fa fa-trash"></i>', ['contractrenewalline/delete', 'Key' => $obj->Key], ['class' => 'delete btn btn-outline-danger btn-xs']);
+                                       $deleteLink = Html::a('<i class="fa fa-trash"></i>', ['contractrenewalline/delete', 'Key' => $obj->Key], ['class' => 'delete btn btn-outline-danger btn-xs']);
 
-                                        $donorDetails = Html::a('<i class="fa fa-plus"></i>', ['donorline/create', 'Contract_Code' => $obj->Contract_Code,'Contract_Line_No' => $obj->Line_No, 'Employee_No' => $model->Employee_No,'Change_No' => $model->No], ['class' => 'update-objective btn btn-success btn-xs', 'title' => 'Add Donor Details']);
+                                        $donorDetails = Html::a('<i class="fa fa-plus"></i>', ['donorline/create',
+
+                                                    'Contract_Code' => $obj->Contract_Code,
+                                                    'Contract_Line_No' => $obj->Line_No,
+                                                    'Employee_No' => $model->Employee_No,
+                                                    'Change_No' => $model->No,
+                                                    'Grant_Start_Date' => $obj->Contract_Start_Date,
+                                                    'Grant_End_Date' => $obj->Contract_End_Date
+                                        ],
+
+                                        [
+                                            'class' => 'update-objective btn btn-success btn-xs', 'title' => 'Add Donor Details',
+                                            'title' => 'Add Donor Line.',
+                                            
+                                            
+                                        ],
+                                         
+                                    );
+
+
+
+
                                         ?>
                                         <tr class="parent">
 
@@ -199,7 +220,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
                                             <td><?= !empty($obj->Status) ? $obj->Status : 'Not Set' ?></td>
 
                                             <?php if($model->Approval_Status == 'New'): ?>
-                                                <td><?= $updateLink . '|' . $donorDetails ?></td>
+                                                <td><?= $updateLink .'|' . $donorDetails ?></td>
                                             <?php endif; ?>
                                         </tr>
                                         <tr class="child">
@@ -225,8 +246,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
                                                  <?php if(is_array($model->getDonorLine($obj->Contract_Code,$obj->Line_No))){
                                                     foreach($model->getDonorLine($obj->Contract_Code,$obj->Line_No) as $d):  
 
-                                                        $donorUpdate = Html::a('<i class="fa fa-edit"></i>', ['donorline/update', 'Contract_Code' => $obj->Contract_Code,'Contract_Line_No' => $obj->Line_No, 'Employee_No' => $model->Employee_No], ['class' => 'update-objective btn btn-success btn-xs', 'title' => 'Update Donor Details']);
+                                                        $donorUpdate = Html::a('<i class="fa fa-edit"></i>', ['donorline/update', 'Line_No' => $d->Line_No], ['class' => 'update-objective btn btn-success btn-xs', 'title' => 'Update Donor Details']);
                                         
+                                                        $deletedonor = Html::a('<i class="fa fa-trash"></i>', ['donorline/delete', 'Key' => $d->Key], ['class' => 'delete btn btn-outline-danger btn-xs']);
                                                     ?>
 
 
@@ -239,7 +261,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Contract Renewal Card', 'url' => [
                                                             <td><?= !empty($d->Grant_End_Date)?$d->Grant_End_Date:'' ?></td>
                                                             <td><?= !empty($d->Percentage)?$d->Percentage:'' ?></td>
                                                             <td><?= !empty($d->Grant_Status)?$d->Grant_Status:'' ?></td>
-                                                            <td><?=($model->Approval_Status == 'New')? $donorUpdate:'' ?></td>
+                                                            <td><?=($model->Approval_Status == 'New')? $donorUpdate.' | '.$deletedonor:'' ?></td>
 
                                                         </tr>
 

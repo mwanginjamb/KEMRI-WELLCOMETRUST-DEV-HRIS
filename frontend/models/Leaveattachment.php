@@ -64,9 +64,9 @@ public $attachmentfile;
                 $model->Document_No = $docId;
                 $model->File_path = $imagePath;
                 $result = Yii::$app->navhelper->postData($service, $model);
-                if(is_string($result)){
+                
                     return $result;
-                }
+                
             }elseif($docId && $this->getAttachment($docId)) //An update scenario
             {
                 $service = Yii::$app->params['ServiceName']['LeaveAttachments'];
@@ -74,9 +74,9 @@ public $attachmentfile;
                 $model->File_path = $imagePath;
                 $model->Key =  $this->getAttachment($docId)->Key;
                 $result = Yii::$app->navhelper->updateData($service, $model);
-                if(is_string($result)){
+                
                     return $result;
-                }
+                
             }
             return true;
         }else{

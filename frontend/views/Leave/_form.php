@@ -143,7 +143,10 @@ $absoluteUrl = \yii\helpers\Url::home(true);
                     <button class="btn btn-primary btn-file"><?= $Attachmentmodel->getPath($model->Application_No)?'<i class="fa fa-upload"></i>&nbsp;&nbsp;Update Leave Attachment':'<i class="fa fa-upload"></i>&nbsp;&nbsp;Upload Leave Attachment' ?>
                         <?= $atform->field($Attachmentmodel,'attachmentfile')->fileInput(['id' => 'attachmentfile', 'name' => 'attachmentfile' ])->label(false);?>
                     </button>
+
                     <?= $atform->field($Attachmentmodel,'Document_No')->hiddenInput(['value' => $model->Application_No])->label(false);?>
+                    <?= Html::submitButton(($model->isNewRecord)?'':'', ['class' => '']) ?>
+
                 <?php \yii\widgets\ActiveForm::end(); ?>
 
                 <?php if($Attachmentmodel->getPath($model->Application_No)){   ?>
@@ -387,7 +390,9 @@ $script = <<<JS
     
     $('#attachmentfile').change((e) => {
         $(e.target).closest('form').trigger('submit');
-    });
+        console.log('Upload Submitted ...');
+    }); 
+
     
     /*Divs parenting*/
     

@@ -258,6 +258,7 @@ return [
         'StProbationLnmanagerList' => 'StProbationLnmanagerList',// 60060
         'StProbationAgreementList' => 'StProbationAgreementList', //60062
         'StOverviewSupervisorList' => 'StOverviewSupervisorList', //60070
+        'StOverviewList' => 'StOverviewList', // 60061 
         'StClosedProbationAppraisal' => 'StClosedProbationAppraisal', //60063
         'StProbationKRAs' => 'StProbationKRAs', //60001
         'StProbationKPIs' => 'StProbationKPIs', //60002

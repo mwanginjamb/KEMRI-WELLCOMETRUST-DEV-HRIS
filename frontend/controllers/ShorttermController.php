@@ -501,7 +501,7 @@ class ShorttermController extends Controller
 
 
     public function actionOverviewprobationlist(){
-        $service = Yii::$app->params['ServiceName']['StOverviewSupervisorList'];
+        $service = Yii::$app->params['ServiceName']['StOverviewList'];
         $filter = [
             'Overview_Manager' => Yii::$app->user->identity->{'Employee No_'},
         ];

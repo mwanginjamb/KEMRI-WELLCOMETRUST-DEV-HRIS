@@ -83,7 +83,7 @@ class LeaveController extends Controller
         $service = Yii::$app->params['ServiceName']['LeaveCard'];
 
         /*Do initial request */
-        if(!isset(Yii::$app->request->post()['Leave'])){
+        if(!isset(Yii::$app->request->post()['Leave']) && empty($_FILES) ){
 
             $now = date('Y-m-d');
             $model->Start_Date = date('Y-m-d', strtotime($now.' + 2 days'));
@@ -97,7 +97,7 @@ class LeaveController extends Controller
                 Yii::$app->session->setFlash('error', 'Error : ' . $request, true);
                 return $this->redirect(['index']);
             }
-        }
+        } /*End Application Initialization*/
 
         if(Yii::$app->request->post() && !empty(Yii::$app->request->post()['Leave']) && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Leave'],$model) ){
 
@@ -127,7 +127,18 @@ class LeaveController extends Controller
             $Attachmentmodel = new Leaveattachment();
             $Attachmentmodel->Document_No =  Yii::$app->request->post()['Leaveattachment']['Document_No'];
             $Attachmentmodel->attachmentfile = UploadedFile::getInstanceByName('attachmentfile');
+
             $result = $Attachmentmodel->Upload($Attachmentmodel->Document_No);
+
+            
+             if(!is_string($result) || $result == true){
+                Yii::$app->session->setFlash('success','Leave Application and Attachement Saved Successfully. ', true);
+                 return $this->redirect(['index']);
+            }else{
+                Yii::$app->session->setFlash('error','Could not save attachment.'.$result, true);
+                 return $this->redirect(['index']);
+            }
+            
         }
 
         return $this->render('create',[
@@ -135,6 +146,22 @@ class LeaveController extends Controller
             'leavetypes' => $this->getLeaveTypes(),
             'employees' => $this->getEmployees(),
         ]);
+    }
+
+    public function actionAttach()
+    {
+         // Upload Attachment File
+        if(!empty($_FILES)){
+            $Attachmentmodel = new Leaveattachment();
+            $Attachmentmodel->Document_No =  Yii::$app->request->post()['Leaveattachment']['Document_No'];
+            $Attachmentmodel->attachmentfile = UploadedFile::getInstanceByName('attachmentfile');
+
+            $result = $Attachmentmodel->Upload($Attachmentmodel->Document_No);
+
+            
+            return $result;
+            
+        }
     }
 
 
@@ -654,11 +681,13 @@ class LeaveController extends Controller
 
         if(!is_string($result)){
             Yii::$app->session->setFlash('success', 'Request Sent to Supervisor for Approval Successfully.', true);
-            return $this->redirect(['view','No' => $No]);
+            //return $this->redirect(['view','No' => $No]);
+             return $this->redirect(['index']);
         }else{
 
             Yii::$app->session->setFlash('error', 'Error Sending Request for Approval  : '. $result);
-            return $this->redirect(['view','No' => $No]);
+            // return $this->redirect(['view','No' => $No]);
+             return $this->redirect(['index']);
 
         }
     }

@@ -57,10 +57,27 @@ use yii\widgets\ActiveForm;
 
                                      <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?$form->field($model, 'Weight')->textInput(['type' => 'number']):'' ?>
 
-                                       <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?
-                                       $form->field($model, 'Due_Date')->textInput(['type' => 'date','required' => true,'min' => date('Y-m-d')]):'' ?>
+                                       
 
 
+                                    <?= (Yii::$app->session->get('Goal_Setting_Status') == 'New')?
+                                      $form->field($model, 'Target')->textArea(['rows' => 2, 'maxlength' => 250,'required' => true]):
+                                      $form->field($model, 'Target')->textArea(['rows' => 2, 'maxlength' => 250, 'readonly' => true, 'disabled' => true]) ?>
+
+                                       <?=
+                                     ( Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?
+                                     $form->field($model, 'Target_Status')->dropDownList(['Achieved' => 'Achieved','Not_Achieved' => ' Not Achieved'],['prompt' => 'Select ...',$disabled])
+                                     :
+                                     $form->field($model, 'Target_Status')->dropDownList(['Achieved' => 'Achieved','Not_Achieved' => 'Not Achieved'],['prompt' => 'Select ...','disabled' => true,'readonly' => true]) ?>
+
+
+                                     <?=
+                                     ( Yii::$app->session->get('Goal_Setting_Status') == 'Closed' && Yii::$app->session->get('Appraisal_Status') == 'Appraisee_Level')?
+                                     $form->field($model, 'Non_Achievement_Reasons')->textArea(['rows' => 2, 'maxlength' => 250])
+                                     :
+                                     $form->field($model, 'Non_Achievement_Reasons')->textArea(['rows' => 2, 'maxlength' => 250,'disabled' => true,'readonly' => true]) ?>
+
+                                   
 
 
                                      <?= (Yii::$app->session->get('MY_Appraisal_Status') == 'Appraisee_Level')?$form->field($model, 'Mid_Year_Appraisee_Assesment')->dropDownList($assessments,['prompt' => 'Select Assement...']):'' ?>   

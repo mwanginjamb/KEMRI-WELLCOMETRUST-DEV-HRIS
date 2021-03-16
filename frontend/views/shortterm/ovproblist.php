@@ -14,7 +14,7 @@ use yii\helpers\Html;
 
 $this->title = Yii::$app->params['generalTitle'];
 $this->params['breadcrumbs'][] = ['label' => 'Performance Management', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Probation Appraisal- Overview Mgr. List', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Short Term Appraisal- Overview Mgr. List', 'url' => ['index']];
 ?>
 
 
@@ -83,7 +83,7 @@ $script = <<<JS
                
             ] ,                              
            language: {
-                "zeroRecords": "No Probation Appraisals to display"
+                "zeroRecords": "No Appraisals to display"
             },
             
             order : [[ 0, "desc" ]]

@@ -649,14 +649,14 @@ $employee = (!Yii::$app->user->isGuest && is_array(Yii::$app->user->identity->em
 
                                        
 
-                                        <?php if(!Yii::$app->user->isGuest && Yii::$app->user->identity->isSupervisor()):  ?>
+                                      
                                             <li class="nav-item">
                                                 <a href="<?= $absoluteUrl ?>appraisal/eyagreementlist" class="nav-link <?= Yii::$app->recruitment->currentaction('appraisal','eyagreementlist')?'active':'' ?>">
                                                     <i class="fa fa-check-square nav-icon"></i>
                                                     <p>E-Y (Agreement) </p>
                                                 </a>
                                             </li>
-                                        <?php endif; ?>
+                                       
 
                                         <li class="nav-item">
                                             <a href="<?= $absoluteUrl ?>appraisal/eyappraiseeclosedlist" class="nav-link <?= Yii::$app->recruitment->currentaction('appraisal','eyappraiseeclosedlist')?'active':'' ?>">

@@ -161,17 +161,23 @@ class ProbationKpiController extends Controller
         ];
         $result = Yii::$app->navhelper->getData($service,$filter);
 
+       
+
         if(is_array($result)){
             //load nav result to model
             $model = Yii::$app->navhelper->loadmodel($result[0],$model) ;
+
         }else{
             Yii::$app->recruitment->printrr($result);
         }
 
 
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Probationkpi'],$model) && $model->validate() ){
+            
+
             $result = Yii::$app->navhelper->updateData($service,$model);
 
+          
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             if(!is_string($result)){
 

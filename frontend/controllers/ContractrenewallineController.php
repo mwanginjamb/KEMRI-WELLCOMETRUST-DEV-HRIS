@@ -76,7 +76,7 @@ class ContractrenewallineController extends Controller
        $service = Yii::$app->params['ServiceName']['ContractRenewalLines'];
        $model = new Contractrenewalline();
 
-        if(Yii::$app->request->get('No') && !isset(Yii::$app->request->post()['Contractrenewalline'])){
+        if(Yii::$app->request->get('No') && !Yii::$app->request->post()){
 
                 $model->Change_No = $No;
                 $model->Employee_No = Yii::$app->request->get('Employee_No');
@@ -87,8 +87,6 @@ class ContractrenewallineController extends Controller
                     Yii::$app->recruitment->printrr($result);
                 }
                 
-                
-
 
                 $model = Yii::$app->navhelper->loadmodel($result,$model);
         }

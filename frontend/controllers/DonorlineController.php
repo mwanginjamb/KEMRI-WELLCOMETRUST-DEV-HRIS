@@ -66,18 +66,21 @@ class DonorlineController extends Controller
 
     }
 
-    public function actionCreate($Contract_Code,$Contract_Line_No, $Employee_No, $Change_No){
+    public function actionCreate(){
 
        $service = Yii::$app->params['ServiceName']['NewEmployeeDonors'];
        $model = new Donorline();
 
+        //Yii::$app->recruitment->printrr(Yii::$app->request->get());
         if(Yii::$app->request->isGet && !isset(Yii::$app->request->post()['Donorline'])){
 
                
-                $model->Contract_Code = $Contract_Code;
-                $model->Contract_Line_No = $Contract_Line_No;
-                $model->Employee_No =  $Employee_No;
-                $model->Change_No = $Change_No;
+                $model->Contract_Code = Yii::$app->request->get('Contract_Code');//$Contract_Code;
+                $model->Contract_Line_No = Yii::$app->request->get('Contract_Line_No'); // $Contract_Line_No;
+                $model->Employee_No = Yii::$app->request->get('Employee_No'); //  $Employee_No;
+                $model->Change_No =  Yii::$app->request->get('Change_No');//$Change_No;
+                $model->Grant_Start_Date = Yii::$app->request->get('Grant_Start_Date');
+                $model->Grant_End_Date = Yii::$app->request->get('Grant_End_Date');
                 
 
                 $result = Yii::$app->navhelper->postData($service, $model);
@@ -105,8 +108,8 @@ class DonorlineController extends Controller
 
         }
 
-                $model->Grant_Start_Date = date('Y-m-d');
-                $model->Grant_End_Date = date('Y-m-d');
+               // $model->Grant_Start_Date = date('Y-m-d');
+               // $model->Grant_End_Date = date('Y-m-d');
                 $model->isNewRecord = true;
 
         if(Yii::$app->request->isAjax){
@@ -120,16 +123,16 @@ class DonorlineController extends Controller
     }
 
 
-    public function actionUpdate($Contract_Code,$Contract_Line_No, $Employee_No){
+    public function actionUpdate($Line_No){
        
        $service = Yii::$app->params['ServiceName']['NewEmployeeDonors'];
        $model = new Donorline();
         $model->isNewRecord = false;
        
         $filter = [
-            'Contract_Code' => $Contract_Code,
-            'Contract_Line_No' => $Contract_Line_No,
-            'Employee_No' => $Employee_No,
+            
+            'Line_No' => $Line_No,
+            
         ];
         $result = Yii::$app->navhelper->getData($service,$filter);
 
@@ -144,9 +147,9 @@ class DonorlineController extends Controller
         if(Yii::$app->request->post() && Yii::$app->navhelper->loadpost(Yii::$app->request->post()['Donorline'],$model) ){
 
             $filter = [
-                 'Contract_Code' => $model->Contract_Code,
-                'Contract_Line_No' => $model->Contract_Line_No,
-                'Employee_No' => $model->Employee_No,
+                 
+                'Line_No' => $model->Line_No,
+                
             ];
             $refresh = Yii::$app->navhelper->getData($service, $filter);
             $model->Key = $refresh[0]->Key;
@@ -180,7 +183,7 @@ class DonorlineController extends Controller
     }
 
     public function actionDelete(){
-        $service = Yii::$app->params['ServiceName']['ContractRenewalLines'];
+        $service = Yii::$app->params['ServiceName']['NewEmployeeDonors'];
         $result = Yii::$app->navhelper->deleteData($service,Yii::$app->request->get('Key'));
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if(!is_string($result)){
